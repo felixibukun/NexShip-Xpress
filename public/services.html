@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>Our Services | NexShip Xpress - Logistics Solutions</title>
+    <meta name="description" content="Explore NexShip Xpress comprehensive logistics services including express delivery, air freight, ocean freight, trucking, and warehousing.">
+    <link rel="icon" type="image/png" href="/assets/img/logo/logo.png">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --green: #0F6E3F;
+            --green-mid: #1a8a50;
+            --green-light: #22c55e;
+            --green-pale: #dcfce7;
+            --ink: #0a0f0d;
+            --ink2: #141a17;
+            --muted: #5a6b62;
+            --ghost: #e8efe9;
+            --white: #ffffff;
+            --sand: #f7f5f0;
+            --gold: #c8a84b;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--white);
+            color: var(--ink);
+            overflow-x: hidden;
+            line-height: 1.6;
+            padding-top: 72px;
+        }
+
+        h1,h2,h3,h4,h5,h6 { font-family: 'Plus Jakarta Sans', sans-serif; }
+
+        /* ─── NAV ─── */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            padding: 0 5%;
+            height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(255,255,255,0.97);
+            backdrop-filter: blur(16px);
+            box-shadow: 0 1px 0 rgba(0,0,0,0.06);
+        }
+
+        .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+        .nav-logo img { height: 38px; }
+        .nav-logo span {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: var(--ink);
+        }
+
+        .nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+        .nav-links a {
+            font-size: 0.88rem;
+            font-weight: 500;
+            color: var(--muted);
+            text-decoration: none;
+            letter-spacing: 0.02em;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover { color: var(--green); }
+
+        .nav-cta {
+            background: var(--green);
+            color: var(--white) !important;
+            padding: 0.55rem 1.4rem;
+            border-radius: 100px;
+            font-size: 0.85rem !important;
+            font-weight: 600 !important;
+            letter-spacing: 0.03em;
+            transition: background 0.3s, transform 0.2s !important;
+        }
+        .nav-cta:hover { background: var(--green-mid) !important; transform: translateY(-1px); }
+
+        .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; z-index: 1001; }
+        .hamburger span { display: block; width: 24px; height: 2px; background: var(--ink); border-radius: 2px; transition: all 0.3s; }
+        .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+        .hamburger.active span:nth-child(2) { opacity: 0; }
+        .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+        /* ─── PAGE HEADER ─── */
+        .page-header {
+            background: linear-gradient(135deg, var(--green) 0%, #0A532F 100%);
+            padding: 100px 0 60px;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        .page-header::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+        .page-header h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+        .page-header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            position: relative;
+        }
+
+        /* ─── CONTAINER ─── */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 5%;
+        }
+
+        /* ─── SECTION TITLES ─── */
+        .section-title {
+            text-align: center;
+            font-size: clamp(1.8rem, 3vw, 2.5rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+        .section-subtitle {
+            text-align: center;
+            color: var(--muted);
+            margin-bottom: 3rem;
+            font-size: 1rem;
+        }
+
+        /* ─── SERVICE DETAIL ─── */
+        .service-detail {
+            padding: 5rem 0;
+            border-bottom: 1px solid var(--ghost);
+        }
+        .service-detail:last-of-type { border-bottom: none; }
+        .service-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+        .service-grid.reverse { direction: rtl; }
+        .service-grid.reverse > * { direction: ltr; }
+        
+        .service-icon-large {
+            width: 80px; height: 80px;
+            background: linear-gradient(135deg, var(--green) 0%, var(--green-mid) 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 8px 24px rgba(15,110,63,0.3);
+        }
+        .service-icon-large i { font-size: 2.2rem; color: white; }
+        .service-content h2 {
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+        .service-content p {
+            color: var(--muted);
+            line-height: 1.8;
+            margin-bottom: 0.75rem;
+        }
+        .service-features {
+            list-style: none;
+            padding: 0;
+            margin: 1.5rem 0;
+        }
+        .service-features li {
+            padding: 0.5rem 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.6rem;
+            font-size: 0.92rem;
+            color: var(--muted);
+        }
+        .service-features li i {
+            color: var(--green);
+            margin-top: 3px;
+            flex-shrink: 0;
+        }
+        .service-img {
+            border-radius: 20px;
+            width: 100%;
+            height: 350px;
+            object-fit: cover;
+        }
+        .btn-service {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, var(--green) 0%, var(--green-mid) 100%);
+            color: white;
+            padding: 0.85rem 2rem;
+            border-radius: 100px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            margin-top: 0.5rem;
+        }
+        .btn-service:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(15,110,63,0.4);
+            color: white;
+        }
+
+        /* ─── FAQ ─── */
+        .faq-section {
+            background: var(--sand);
+            padding: 5rem 0;
+        }
+        .faq-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .faq-item {
+            background: white;
+            border-radius: 15px;
+            margin-bottom: 1rem;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid transparent;
+        }
+        .faq-item:hover {
+            box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+            border-color: var(--green-pale);
+        }
+        .faq-item.active { border-color: var(--green-pale); }
+        .faq-question {
+            font-weight: 700;
+            font-size: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            color: var(--ink);
+        }
+        .faq-question i {
+            color: var(--green);
+            transition: transform 0.3s;
+            flex-shrink: 0;
+        }
+        .faq-item.active .faq-question i { transform: rotate(180deg); }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, margin-top 0.3s ease;
+            color: var(--muted);
+            line-height: 1.7;
+            font-size: 0.92rem;
+        }
+        .faq-item.active .faq-answer {
+            max-height: 300px;
+            margin-top: 1rem;
+        }
+
+        /* ─── FOOTER ─── */
+        footer {
+            background: var(--ink);
+            color: #888;
+            padding: 4rem 5% 2rem;
+        }
+        .footer-top {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr 1fr 1fr;
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto 3rem;
+            padding-bottom: 3rem;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+        }
+        .footer-brand .logo-text {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 1rem;
+        }
+        .footer-brand p { font-size: 0.85rem; line-height: 1.7; color: #666; max-width: 280px; }
+        .footer-socials { display: flex; gap: 0.75rem; margin-top: 1.5rem; }
+        .social-btn {
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #888;
+            font-size: 0.85rem;
+            transition: border-color 0.3s, color 0.3s;
+            text-decoration: none;
+        }
+        .social-btn:hover { border-color: var(--green-light); color: var(--green-light); }
+        .footer-col h4 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.9rem; color: white; margin-bottom: 1.25rem; }
+        .footer-col a, .footer-col .footer-link {
+            display: block;
+            color: #666;
+            text-decoration: none;
+            font-size: 0.85rem;
+            margin-bottom: 0.7rem;
+            transition: color 0.3s;
+        }
+        .footer-col a:hover, .footer-col .footer-link:hover { color: var(--green-light); }
+        .footer-col .contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.6rem;
+            margin-bottom: 0.8rem;
+            font-size: 0.85rem;
+        }
+        .footer-col .contact-item i { color: var(--green-mid); margin-top: 2px; width: 14px; flex-shrink: 0; }
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: #555;
+            gap: 1rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 991px) {
+            .nav-links {
+                display: flex;
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 80%;
+                max-width: 320px;
+                height: 100vh;
+                background: white;
+                flex-direction: column;
+                padding: 100px 2rem 2rem;
+                transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+                gap: 1.5rem;
+            }
+            .nav-links.active { right: 0; }
+            .nav-links a { margin: 0; font-size: 1rem; color: var(--ink) !important; }
+            .hamburger { display: flex; }
+            .service-grid { grid-template-columns: 1fr; }
+            .service-grid.reverse { direction: ltr; }
+            .service-img { height: 280px; }
+            .footer-top { grid-template-columns: 1fr 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            body { padding-top: 64px; }
+            nav { height: 64px; }
+            .page-header { padding: 80px 0 40px; }
+            .service-detail { padding: 3rem 0; }
+            .footer-top { grid-template-columns: 1fr; }
+            .footer-bottom { flex-direction: column; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav>
+    <a href="/" class="nav-logo">
+        <img src="/assets/img/logo/logo.png" alt="NexShip Xpress" onerror="this.style.display='none'">
+        <span>NexShip Xpress</span>
+    </a>
+    <div class="nav-links" id="navLinks">
+        <a href="/">Home</a>
+        <a href="/about.html">About</a>
+        <a href="/services.html">Services</a>
+        <a href="/network.html">Network</a>
+        <a href="/track.html">Track Parcel</a>
+        <a href="/contact.html" class="nav-cta">Contact Us</a>
+    </div>
+    <div class="hamburger" id="hamburger">
+        <span></span><span></span><span></span>
+    </div>
+</nav>
+
+<!-- Page Header -->
+<section class="page-header">
+    <div data-aos="fade-up">
+        <h1>Our Services</h1>
+        <p>Comprehensive logistics solutions tailored to your business needs</p>
+    </div>
+</section>
+
+<!-- Express Delivery -->
+<section class="service-detail" id="express">
+    <div class="container">
+        <div class="service-grid">
+            <div class="service-content" data-aos="fade-right">
+                <div class="service-icon-large"><i class="fas fa-rocket"></i></div>
+                <h2>Express Delivery</h2>
+                <p>Our express delivery service is designed for time-sensitive shipments that need to reach their destination as quickly as possible. Whether you're sending urgent documents, medical supplies, or last-minute gifts, we guarantee the fastest delivery times in the industry.</p>
+                <p>With our extensive network of couriers and strategically located hubs, we offer same-day delivery within major metropolitan areas and next-day delivery across the country.</p>
+                <ul class="service-features">
+                    <li><i class="fas fa-check-circle"></i> Same-day delivery available</li>
+                    <li><i class="fas fa-check-circle"></i> Real-time GPS tracking</li>
+                    <li><i class="fas fa-check-circle"></i> Priority handling and boarding</li>
+                    <li><i class="fas fa-check-circle"></i> Delivery confirmation with photo</li>
+                </ul>
+                <a href="/service-express.html" class="btn-service">Learn More <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div data-aos="fade-left">
+                <img src="https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?w=600" alt="Express Delivery" class="service-img">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Air Freight -->
+<section class="service-detail" id="air">
+    <div class="container">
+        <div class="service-grid reverse">
+            <div class="service-content" data-aos="fade-left">
+                <div class="service-icon-large"><i class="fas fa-plane"></i></div>
+                <h2>Air Freight</h2>
+                <p>NexShip Xpress offers the most reliable air freight service to any destination in the world. Our air freight solutions are ideal for high-value, time-sensitive, or perishable goods requiring fast international delivery.</p>
+                <p>We partner with major airlines to provide flexible scheduling and competitive rates for both door-to-door and airport-to-airport service.</p>
+                <ul class="service-features">
+                    <li><i class="fas fa-check-circle"></i> Global coverage to 200+ countries</li>
+                    <li><i class="fas fa-check-circle"></i> Temperature-controlled options</li>
+                    <li><i class="fas fa-check-circle"></i> Customs clearance assistance</li>
+                    <li><i class="fas fa-check-circle"></i> Real-time flight tracking</li>
+                </ul>
+                <a href="/service-air.html" class="btn-service">Learn More <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div data-aos="fade-right">
+                <img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=600" alt="Air Freight" class="service-img">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Ocean Freight -->
+<section class="service-detail" id="ocean">
+    <div class="container">
+        <div class="service-grid">
+            <div class="service-content" data-aos="fade-right">
+                <div class="service-icon-large"><i class="fas fa-ship"></i></div>
+                <h2>Ocean Freight</h2>
+                <p>NexShip Xpress ships full containers, loose cargo, or special equipment from and to any part of the world. Our ocean freight services are designed for businesses that need to transport large volumes of goods cost-effectively.</p>
+                <p>We offer competitive rates for both Full Container Load (FCL) and Less than Container Load (LCL) shipments with full documentation management.</p>
+                <ul class="service-features">
+                    <li><i class="fas fa-check-circle"></i> FCL and LCL options</li>
+                    <li><i class="fas fa-check-circle"></i> Full documentation management</li>
+                    <li><i class="fas fa-check-circle"></i> Customs brokerage included</li>
+                    <li><i class="fas fa-check-circle"></i> Real-time vessel tracking</li>
+                </ul>
+                <a href="/service-ocean.html" class="btn-service">Learn More <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div data-aos="fade-left">
+                <img src="https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?w=600" alt="Ocean Freight" class="service-img">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Trucking Services -->
+<section class="service-detail" id="trucking">
+    <div class="container">
+        <div class="service-grid reverse">
+            <div class="service-content" data-aos="fade-left">
+                <div class="service-icon-large"><i class="fas fa-truck"></i></div>
+                <h2>Trucking Services</h2>
+                <p>We detail trucks based on cargo requirements ranging from normal 3-5 ton covered trucks to specialized vehicles for international or domestic locations. Our ground transportation network covers the entire continental United States and cross-border routes.</p>
+                <p>All trucks are equipped with GPS tracking, temperature control options, and safety features to ensure your cargo arrives in perfect condition.</p>
+                <ul class="service-features">
+                    <li><i class="fas fa-check-circle"></i> Full truckload and LTL options</li>
+                    <li><i class="fas fa-check-circle"></i> Refrigerated trucks available</li>
+                    <li><i class="fas fa-check-circle"></i> Flatbed and specialized equipment</li>
+                    <li><i class="fas fa-check-circle"></i> 24/7 GPS tracking</li>
+                </ul>
+                <a href="/service-trucking.html" class="btn-service">Learn More <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div data-aos="fade-right">
+                <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=600" alt="Trucking Services" class="service-img">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Warehousing -->
+<section class="service-detail" id="warehousing">
+    <div class="container">
+        <div class="service-grid">
+            <div class="service-content" data-aos="fade-right">
+                <div class="service-icon-large"><i class="fas fa-warehouse"></i></div>
+                <h2>Warehousing</h2>
+                <p>Our warehouse logistics facilities ensure the best possible storage and management of your goods. With millions of square feet of modern, multi-user facilities across strategic locations, we offer flexible storage solutions for businesses of all sizes.</p>
+                <p>Our warehouses are equipped with advanced inventory management systems, climate control options, and 24/7 security monitoring.</p>
+                <ul class="service-features">
+                    <li><i class="fas fa-check-circle"></i> Climate-controlled storage</li>
+                    <li><i class="fas fa-check-circle"></i> 24/7 security monitoring</li>
+                    <li><i class="fas fa-check-circle"></i> Real-time inventory tracking</li>
+                    <li><i class="fas fa-check-circle"></i> Pick and pack services</li>
+                </ul>
+                <a href="/service-warehousing.html" class="btn-service">Learn More <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div data-aos="fade-left">
+                <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=600" alt="Warehousing" class="service-img">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Banner -->
+<section class="faq-section" style="background: var(--green);">
+    <div class="container" style="text-align: center;" data-aos="fade-up">
+        <h2 class="section-title" style="color: white;">Ready to Get Started?</h2>
+        <p class="section-subtitle" style="color: rgba(255,255,255,0.8);">Contact us today for a free consultation and quote</p>
+        <a href="/contact.html" style="display: inline-flex; align-items: center; gap: 0.5rem; background: white; color: var(--green); padding: 1rem 2.5rem; border-radius: 100px; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 0.95rem; text-decoration: none; transition: all 0.3s;">Get a Free Quote <i class="fas fa-arrow-right"></i></a>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="faq-section">
+    <div class="container">
+        <h2 class="section-title" data-aos="fade-up">Frequently Asked Questions</h2>
+        <p class="section-subtitle" data-aos="fade-up">Find answers to common questions about our services</p>
+        <div class="faq-wrapper">
+            <div class="faq-item" data-aos="fade-up" data-aos-delay="0">
+                <div class="faq-question">How do I track my shipment? <i class="fas fa-chevron-down"></i></div>
+                <div class="faq-answer">Simply enter your tracking code on our homepage or tracking page. You'll receive real-time updates on your shipment's location, status, and estimated delivery time. You can also sign up for email or SMS notifications.</div>
+            </div>
+            <div class="faq-item" data-aos="fade-up" data-aos-delay="100">
+                <div class="faq-question">How long does delivery take? <i class="fas fa-chevron-down"></i></div>
+                <div class="faq-answer">Delivery times vary by service type: Express Delivery: 1-2 business days, Standard: 3-5 business days, Air Freight: 2-5 business days internationally, Ocean Freight: 15-30 days, Trucking: 1-5 business days domestically.</div>
+            </div>
+            <div class="faq-item" data-aos="fade-up" data-aos-delay="200">
+                <div class="faq-question">Do you offer international shipping? <i class="fas fa-chevron-down"></i></div>
+                <div class="faq-answer">Yes! NexShip Xpress ships to over 200 countries worldwide. We offer both air and ocean freight options for international shipments, with full customs clearance support and documentation assistance.</div>
+            </div>
+            <div class="faq-item" data-aos="fade-up" data-aos-delay="300">
+                <div class="faq-question">How do I get a shipping quote? <i class="fas fa-chevron-down"></i></div>
+                <div class="faq-answer">You can get a quote by contacting our customer service team at nexshipxpress@outlook.com or via WhatsApp. For a personalized quote based on your specific shipping needs, visit our contact page.</div>
+            </div>
+            <div class="faq-item" data-aos="fade-up" data-aos-delay="400">
+                <div class="faq-question">What items are prohibited from shipping? <i class="fas fa-chevron-down"></i></div>
+                <div class="faq-answer">Hazardous materials, flammable liquids, explosives, illegal items, firearms, and perishable goods without proper packaging are prohibited. Contact us for a complete list of restricted items and special handling requirements.</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <div class="footer-top">
+        <div class="footer-brand">
+            <div class="logo-text">NexShip Xpress</div>
+            <p>Fast, reliable, and secure logistics for businesses of all sizes. End-to-end solutions from local deliveries to global freight.</p>
+            <div class="footer-socials">
+                <a href="#" class="social-btn"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#" class="social-btn"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-btn"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-btn"><i class="fab fa-facebook-f"></i></a>
+            </div>
+        </div>
+        <div class="footer-col">
+            <h4>Company</h4>
+            <a href="/">Home</a>
+            <a href="/about.html">About Us</a>
+            <a href="/services.html">Services</a>
+            <a href="/network.html">Global Network</a>
+            <a href="/track.html">Track Parcel</a>
+            <a href="/contact.html">Contact</a>
+        </div>
+        <div class="footer-col">
+            <h4>Services</h4>
+            <a href="/service-express.html">Express Delivery</a>
+            <a href="/service-air.html">Air Freight</a>
+            <a href="/service-ocean.html">Ocean Freight</a>
+            <a href="/service-trucking.html">Trucking</a>
+            <a href="/service-warehousing.html">Warehousing</a>
+            <a href="/services.html">3PL Solutions</a>
+        </div>
+        <div class="footer-col">
+            <h4>Contact</h4>
+            <div class="contact-item"><i class="fas fa-envelope"></i><span>nexshipxpress@outlook.com</span></div>
+            <div class="contact-item"><i class="fab fa-whatsapp"></i><a href="https://wa.me/16099749715?text=Hello%20NexShip%20Express%20Support" target="_blank" rel="noopener" class="footer-link">Chat on WhatsApp</a></div>
+            <div class="contact-item"><i class="fas fa-clock"></i><span>Mon – Sun: 9 AM – 9 PM</span></div>
+            <div class="contact-item"><i class="fas fa-map-marker-alt"></i><span>Washington, D.C. USA</span></div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <span>© 2015 NexShip Xpress. All rights reserved.</span>
+        <span>Your Trusted Global Logistics Partner</span>
+    </div>
+</footer>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init({ once: true, duration: 800, easing: 'ease-out-cubic', offset: 60 });
+
+    // Mobile menu toggle
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+    
+    hamburger.addEventListener('click', function() {
+        this.classList.toggle('active');
+        navLinks.classList.toggle('active');
+        document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
+    });
+
+    // Close menu when clicking a link
+    navLinks.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            hamburger.classList.remove('active');
+            navLinks.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!navLinks.contains(e.target) && !hamburger.contains(e.target)) {
+            hamburger.classList.remove('active');
+            navLinks.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    });
+
+    // FAQ accordion
+    document.querySelectorAll('.faq-item').forEach(item => {
+        item.addEventListener('click', function() {
+            document.querySelectorAll('.faq-item.active').forEach(openItem => {
+                if (openItem !== this) openItem.classList.remove('active');
+            });
+            this.classList.toggle('active');
+        });
+    });
+</script>
+</body>
+</html>

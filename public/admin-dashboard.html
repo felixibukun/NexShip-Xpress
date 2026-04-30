@@ -1,0 +1,2164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Admin Dashboard | NexShip Xpress</title>
+<link rel="icon" type="image/png" href="/assets/img/logo/logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+  --bg:#f4f6f9;
+  --bg2:#ffffff;
+  --bg3:#f8fafc;
+  --bg4:#f1f5f9;
+  --bg5:#e8eef5;
+  --border:#e2e8f0;
+  --border2:#cbd5e1;
+  --green:#0ea56b;
+  --green-bright:#08915c;
+  --green-dim:rgba(14,165,107,0.1);
+  --green-glow:rgba(14,165,107,0.2);
+  --green-dark:rgba(14,165,107,0.06);
+  --text:#0f1923;
+  --text2:#4a6079;
+  --text3:#94a3b8;
+  --accent:#0284c7;
+  --accent-dim:rgba(2,132,199,0.1);
+  --danger:#e53e3e;
+  --danger-dim:rgba(229,62,62,0.1);
+  --warning:#d97706;
+  --warning-dim:rgba(217,119,6,0.1);
+  --purple:#7c3aed;
+  --purple-dim:rgba(124,58,237,0.1);
+  --sidebar:270px;
+  --radius:14px;
+  --radius-sm:9px;
+  --radius-xs:6px;
+  --transition:0.18s cubic-bezier(0.4,0,0.2,1);
+  --shadow-sm:0 1px 3px rgba(15,25,35,0.07),0 1px 2px rgba(15,25,35,0.04);
+  --shadow:0 4px 16px rgba(15,25,35,0.09),0 1px 4px rgba(15,25,35,0.05);
+  --shadow-lg:0 16px 48px rgba(15,25,35,0.14),0 4px 12px rgba(15,25,35,0.07);
+}
+
+html{height:100%;scroll-behavior:smooth;}
+
+body{
+  font-family:'Plus Jakarta Sans',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  display:flex;
+  overflow-x:hidden;
+  -webkit-tap-highlight-color:transparent;
+}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar{width:5px;height:5px;}
+::-webkit-scrollbar-track{background:var(--bg3);}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:10px;}
+::-webkit-scrollbar-thumb:hover{background:var(--text3);}
+
+/* ── SIDEBAR ── */
+.sidebar{
+  width:var(--sidebar);
+  min-height:100vh;
+  height:100vh;
+  background:var(--bg2);
+  border-right:1px solid var(--border);
+  display:flex;
+  flex-direction:column;
+  position:fixed;
+  top:0;left:0;bottom:0;
+  z-index:200;
+  transition:transform var(--transition);
+  overflow-y:auto;
+  overflow-x:hidden;
+  box-shadow:var(--shadow);
+  -webkit-overflow-scrolling:touch;
+}
+
+.sidebar-logo{
+  padding:1.5rem 1.25rem;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  gap:0.875rem;
+  position:sticky;
+  top:0;
+  background:var(--bg2);
+  z-index:1;
+}
+
+.logo-icon{
+  width:40px;height:40px;
+  border-radius:11px;
+  background:linear-gradient(135deg,var(--green) 0%,#068a55 100%);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1rem;color:#fff;
+  font-weight:800;
+  flex-shrink:0;
+  box-shadow:0 4px 12px var(--green-glow);
+}
+
+.brand-name{font-size:0.95rem;font-weight:800;color:var(--text);letter-spacing:-0.01em;}
+.brand-sub{font-size:0.62rem;color:var(--text3);font-weight:600;letter-spacing:0.08em;text-transform:uppercase;margin-top:2px;}
+
+.sidebar-section{
+  padding:1.25rem 1.25rem 0.4rem;
+  font-size:0.6rem;
+  font-weight:700;
+  color:var(--text3);
+  text-transform:uppercase;
+  letter-spacing:0.15em;
+}
+
+.nav-item{
+  display:flex;
+  align-items:center;
+  gap:0.75rem;
+  padding:0.6rem 0.875rem;
+  margin:0.1rem 0.625rem;
+  border-radius:var(--radius-sm);
+  color:var(--text2);
+  font-size:0.82rem;
+  font-weight:600;
+  cursor:pointer;
+  transition:all var(--transition);
+  border:1px solid transparent;
+  position:relative;
+  text-decoration:none;
+  user-select:none;
+  -webkit-tap-highlight-color:transparent;
+  touch-action:manipulation;
+}
+
+.nav-item .nav-icon{
+  width:32px;height:32px;
+  border-radius:8px;
+  background:var(--bg3);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+  transition:all var(--transition);
+  font-size:0.78rem;
+  color:var(--text3);
+}
+
+.nav-item:hover{
+  background:var(--bg3);
+  color:var(--text);
+  border-color:var(--border);
+}
+
+.nav-item:hover .nav-icon{background:var(--bg4);color:var(--text2);}
+
+.nav-item.active{
+  background:var(--green-dim);
+  color:var(--green-bright);
+  border-color:rgba(14,165,107,0.2);
+}
+
+.nav-item.active .nav-icon{
+  background:rgba(14,165,107,0.15);
+  color:var(--green-bright);
+}
+
+.nav-item.active::before{
+  content:'';
+  position:absolute;
+  left:-0.625rem;
+  top:50%;transform:translateY(-50%);
+  width:3px;height:60%;
+  background:var(--green);
+  border-radius:0 3px 3px 0;
+}
+
+.nav-item.danger{color:var(--text2);}
+.nav-item.danger:hover{
+  background:var(--danger-dim);
+  color:var(--danger);
+  border-color:rgba(229,62,62,0.2);
+}
+.nav-item.danger:hover .nav-icon{background:var(--danger-dim);color:var(--danger);}
+
+.sidebar-spacer{flex:1;}
+
+.sidebar-user{
+  padding:1rem 1.25rem;
+  border-top:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  gap:0.75rem;
+  position:sticky;
+  bottom:0;
+  background:var(--bg2);
+}
+
+.user-avatar{
+  width:36px;height:36px;
+  border-radius:50%;
+  background:linear-gradient(135deg,var(--green),#068a55);
+  display:flex;align-items:center;justify-content:center;
+  font-weight:800;color:#fff;font-size:0.9rem;
+  flex-shrink:0;
+  box-shadow:0 2px 8px var(--green-glow);
+}
+
+.user-name{font-size:0.82rem;font-weight:700;color:var(--text);}
+.user-role{font-size:0.62rem;color:var(--text3);font-weight:500;}
+
+/* ── MAIN ── */
+.main{
+  margin-left:var(--sidebar);
+  flex:1;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  width:calc(100% - var(--sidebar));
+}
+
+/* ── TOPBAR ── */
+.topbar{
+  background:var(--bg2);
+  border-bottom:1px solid var(--border);
+  padding:0 1.75rem;
+  height:62px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  position:sticky;
+  top:0;z-index:100;
+  box-shadow:var(--shadow-sm);
+}
+
+.topbar-left{display:flex;align-items:center;gap:0.75rem;}
+.topbar-title{font-size:1rem;font-weight:800;color:var(--text);letter-spacing:-0.02em;}
+
+.topbar-right{display:flex;align-items:center;gap:0.75rem;}
+
+.topbar-badge{
+  background:var(--warning-dim);
+  color:var(--warning);
+  border:1px solid rgba(217,119,6,0.2);
+  border-radius:100px;
+  padding:0.3rem 0.875rem;
+  font-size:0.7rem;
+  font-weight:700;
+  letter-spacing:0.02em;
+  display:flex;align-items:center;gap:0.4rem;
+  white-space:nowrap;
+}
+
+.topbar-badge .dot{
+  width:6px;height:6px;
+  border-radius:50%;
+  background:var(--warning);
+  animation:pulse 2s infinite;
+}
+
+/* Hamburger button inside topbar for mobile */
+.topbar-ham{
+  display:none;
+  background:var(--bg3);
+  border:1px solid var(--border);
+  color:var(--text2);
+  width:36px;height:36px;
+  border-radius:var(--radius-xs);
+  align-items:center;justify-content:center;
+  cursor:pointer;
+  font-size:0.9rem;
+  transition:all var(--transition);
+  flex-shrink:0;
+  touch-action:manipulation;
+}
+.topbar-ham:hover{background:var(--bg4);color:var(--text);}
+
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.5;transform:scale(0.8);}}
+
+/* ── CONTENT ── */
+.content{
+  padding:1.75rem;
+  flex:1;
+  max-width:100%;
+}
+
+/* ── STATS ── */
+.stats-row{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(160px, 1fr));
+  gap:1rem;
+  margin-bottom:1.75rem;
+}
+
+.stat-card{
+  background:var(--bg2);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:1.25rem 1.5rem;
+  position:relative;
+  overflow:hidden;
+  transition:all var(--transition);
+  cursor:default;
+  box-shadow:var(--shadow-sm);
+}
+
+.stat-card::after{
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;
+  height:3px;
+  border-radius:var(--radius) var(--radius) 0 0;
+  opacity:0;
+  transition:opacity var(--transition);
+}
+
+.stat-card:hover{border-color:var(--border2);transform:translateY(-2px);box-shadow:var(--shadow);}
+.stat-card:hover::after{opacity:1;}
+
+.stat-card.c-green::after{background:linear-gradient(90deg,var(--green),#5eead4);}
+.stat-card.c-blue::after{background:linear-gradient(90deg,var(--accent),#38bdf8);}
+.stat-card.c-warn::after{background:linear-gradient(90deg,var(--warning),#fbbf24);}
+.stat-card.c-purple::after{background:linear-gradient(90deg,var(--purple),#a78bfa);}
+
+.stat-icon{
+  width:38px;height:38px;
+  border-radius:9px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.85rem;
+  margin-bottom:0.875rem;
+}
+.c-green .stat-icon{background:var(--green-dim);color:var(--green);}
+.c-blue .stat-icon{background:var(--accent-dim);color:var(--accent);}
+.c-warn .stat-icon{background:var(--warning-dim);color:var(--warning);}
+.c-purple .stat-icon{background:var(--purple-dim);color:var(--purple);}
+
+.stat-number{
+  font-size:2.2rem;
+  font-weight:800;
+  color:var(--text);
+  line-height:1;
+  letter-spacing:-0.04em;
+  margin-bottom:0.3rem;
+  font-family:'JetBrains Mono',monospace;
+}
+
+.stat-label{
+  font-size:0.68rem;
+  color:var(--text3);
+  text-transform:uppercase;
+  letter-spacing:0.1em;
+  font-weight:700;
+}
+
+/* ── PANEL ── */
+.panel{
+  background:var(--bg2);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  margin-bottom:1.5rem;
+  overflow:hidden;
+  box-shadow:var(--shadow-sm);
+}
+
+.panel-header{
+  padding:1rem 1.5rem;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background:var(--bg3);
+  flex-wrap:wrap;
+  gap:0.75rem;
+}
+
+.panel-title{
+  font-size:0.88rem;
+  font-weight:700;
+  display:flex;
+  align-items:center;
+  gap:0.5rem;
+  color:var(--text);
+}
+
+.panel-title i{color:var(--green);font-size:0.78rem;}
+.panel-body{padding:1.5rem;}
+
+/* ── FORMS ── */
+.form-grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));gap:0.875rem;}
+
+.field label{
+  display:block;
+  font-size:0.68rem;
+  font-weight:700;
+  color:var(--text3);
+  margin-bottom:0.4rem;
+  text-transform:uppercase;
+  letter-spacing:0.07em;
+}
+
+.field input,
+.field select,
+.field textarea{
+  width:100%;
+  background:var(--bg3);
+  border:1px solid var(--border);
+  border-radius:var(--radius-sm);
+  color:var(--text);
+  padding:0.6rem 0.875rem;
+  font-size:0.82rem;
+  font-family:'Plus Jakarta Sans',sans-serif;
+  transition:all var(--transition);
+  outline:none;
+  -webkit-appearance:none;
+  font-size:16px; /* Prevents iOS zoom on focus */
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus{
+  border-color:var(--green);
+  background:#fff;
+  box-shadow:0 0 0 3px var(--green-dim);
+}
+
+.field select option{background:#fff;color:var(--text);}
+.field input[type="file"]{padding:0.45rem 0.875rem;cursor:pointer;}
+
+/* ── BUTTONS ── */
+.btn{
+  display:inline-flex;
+  align-items:center;
+  gap:0.4rem;
+  padding:0.6rem 1.2rem;
+  border-radius:var(--radius-sm);
+  font-size:0.8rem;
+  font-weight:700;
+  cursor:pointer;
+  border:1px solid transparent;
+  transition:all var(--transition);
+  font-family:'Plus Jakarta Sans',sans-serif;
+  letter-spacing:0.01em;
+  text-decoration:none;
+  user-select:none;
+  -webkit-tap-highlight-color:transparent;
+  touch-action:manipulation;
+  white-space:nowrap;
+}
+
+.btn-primary{
+  background:var(--green);
+  color:#fff;
+  border-color:var(--green);
+  box-shadow:0 2px 8px var(--green-glow);
+}
+.btn-primary:hover{background:var(--green-bright);box-shadow:0 4px 16px var(--green-glow);}
+.btn-primary:active{transform:scale(0.98);}
+
+.btn-secondary{
+  background:var(--bg3);
+  color:var(--text);
+  border-color:var(--border);
+}
+.btn-secondary:hover{background:var(--bg4);border-color:var(--border2);}
+.btn-secondary:active{transform:scale(0.98);}
+
+.btn-danger{
+  background:var(--danger-dim);
+  color:var(--danger);
+  border-color:rgba(229,62,62,0.2);
+}
+.btn-danger:hover{background:rgba(229,62,62,0.18);}
+.btn-danger:active{transform:scale(0.98);}
+
+.btn-success{
+  background:var(--green-dim);
+  color:var(--green-bright);
+  border-color:rgba(14,165,107,0.2);
+}
+.btn-success:hover{background:rgba(14,165,107,0.18);}
+.btn-success:active{transform:scale(0.98);}
+
+.btn-sm{padding:0.35rem 0.75rem;font-size:0.72rem;}
+.btn-xs{padding:0.25rem 0.5rem;font-size:0.68rem;}
+
+/* ── TABLE ── */
+.tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -1px;}
+
+table{width:100%;border-collapse:collapse;min-width:600px;}
+
+th{
+  padding:0.75rem 1rem;
+  font-size:0.63rem;
+  font-weight:700;
+  color:var(--text3);
+  text-transform:uppercase;
+  letter-spacing:0.12em;
+  text-align:left;
+  background:var(--bg3);
+  border-bottom:1px solid var(--border);
+  white-space:nowrap;
+}
+
+td{
+  padding:0.75rem 1rem;
+  font-size:0.8rem;
+  color:var(--text2);
+  border-bottom:1px solid var(--border);
+  transition:all var(--transition);
+  white-space:nowrap;
+}
+
+td:nth-child(3),
+td:nth-child(4){
+  max-width:150px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:var(--bg3);color:var(--text);}
+
+/* ── CODE BADGE ── */
+.code{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.72rem;
+  color:var(--green-bright);
+  background:var(--green-dim);
+  border:1px solid rgba(14,165,107,0.18);
+  padding:0.2rem 0.55rem;
+  border-radius:5px;
+  white-space:nowrap;
+  letter-spacing:0.02em;
+  display:inline-block;
+}
+
+/* ── STATUS PILLS ── */
+.status-pill{
+  display:inline-flex;
+  align-items:center;
+  gap:0.35rem;
+  padding:0.25rem 0.7rem;
+  border-radius:100px;
+  font-size:0.67rem;
+  font-weight:700;
+  white-space:nowrap;
+  letter-spacing:0.04em;
+}
+.status-pill::before{
+  content:'';
+  width:5px;height:5px;
+  border-radius:50%;
+  background:currentColor;
+  flex-shrink:0;
+}
+
+.s-transit{background:var(--accent-dim);color:var(--accent);}
+.s-delivered{background:var(--green-dim);color:var(--green-bright);}
+.s-pending{background:var(--warning-dim);color:var(--warning);}
+.s-delayed{background:var(--danger-dim);color:var(--danger);}
+.s-processing{background:var(--purple-dim);color:var(--purple);}
+
+.pay-pill{
+  padding:0.2rem 0.65rem;
+  border-radius:100px;
+  font-size:0.65rem;
+  font-weight:700;
+  white-space:nowrap;
+}
+.pay-paid{background:var(--green-dim);color:var(--green-bright);}
+.pay-pending{background:var(--warning-dim);color:var(--warning);}
+
+/* ── MODALS ── */
+.overlay{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(15,25,35,0.45);
+  backdrop-filter:blur(4px);
+  z-index:500;
+  align-items:center;
+  justify-content:center;
+  padding:1rem;
+  pointer-events:none;
+}
+
+.overlay.open{
+  display:flex;
+  pointer-events:all;
+  animation:fadeIn 0.15s ease;
+}
+
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+
+.modal-box{
+  background:var(--bg2);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  width:100%;
+  max-width:700px;
+  max-height:90vh;
+  overflow-y:auto;
+  box-shadow:var(--shadow-lg);
+  animation:slideUp 0.2s cubic-bezier(0.34,1.56,0.64,1);
+  -webkit-overflow-scrolling:touch;
+}
+
+@keyframes slideUp{from{opacity:0;transform:translateY(20px) scale(0.97);}to{opacity:1;transform:translateY(0) scale(1);}}
+
+.modal-head{
+  padding:1rem 1.25rem;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  position:sticky;
+  top:0;
+  background:var(--bg2);
+  z-index:1;
+}
+
+.modal-head h3{font-size:0.95rem;font-weight:800;display:flex;align-items:center;gap:0.5rem;color:var(--text);}
+.modal-head h3 i{color:var(--green);font-size:0.85rem;}
+
+.modal-body{padding:1.25rem;}
+.modal-footer{
+  padding:1rem 1.25rem;
+  border-top:1px solid var(--border);
+  display:flex;
+  gap:0.75rem;
+  justify-content:flex-end;
+  background:var(--bg3);
+  flex-wrap:wrap;
+  position:sticky;
+  bottom:0;
+  background:var(--bg2);
+}
+
+.close-btn{
+  background:var(--bg3);
+  border:1px solid var(--border);
+  color:var(--text2);
+  width:30px;height:30px;
+  border-radius:var(--radius-xs);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;
+  font-size:0.85rem;
+  transition:all var(--transition);
+  touch-action:manipulation;
+}
+.close-btn:hover{background:var(--danger-dim);color:var(--danger);border-color:rgba(229,62,62,0.2);}
+
+/* ── ALERTS ── */
+.alert{
+  padding:0.75rem 1rem;
+  border-radius:var(--radius-sm);
+  margin-bottom:1rem;
+  display:flex;
+  align-items:center;
+  gap:0.6rem;
+  font-size:0.8rem;
+  font-weight:600;
+}
+.alert-success{background:var(--green-dim);color:var(--green-bright);border:1px solid rgba(14,165,107,0.2);}
+.alert-error{background:var(--danger-dim);color:var(--danger);border:1px solid rgba(229,62,62,0.2);}
+
+/* ── SEARCH ── */
+.search-wrap{position:relative;display:flex;align-items:center;flex:1;}
+.search-wrap i{position:absolute;left:0.75rem;color:var(--text3);font-size:0.75rem;pointer-events:none;z-index:1;}
+.search-box{
+  background:var(--bg3);
+  border:1px solid var(--border);
+  border-radius:var(--radius-sm);
+  padding:0.5rem 0.875rem 0.5rem 2.1rem;
+  color:var(--text);
+  font-size:16px; /* Prevents iOS zoom */
+  font-family:'Plus Jakarta Sans',sans-serif;
+  outline:none;
+  transition:all var(--transition);
+  width:100%;
+  min-width:150px;
+}
+.search-box:focus{border-color:var(--green);background:#fff;box-shadow:0 0 0 3px var(--green-dim);}
+.search-box::placeholder{color:var(--text3);}
+
+/* ── TABS ── */
+.tab-row{
+  display:flex;
+  gap:0.25rem;
+  margin-bottom:1.5rem;
+  border-bottom:1px solid var(--border);
+  padding-bottom:0;
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+}
+.tab-row::-webkit-scrollbar{display:none;}
+
+.tab-btn{
+  padding:0.6rem 1rem;
+  font-size:0.78rem;
+  font-weight:700;
+  cursor:pointer;
+  border:none;
+  background:none;
+  color:var(--text3);
+  border-bottom:2px solid transparent;
+  margin-bottom:-1px;
+  transition:all var(--transition);
+  font-family:'Plus Jakarta Sans',sans-serif;
+  display:flex;align-items:center;gap:0.4rem;
+  -webkit-tap-highlight-color:transparent;
+  white-space:nowrap;
+  flex-shrink:0;
+  touch-action:manipulation;
+}
+.tab-btn:hover{color:var(--text2);}
+.tab-btn.active{color:var(--green-bright);border-bottom-color:var(--green);}
+
+/* ── SECTION ANIMATIONS ── */
+.section-wrap{animation:sectionIn 0.2s ease;}
+@keyframes sectionIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+
+/* ── EMPTY STATE ── */
+.empty-state{
+  text-align:center;
+  padding:3rem 2rem;
+  color:var(--text3);
+}
+.empty-state i{font-size:2.5rem;margin-bottom:1rem;opacity:0.35;}
+.empty-state p{font-size:0.82rem;color:var(--text3);}
+
+/* ── FLASH TOAST ── */
+#toastContainer{
+  position:fixed;
+  bottom:1.5rem;
+  right:1.5rem;
+  z-index:9999;
+  display:flex;
+  flex-direction:column;
+  gap:0.5rem;
+  pointer-events:none;
+  max-width:calc(100vw - 3rem);
+}
+.toast{
+  background:var(--bg2);
+  border:1px solid var(--border);
+  border-radius:var(--radius-sm);
+  padding:0.75rem 1.25rem;
+  font-size:0.8rem;
+  font-weight:600;
+  display:flex;align-items:center;gap:0.5rem;
+  box-shadow:var(--shadow-lg);
+  animation:toastIn 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  min-width:200px;
+  pointer-events:all;
+  color:var(--text);
+  word-break:break-word;
+}
+.toast.success{border-left:3px solid var(--green);color:var(--green-bright);}
+.toast.error{border-left:3px solid var(--danger);color:var(--danger);}
+.toast.info{border-left:3px solid var(--accent);color:var(--accent);}
+@keyframes toastIn{from{opacity:0;transform:translateX(20px);}to{opacity:1;transform:translateX(0);}}
+
+/* ── SIDEBAR OVERLAY ── */
+.sidebar-overlay{
+  display:none;
+  position:fixed;inset:0;
+  background:rgba(15,25,35,0.4);
+  z-index:199;
+  pointer-events:none;
+}
+.sidebar-overlay.open{
+  display:block;
+  pointer-events:all;
+}
+
+/* ── HISTORY ENTRIES ── */
+.history-entry-item{
+  background:var(--bg3);
+  border:1px solid var(--border);
+  border-radius:var(--radius-sm);
+  padding:1rem;
+  margin-bottom:0.75rem;
+}
+.history-entry-item input,
+.history-entry-item select,
+.history-entry-item textarea{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:var(--radius-xs);
+  color:var(--text);
+  padding:0.45rem 0.75rem;
+  font-size:16px; /* Prevents iOS zoom */
+  font-family:'Plus Jakarta Sans',sans-serif;
+  outline:none;
+  transition:all var(--transition);
+  width:100%;
+}
+.history-entry-item input:focus,
+.history-entry-item select:focus,
+.history-entry-item textarea:focus{border-color:var(--green);box-shadow:0 0 0 3px var(--green-dim);}
+
+/* ── PAYMENT ROUTES ── */
+.route-grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:1rem;}
+.route-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:1rem;}
+.route-card-head{display:flex;align-items:center;justify-content:space-between;gap:0.75rem;margin-bottom:0.875rem;flex-wrap:wrap;}
+.route-card-title{display:flex;align-items:center;gap:0.6rem;font-weight:800;color:var(--text);font-size:0.85rem;}
+.route-card-title i{color:var(--green);}
+.route-switch{display:flex;align-items:center;gap:0.45rem;font-size:0.72rem;font-weight:700;color:var(--text2);white-space:nowrap;}
+.route-switch input{width:16px;height:16px;accent-color:var(--green);}
+.route-row{display:grid;grid-template-columns:1fr 120px;gap:0.65rem;margin-bottom:0.65rem;}
+.route-note{font-size:0.72rem;color:var(--text3);line-height:1.45;margin-top:0.5rem;}
+.qr-upload-box{margin-top:0.75rem;border:1px dashed var(--border2);border-radius:var(--radius-sm);padding:0.75rem;background:#fff;}
+.qr-upload-actions{display:flex;align-items:center;gap:0.55rem;flex-wrap:wrap;}
+.qr-preview{width:92px;height:92px;border:1px solid var(--border);border-radius:var(--radius-sm);object-fit:contain;background:var(--bg3);display:none;}
+.qr-preview.has-image{display:block;}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1100px){
+  .stats-row{grid-template-columns:repeat(auto-fit, minmax(140px, 1fr));}
+}
+
+@media(max-width:900px){
+  .sidebar{
+    transform:translateX(-100%);
+    box-shadow:none;
+    width:280px;
+  }
+  .sidebar.open{
+    transform:translateX(0);
+    box-shadow:var(--shadow-lg);
+  }
+  .main{
+    margin-left:0;
+    width:100%;
+  }
+  .topbar-ham{display:flex;}
+  .topbar{padding:0 1rem;}
+  .content{padding:1rem;}
+  .search-box{width:100%;min-width:0;}
+  .panel-header{gap:0.5rem;}
+  .panel-header .search-wrap{width:100%;}
+  .form-grid{grid-template-columns:1fr;}
+  .route-row{grid-template-columns:1fr;}
+  .modal-box{max-width:95%;}
+}
+
+@media(max-width:600px){
+  .stats-row{grid-template-columns:repeat(2, 1fr);}
+  .stat-number{font-size:1.5rem;}
+  .stat-card{padding:1rem;}
+  .stat-icon{width:32px;height:32px;font-size:0.75rem;}
+  .form-grid{grid-template-columns:1fr!important;}
+  .modal-box{
+    max-width:100%!important;
+    margin:0 0.5rem;
+    border-radius:var(--radius);
+  }
+  .overlay{padding:0.5rem;}
+  .modal-box{border-radius:var(--radius);max-height:85vh;}
+  .modal-footer{gap:0.5rem;}
+  .modal-footer .btn{flex:1;justify-content:center;min-width:0;}
+  .topbar{height:56px;}
+  .topbar-title{font-size:0.9rem;}
+  #toastContainer{bottom:1rem;right:0.5rem;left:0.5rem;max-width:100%;}
+  .toast{min-width:0;width:100%;}
+  td,th{padding:0.75rem 0.5rem;font-size:0.75rem;}
+  .code{font-size:0.68rem;padding:0.15rem 0.4rem;}
+  .status-pill{font-size:0.62rem;padding:0.2rem 0.5rem;}
+  .btn{font-size:0.75rem;padding:0.5rem 0.75rem;}
+  .btn-sm{font-size:0.7rem;padding:0.3rem 0.6rem;}
+  .panel-body{padding:1rem;}
+  .panel-header{padding:0.75rem 1rem;}
+  .topbar-badge{font-size:0.65rem;padding:0.25rem 0.6rem;}
+}
+
+@media(max-width:400px){
+  .stats-row{grid-template-columns:1fr;}
+  .stat-card{padding:0.875rem;}
+  .stat-number{font-size:1.3rem;}
+}
+
+/* Payment filter select on mobile */
+@media(max-width:600px){
+  #paymentStatusFilter{width:100%;}
+  .panel-header > div{width:100%;display:flex;gap:0.5rem;flex-wrap:wrap;}
+}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-icon"><i class="fas fa-shipping-fast"></i></div>
+    <div>
+      <div class="brand-name">NexShip Xpress</div>
+      <div class="brand-sub">Admin Portal</div>
+    </div>
+  </div>
+
+  <div class="sidebar-section">Main</div>
+  <div class="nav-item active" onclick="showSection('dashboard',this)" role="button" tabindex="0">
+    <div class="nav-icon"><i class="fas fa-chart-pie"></i></div> Dashboard
+  </div>
+  <div class="nav-item" onclick="showSection('shipments',this)" role="button" tabindex="0">
+    <div class="nav-icon"><i class="fas fa-boxes-stacked"></i></div> All Shipments
+  </div>
+  <div class="nav-item" onclick="showSection('addShipment',this)" role="button" tabindex="0">
+    <div class="nav-icon"><i class="fas fa-plus"></i></div> Add Shipment
+  </div>
+  <div class="nav-item" onclick="showSection('payments',this)" role="button" tabindex="0">
+    <div class="nav-icon"><i class="fas fa-money-bill-wave"></i></div> Payments
+  </div>
+  <div class="nav-item" onclick="showSection('wallets',this)" role="button" tabindex="0">
+    <div class="nav-icon"><i class="fas fa-route"></i></div> Payment Routes
+  </div>
+
+  <div class="sidebar-section">Account</div>
+  <div class="nav-item" onclick="openProfileModal()" role="button" tabindex="0">
+    <div class="nav-icon"><i class="fas fa-key"></i></div> Change Password
+  </div>
+  <a href="/admin-secure-92x/logout" class="nav-item danger">
+    <div class="nav-icon"><i class="fas fa-sign-out-alt"></i></div> Sign Out
+  </a>
+
+  <div class="sidebar-spacer"></div>
+  <div class="sidebar-user">
+    <div class="user-avatar">A</div>
+    <div>
+      <div class="user-name">Admin</div>
+      <div class="user-role">Super Admin</div>
+    </div>
+  </div>
+</aside>
+
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+<!-- MAIN -->
+<div class="main">
+  <header class="topbar">
+    <div class="topbar-left">
+      <button class="topbar-ham" id="mobToggle" aria-label="Toggle menu"><i class="fas fa-bars"></i></button>
+      <span class="topbar-title" id="pageTitle">Dashboard</span>
+    </div>
+    <div class="topbar-right">
+      <div class="topbar-badge">
+        <span class="dot"></span>
+        <span id="pendingBadge">0 Pending</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="content">
+
+    <!-- DASHBOARD -->
+    <div id="dashSection" class="section-wrap">
+      <div class="stats-row">
+        <div class="stat-card c-green">
+          <div class="stat-icon"><i class="fas fa-boxes-stacked"></i></div>
+          <div class="stat-number" id="st-total">—</div>
+          <div class="stat-label">Total Shipments</div>
+        </div>
+        <div class="stat-card c-blue">
+          <div class="stat-icon"><i class="fas fa-truck"></i></div>
+          <div class="stat-number" id="st-transit">—</div>
+          <div class="stat-label">In Transit</div>
+        </div>
+        <div class="stat-card c-purple">
+          <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+          <div class="stat-number" id="st-delivered">—</div>
+          <div class="stat-label">Delivered</div>
+        </div>
+        <div class="stat-card c-warn">
+          <div class="stat-icon"><i class="fas fa-clock"></i></div>
+          <div class="stat-number" id="st-payment">—</div>
+          <div class="stat-label">Pending Payments</div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title"><i class="fas fa-clock"></i> Recent Shipments</span>
+        </div>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Tracking</th><th>Status</th><th>Recipient</th><th>Destination</th><th>Payment</th></tr></thead>
+            <tbody id="recentTbody"><tr><td colspan="5"><div class="empty-state"><i class="fas fa-spinner fa-spin"></i><p>Loading…</p></div></td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADD SHIPMENT -->
+    <div id="addSection" style="display:none;" class="section-wrap">
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title"><i class="fas fa-plus-circle"></i> New Shipment</span>
+        </div>
+        <div class="panel-body">
+          <form action="/admin-secure-92x/shipments" method="POST" enctype="multipart/form-data">
+            <div class="form-grid">
+              <div class="field"><label>Status *</label><select name="status" required><option value="">Select</option><option>Pending</option><option>Processing</option><option>In Transit</option><option>Out for Delivery</option><option>Delivered</option><option>Custom Hold</option></select></div>
+              <div class="field"><label>Recipient Name *</label><input type="text" name="recipient_name" required></div>
+              <div class="field"><label>Customer Email</label><input type="email" name="customer_email"></div>
+              <div class="field"><label>Origin</label><input type="text" name="shipping_origin"></div>
+              <div class="field"><label>Destination Address</label><input type="text" name="destination_address"></div>
+              <div class="field"><label>Destination City</label><input type="text" name="destination_city"></div>
+              <div class="field"><label>Current Location</label><input type="text" name="current_location"></div>
+              <div class="field"><label>Weight</label><input type="text" name="weight"></div>
+              <div class="field"><label>Item Description</label><input type="text" name="item_description"></div>
+              <div class="field"><label>Carrier</label><select name="carrier"><option value="">Select</option><option>UPS</option><option>FedEx</option><option>USPS</option><option>DHL</option></select></div>
+              <div class="field"><label>Insurance Fee ($)</label><input type="text" name="shipping_fee_paid" value="0.00"></div>
+              <div class="field"><label>Package Fee ($)</label><input type="text" name="shipping_fee_due" value="0.00"></div>
+              <div class="field"><label>Clearance Fee ($)</label><input type="text" name="clearance_cost" value="0.00"></div>
+              <div class="field"><label>Estimated Delivery</label><input type="date" name="estimated_delivery"></div>
+              <div class="field"><label>Delivery Date</label><input type="text" name="delivery_date" placeholder="e.g. Apr 30, 2026"></div>
+              <div class="field"><label>Signature Required</label><select name="signature_required"><option>No</option><option>Yes</option></select></div>
+              <div class="field"><label>Payment Status</label><select name="payment_status"><option>Pending</option><option>Paid</option></select></div>
+              <div class="field"><label>Parcel Photo</label><input type="file" name="parcel_photo" accept="image/*"></div>
+              <div class="field" style="grid-column:1/-1;"><label>Notes</label><textarea name="notes" rows="3"></textarea></div>
+            </div>
+            <button type="submit" class="btn btn-primary" style="margin-top:1rem;width:auto;"><i class="fas fa-plus"></i> Create Shipment</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- SHIPMENTS LIST -->
+    <div id="shipmentsSection" style="display:none;" class="section-wrap">
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title"><i class="fas fa-list"></i> All Shipments</span>
+          <div class="search-wrap">
+            <i class="fas fa-search"></i>
+            <input class="search-box" id="searchBox" type="text" placeholder="Search shipments…" oninput="filterTable()">
+          </div>
+        </div>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Tracking</th><th>Status</th><th>Recipient</th><th>Destination</th><th>Payment</th><th>Actions</th></tr></thead>
+            <tbody id="shipTbody"><tr><td colspan="6"><div class="empty-state"><i class="fas fa-spinner fa-spin"></i><p>Loading…</p></div></td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAYMENTS -->
+    <div id="paymentsSection" style="display:none;" class="section-wrap">
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title"><i class="fas fa-money-bill-wave"></i> Payment Management</span>
+          <div style="display:flex;gap:0.5rem;align-items:center;flex-wrap:wrap;width:100%;">
+            <select id="paymentStatusFilter" onchange="loadPayments()" style="padding:0.5rem 0.875rem;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:0.8rem;flex:1;min-width:120px;background:var(--bg3);">
+              <option value="all">All</option>
+              <option value="pending" selected>Pending</option>
+              <option value="approved">Approved</option>
+              <option value="rejected">Rejected</option>
+            </select>
+            <button class="btn btn-secondary btn-sm" onclick="loadPayments()"><i class="fas fa-sync-alt"></i></button>
+          </div>
+        </div>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>ID</th><th>Tracking</th><th>Recipient</th><th>Amount</th><th>Method</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody id="paymentsTbody"><tr><td colspan="7"><div class="empty-state"><i class="fas fa-spinner fa-spin"></i><p>Loading…</p></div></td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAYMENT ROUTES -->
+    <div id="walletsSection" style="display:none;" class="section-wrap">
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title"><i class="fas fa-route"></i> Payment Routes</span>
+          <button class="btn btn-secondary btn-sm" onclick="loadWalletSettings()"><i class="fas fa-sync-alt"></i> Refresh</button>
+        </div>
+        <div class="panel-body">
+          <div id="walletFlash"></div>
+          <form id="walletForm">
+            <div class="tab-row">
+              <button type="button" class="tab-btn active" id="routeCryptoTab" onclick="switchRouteTab('crypto')"><i class="fas fa-coins"></i> Crypto</button>
+              <button type="button" class="tab-btn" id="routeManualTab" onclick="switchRouteTab('manual')"><i class="fas fa-money-check-dollar"></i> Other Methods</button>
+            </div>
+
+            <div id="routeCryptoPanel">
+              <div class="route-grid">
+                <div class="route-card">
+                  <div class="route-card-head"><div class="route-card-title"><i class="fab fa-bitcoin"></i> Bitcoin</div><label class="route-switch"><input type="checkbox" id="btcEnabled" checked> Active</label></div>
+                  <div class="route-row"><div class="field"><label>Wallet Address</label><input type="text" id="btcAddress" placeholder="bc1q..."></div><div class="field"><label>Confirmations</label><input type="number" id="btcConfirmations" value="3"></div></div>
+                  <div class="field"><label>Network Label</label><input type="text" id="btcNetwork" value="Bitcoin"></div>
+                </div>
+                <div class="route-card">
+                  <div class="route-card-head"><div class="route-card-title"><i class="fab fa-ethereum"></i> Ethereum</div><label class="route-switch"><input type="checkbox" id="ethEnabled" checked> Active</label></div>
+                  <div class="route-row"><div class="field"><label>Wallet Address</label><input type="text" id="ethAddress" placeholder="0x..."></div><div class="field"><label>Confirmations</label><input type="number" id="ethConfirmations" value="12"></div></div>
+                  <div class="field"><label>Network Label</label><input type="text" id="ethNetwork" value="ERC20"></div>
+                </div>
+                <div class="route-card">
+                  <div class="route-card-head"><div class="route-card-title"><i class="fas fa-coins"></i> Litecoin</div><label class="route-switch"><input type="checkbox" id="ltcEnabled" checked> Active</label></div>
+                  <div class="route-row"><div class="field"><label>Wallet Address</label><input type="text" id="ltcAddress" placeholder="ltc1..."></div><div class="field"><label>Confirmations</label><input type="number" id="ltcConfirmations" value="6"></div></div>
+                  <div class="field"><label>Network Label</label><input type="text" id="ltcNetwork" value="Litecoin"></div>
+                </div>
+                <div class="route-card">
+                  <div class="route-card-head"><div class="route-card-title"><i class="fas fa-dollar-sign"></i> USDT</div><label class="route-switch"><input type="checkbox" id="usdtEnabled" checked> Active</label></div>
+                  <div class="route-row"><div class="field"><label>Wallet Address</label><input type="text" id="usdtAddress" placeholder="T... or 0x..."></div><div class="field"><label>Confirmations</label><input type="number" id="usdtConfirmations" value="12"></div></div>
+                  <div class="field"><label>Network Label</label><input type="text" id="usdtNetwork" value="TRC20"></div>
+                </div>
+                <div class="route-card">
+                  <div class="route-card-head"><div class="route-card-title"><i class="fas fa-cube"></i> BNB</div><label class="route-switch"><input type="checkbox" id="bnbEnabled" checked> Active</label></div>
+                  <div class="route-row"><div class="field"><label>Wallet Address</label><input type="text" id="bnbAddress" placeholder="0x..."></div><div class="field"><label>Confirmations</label><input type="number" id="bnbConfirmations" value="15"></div></div>
+                  <div class="field"><label>Network Label</label><input type="text" id="bnbNetwork" value="BEP20"></div>
+                </div>
+                <div class="route-card">
+                  <div class="route-card-head"><div class="route-card-title"><i class="fas fa-sun"></i> Solana</div><label class="route-switch"><input type="checkbox" id="solEnabled" checked> Active</label></div>
+                  <div class="route-row"><div class="field"><label>Wallet Address</label><input type="text" id="solAddress" placeholder="Solana address"></div><div class="field"><label>Confirmations</label><input type="number" id="solConfirmations" value="32"></div></div>
+                  <div class="field"><label>Network Label</label><input type="text" id="solNetwork" value="Solana"></div>
+                </div>
+                <div class="route-card">
+                  <div class="route-card-head"><div class="route-card-title"><i class="fas fa-bolt"></i> TRON</div><label class="route-switch"><input type="checkbox" id="trxEnabled" checked> Active</label></div>
+                  <div class="route-row"><div class="field"><label>Wallet Address</label><input type="text" id="trxAddress" placeholder="T..."></div><div class="field"><label>Confirmations</label><input type="number" id="trxConfirmations" value="20"></div></div>
+                  <div class="field"><label>Network Label</label><input type="text" id="trxNetwork" value="TRC20"></div>
+                </div>
+                <div class="route-card">
+                  <div class="route-card-head"><div class="route-card-title"><i class="fas fa-water"></i> XRP</div><label class="route-switch"><input type="checkbox" id="xrpEnabled" checked> Active</label></div>
+                  <div class="route-row"><div class="field"><label>Wallet Address</label><input type="text" id="xrpAddress" placeholder="r..."></div><div class="field"><label>Confirmations</label><input type="number" id="xrpConfirmations" value="6"></div></div>
+                  <div class="field"><label>Destination Tag</label><input type="text" id="xrpTag" placeholder="Optional tag"></div>
+                </div>
+                <div class="route-card">
+                  <div class="route-card-head"><div class="route-card-title"><i class="fas fa-dog"></i> Dogecoin</div><label class="route-switch"><input type="checkbox" id="dogeEnabled" checked> Active</label></div>
+                  <div class="route-row"><div class="field"><label>Wallet Address</label><input type="text" id="dogeAddress" placeholder="D..."></div><div class="field"><label>Confirmations</label><input type="number" id="dogeConfirmations" value="20"></div></div>
+                  <div class="field"><label>Network Label</label><input type="text" id="dogeNetwork" value="Dogecoin"></div>
+                </div>
+              </div>
+            </div>
+
+            <div id="routeManualPanel" style="display:none;">
+              <div class="route-grid">
+                <div class="route-card"><div class="route-card-head"><div class="route-card-title"><i class="fab fa-paypal"></i> PayPal</div><label class="route-switch"><input type="checkbox" id="paypalEnabled" checked> Active</label></div><div class="field"><label>PayPal Email</label><input type="email" id="paypalEmail" placeholder="payments@example.com"></div><div class="field" style="margin-top:0.65rem;"><label>Instruction</label><input type="text" id="paypalInstruction" value="Send payment using Friends and Family where available."></div></div>
+                <div class="route-card"><div class="route-card-head"><div class="route-card-title"><i class="fas fa-dollar-sign"></i> CashApp</div><label class="route-switch"><input type="checkbox" id="cashappEnabled" checked> Active</label></div><div class="field"><label>Cash Tag</label><input type="text" id="cashappTag" placeholder="$NexShip"></div><div class="field" style="margin-top:0.65rem;"><label>Instruction</label><input type="text" id="cashappInstruction" value="Use your tracking code as payment note."></div></div>
+                <div class="route-card"><div class="route-card-head"><div class="route-card-title"><i class="fas fa-z"></i> Zelle</div><label class="route-switch"><input type="checkbox" id="zelleEnabled" checked> Active</label></div><div class="field"><label>Zelle Email or Phone</label><input type="text" id="zelleAccount" placeholder="email or phone"></div><div class="field" style="margin-top:0.65rem;"><label>Account Name</label><input type="text" id="zelleName" placeholder="Receiver name"></div></div>
+                <div class="route-card"><div class="route-card-head"><div class="route-card-title"><i class="fas fa-mobile-screen"></i> Chime</div><label class="route-switch"><input type="checkbox" id="chimeEnabled" checked> Active</label></div><div class="field"><label>Chime Tag / Email</label><input type="text" id="chimeAccount" placeholder="$ChimeSign or email"></div><div class="field" style="margin-top:0.65rem;"><label>Account Name</label><input type="text" id="chimeName" placeholder="Receiver name"></div></div>
+                <div class="route-card"><div class="route-card-head"><div class="route-card-title"><i class="fas fa-building-columns"></i> Bank Transfer</div><label class="route-switch"><input type="checkbox" id="bankEnabled" checked> Active</label></div><div class="form-grid" style="grid-template-columns:repeat(2,1fr);gap:0.65rem;"><div class="field"><label>Bank Name</label><input type="text" id="bankName"></div><div class="field"><label>Account Name</label><input type="text" id="bankAccountName"></div><div class="field"><label>Account Number</label><input type="text" id="bankAccountNumber"></div><div class="field"><label>Routing Number</label><input type="text" id="bankRoutingNumber"></div></div></div>
+                <div class="route-card"><div class="route-card-head"><div class="route-card-title"><i class="fab fa-apple"></i> Apple Pay</div><label class="route-switch"><input type="checkbox" id="appleEnabled" checked> Active</label></div><div class="field"><label>Apple Pay Email / Phone</label><input type="text" id="applePayAccount" placeholder="email or phone"></div></div>
+                <div class="route-card"><div class="route-card-head"><div class="route-card-title"><i class="fab fa-google"></i> Google Pay</div><label class="route-switch"><input type="checkbox" id="googleEnabled" checked> Active</label></div><div class="field"><label>Google Pay Email / Phone</label><input type="text" id="googlePayAccount" placeholder="email or phone"></div></div>
+              </div>
+              <p class="route-note">These routes match the payment page dropdown. Users will see only active methods.</p>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="margin-top:1rem;"><i class="fas fa-save"></i> Save Payment Routes</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /main -->
+
+<!-- TOAST CONTAINER -->
+<div id="toastContainer"></div>
+
+<!-- PAYMENT DETAIL MODAL -->
+<div class="overlay" id="paymentModal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h3><i class="fas fa-info-circle"></i> Payment Details</h3>
+      <button class="close-btn" onclick="closeModal('paymentModal')"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body" id="paymentDetailBody"></div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('paymentModal')">Close</button>
+      <button class="btn btn-success" id="modalApproveBtn" onclick="approveFromModal()"><i class="fas fa-check"></i> Approve</button>
+      <button class="btn btn-danger" id="modalRejectBtn" onclick="rejectFromModal()"><i class="fas fa-times"></i> Reject</button>
+    </div>
+  </div>
+</div>
+
+<!-- PROFILE MODAL -->
+<div class="overlay" id="profileModal">
+  <div class="modal-box" style="max-width:420px;">
+    <div class="modal-head">
+      <h3><i class="fas fa-key"></i> Change Password</h3>
+      <button class="close-btn" onclick="closeModal('profileModal')"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <div id="profileFlash"></div>
+      <div class="field" style="margin-bottom:0.75rem;"><label>Current Password</label><input type="password" id="curPwd" autocomplete="current-password"></div>
+      <div class="field" style="margin-bottom:0.75rem;"><label>New Password</label><input type="password" id="newPwd" autocomplete="new-password"></div>
+      <div class="field"><label>Confirm Password</label><input type="password" id="conPwd" autocomplete="new-password"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('profileModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="changePassword()"><i class="fas fa-save"></i> Update</button>
+    </div>
+  </div>
+</div>
+
+<!-- EDIT SHIPMENT MODAL -->
+<div class="overlay" id="editShipmentModal">
+  <div class="modal-box" style="max-width:920px;">
+    <div class="modal-head">
+      <h3><i class="fas fa-edit"></i> Edit — <span id="editTrackingCode" style="font-family:'JetBrains Mono',monospace;color:var(--green-bright);font-size:0.88rem;"></span></h3>
+      <button class="close-btn" onclick="closeModal('editShipmentModal')"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <div id="editShipmentFlash"></div>
+      <div class="tab-row">
+        <button class="tab-btn active" id="tabDetailsBtn" onclick="switchEditTab('details')"><i class="fas fa-info-circle"></i> Details</button>
+        <button class="tab-btn" id="tabProgressBtn" onclick="switchEditTab('progress')"><i class="fas fa-chart-line"></i> Progress</button>
+        <button class="tab-btn" id="tabHistoryBtn" onclick="switchEditTab('history')"><i class="fas fa-history"></i> History</button>
+      </div>
+      <form id="editShipmentForm">
+        <input type="hidden" id="editShipmentId">
+
+        <!-- DETAILS TAB -->
+        <div id="editTabDetails">
+          <div class="form-grid">
+            <div class="field"><label>Status *</label><select id="editStatus"><option>Pending</option><option>Processing</option><option>In Transit</option><option>Out for Delivery</option><option>Delivered</option><option>Delayed</option><option>Custom Hold</option></select></div>
+            <div class="field"><label>Recipient Name</label><input type="text" id="editRecipientName"></div>
+            <div class="field"><label>Customer Email</label><input type="email" id="editCustomerEmail"></div>
+            <div class="field"><label>Origin</label><input type="text" id="editOrigin"></div>
+            <div class="field"><label>Destination Address</label><input type="text" id="editDestAddress"></div>
+            <div class="field"><label>Destination City</label><input type="text" id="editDestCity"></div>
+            <div class="field"><label>Current Location</label><input type="text" id="editCurrentLocation"></div>
+            <div class="field"><label>Weight</label><input type="text" id="editWeight"></div>
+            <div class="field"><label>Item Description</label><input type="text" id="editItemDesc"></div>
+            <div class="field"><label>Carrier</label><select id="editCarrier"><option value="">Select</option><option>UPS</option><option>FedEx</option><option>USPS</option><option>DHL</option></select></div>
+            <div class="field"><label>Est. Delivery</label><input type="date" id="editEstDelivery"></div>
+            <div class="field"><label>Delivery Date</label><input type="text" id="editDeliveryDate" placeholder="e.g., Mar 07, 2026"></div>
+            <div class="field"><label>Insurance Fee ($)</label><input type="text" id="editInsuranceFee"></div>
+            <div class="field"><label>Package Fee ($)</label><input type="text" id="editPackageFee"></div>
+            <div class="field"><label>Clearance Fee ($)</label><input type="text" id="editClearanceCost"></div>
+            <div class="field"><label>Payment Status</label><select id="editPaymentStatus"><option>Pending</option><option>Processing</option><option>Paid</option></select></div>
+            <div class="field"><label>Signature Required</label><select id="editSignatureReq"><option>No</option><option>Yes</option></select></div>
+            <div class="field" style="grid-column:1/-1;"><label>Notes</label><textarea id="editNotes" rows="3"></textarea></div>
+          </div>
+        </div>
+
+        <!-- PROGRESS TAB -->
+        <div id="editTabProgress" style="display:none;">
+          <div class="form-grid">
+            <div class="field" style="grid-column:1/-1;">
+              <label>Current Shipment Step</label>
+              <select id="progressCurrentStep">
+                <option value="order_confirmed">Order Confirmed</option>
+                <option value="picked">Picked by Courier</option>
+                <option value="on_way">On The Way</option>
+                <option value="custom_hold">Custom Hold</option>
+                <option value="delivered">Delivered</option>
+              </select>
+            </div>
+            <div class="field"><label>Order Confirmed Date</label><input type="text" id="progressOrderConfirmed" placeholder="e.g., Jan 01, 2026 10:00 AM"></div>
+            <div class="field"><label>Order Confirmed Location</label><input type="text" id="progressOrderLocation"></div>
+            <div class="field"><label>Picked Date</label><input type="text" id="progressPicked"></div>
+            <div class="field"><label>Picked Location</label><input type="text" id="progressPickedLocation"></div>
+            <div class="field"><label>On The Way Date</label><input type="text" id="progressOnWay"></div>
+            <div class="field"><label>Transit Location</label><input type="text" id="progressOnWayLocation"></div>
+            <div class="field"><label>Custom Hold Date</label><input type="text" id="progressCustomHold"></div>
+            <div class="field"><label>Custom Hold Location</label><input type="text" id="progressCustomLocation"></div>
+            <div class="field"><label>Delivered Date</label><input type="text" id="progressDelivered"></div>
+            <div class="field"><label>Delivered Location</label><input type="text" id="progressDeliveredLocation"></div>
+          </div>
+        </div>
+
+        <!-- HISTORY TAB -->
+        <div id="editTabHistory" style="display:none;">
+          <div style="display:flex;justify-content:flex-end;margin-bottom:1rem;">
+            <button type="button" class="btn btn-primary btn-sm" onclick="addHistoryEntry()"><i class="fas fa-plus"></i> Add Entry</button>
+          </div>
+          <div id="historyEntriesList" style="max-height:320px;overflow-y:auto;-webkit-overflow-scrolling:touch;"></div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('editShipmentModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveShipmentChanges()"><i class="fas fa-save"></i> Save All Changes</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════
+// GLOBALS
+// ═══════════════════════════════════════════════
+let allShipments = [];
+let currentPayments = [];
+let currentPaymentId = null;
+let currentEditShipment = null;
+let shipmentHistory = [];
+let shipmentProgress = {};
+
+// ═══════════════════════════════════════════════
+// SIDEBAR (MOBILE)
+// ═══════════════════════════════════════════════
+const sidebar = document.getElementById('sidebar');
+const sidebarOverlay = document.getElementById('sidebarOverlay');
+const mobToggle = document.getElementById('mobToggle');
+
+function toggleSidebar() {
+  const isOpen = sidebar.classList.contains('open');
+  if (isOpen) {
+    closeSidebar();
+  } else {
+    openSidebar();
+  }
+}
+
+function openSidebar() {
+  sidebar.classList.add('open');
+  sidebarOverlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeSidebar() {
+  sidebar.classList.remove('open');
+  sidebarOverlay.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+mobToggle.addEventListener('click', (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+  toggleSidebar();
+});
+
+sidebarOverlay.addEventListener('click', (e) => {
+  e.preventDefault();
+  closeSidebar();
+});
+
+// Close sidebar when clicking nav items on mobile
+document.querySelectorAll('.nav-item').forEach(item => {
+  item.addEventListener('click', (e) => {
+    if (window.innerWidth <= 900) {
+      // Don't close for sign out link
+      if (!item.classList.contains('danger') || !item.getAttribute('href')) {
+        closeSidebar();
+      }
+    }
+  });
+});
+
+// Handle touch events for sidebar
+let touchStartX = 0;
+let touchEndX = 0;
+
+document.addEventListener('touchstart', (e) => {
+  touchStartX = e.changedTouches[0].screenX;
+}, {passive: true});
+
+document.addEventListener('touchend', (e) => {
+  touchEndX = e.changedTouches[0].screenX;
+  handleSwipe();
+}, {passive: true});
+
+function handleSwipe() {
+  const swipeDistance = touchEndX - touchStartX;
+  const threshold = 70;
+  
+  if (swipeDistance > threshold && touchStartX < 50) {
+    // Swipe right from left edge - open sidebar
+    openSidebar();
+  } else if (swipeDistance < -threshold && sidebar.classList.contains('open')) {
+    // Swipe left - close sidebar
+    closeSidebar();
+  }
+}
+
+// ═══════════════════════════════════════════════
+// SECTION SWITCHING
+// ═══════════════════════════════════════════════
+function showSection(name, el) {
+  const sections = ['dashSection','addSection','shipmentsSection','paymentsSection','walletsSection'];
+  sections.forEach(id => {
+    const el2 = document.getElementById(id);
+    if (el2) {
+      el2.style.display = 'none';
+      el2.classList.remove('section-wrap');
+    }
+  });
+
+  const map = {
+    dashboard: 'dashSection',
+    addShipment: 'addSection',
+    shipments: 'shipmentsSection',
+    payments: 'paymentsSection',
+    wallets: 'walletsSection'
+  };
+
+  const target = document.getElementById(map[name]);
+  if (target) {
+    target.style.display = 'block';
+    void target.offsetWidth;
+    target.classList.add('section-wrap');
+  }
+
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  if (el) el.classList.add('active');
+
+  const titles = {
+    dashboard: 'Dashboard',
+    addShipment: 'Add Shipment',
+    shipments: 'All Shipments',
+    payments: 'Payment Management',
+    wallets: 'Payment Routes'
+  };
+  document.getElementById('pageTitle').textContent = titles[name] || 'Dashboard';
+
+  if (name === 'shipments') loadShipments();
+  if (name === 'dashboard') loadDashboard();
+  if (name === 'payments') loadPayments();
+  if (name === 'wallets') loadWalletSettings();
+
+  // Scroll to top on section change (good UX on mobile)
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+// ═══════════════════════════════════════════════
+// DASHBOARD
+// ═══════════════════════════════════════════════
+async function loadDashboard() {
+  try {
+    const r = await fetch('/api/admin/shipments');
+    if (!r.ok) throw new Error('API error');
+    allShipments = await r.json();
+
+    document.getElementById('st-total').textContent = allShipments.length;
+    document.getElementById('st-transit').textContent = allShipments.filter(s => s.status === 'In Transit').length;
+    document.getElementById('st-delivered').textContent = allShipments.filter(s => s.status === 'Delivered').length;
+
+    const recent = allShipments.slice(0, 10);
+    const tbody = document.getElementById('recentTbody');
+    if (!recent.length) {
+      tbody.innerHTML = '<tr><td colspan="5"><div class="empty-state"><i class="fas fa-inbox"></i><p>No shipments yet</p></div></td></tr>';
+    } else {
+      tbody.innerHTML = recent.map(s => `
+        <tr>
+          <td><span class="code">${s.tracking_code}</span></td>
+          <td>${getStatusPill(s.status)}</td>
+          <td>${esc(s.recipient_name) || '—'}</td>
+          <td>${esc(s.destination_city) || '—'}</td>
+          <td>${getPayPill(s.payment_status)}</td>
+        </tr>`).join('');
+    }
+    updatePendingBadge();
+  } catch(e) {
+    console.error('Dashboard error:', e);
+    showToast('Failed to load dashboard data', 'error');
+  }
+}
+
+// ═══════════════════════════════════════════════
+// SHIPMENTS
+// ═══════════════════════════════════════════════
+async function loadShipments() {
+  try {
+    const r = await fetch('/api/admin/shipments');
+    if (!r.ok) throw new Error('API error');
+    allShipments = await r.json();
+    renderShipmentsTable(allShipments);
+  } catch(e) {
+    document.getElementById('shipTbody').innerHTML = '<tr><td colspan="6"><div class="empty-state"><i class="fas fa-exclamation-triangle"></i><p>Failed to load shipments</p></div></td></tr>';
+    showToast('Could not load shipments', 'error');
+  }
+}
+
+function renderShipmentsTable(data) {
+  const tbody = document.getElementById('shipTbody');
+  if (!data.length) {
+    tbody.innerHTML = '<tr><td colspan="6"><div class="empty-state"><i class="fas fa-inbox"></i><p>No shipments found</p></div></td></tr>';
+    return;
+  }
+  tbody.innerHTML = data.map(s => `
+    <tr>
+      <td><span class="code">${s.tracking_code}</span></td>
+      <td>${getStatusPill(s.status)}</td>
+      <td>${esc(s.recipient_name) || '—'}</td>
+      <td>${esc(s.destination_city) || '—'}</td>
+      <td>${getPayPill(s.payment_status)}</td>
+      <td>
+        <div style="display:flex;gap:0.35rem;flex-wrap:nowrap;">
+          <button class="btn btn-secondary btn-sm" onclick="editShipment(${s.id})" title="Edit"><i class="fas fa-edit"></i></button>
+          <button class="btn btn-danger btn-sm" onclick="deleteShipment(${s.id})" title="Delete"><i class="fas fa-trash"></i></button>
+        </div>
+      </td>
+    </tr>`).join('');
+}
+
+function filterTable() {
+  const q = document.getElementById('searchBox').value.toLowerCase();
+  const filtered = allShipments.filter(s =>
+    (s.tracking_code||'').toLowerCase().includes(q) ||
+    (s.recipient_name||'').toLowerCase().includes(q) ||
+    (s.destination_city||'').toLowerCase().includes(q)
+  );
+  renderShipmentsTable(filtered);
+}
+
+async function deleteShipment(id) {
+  if (!confirm('Permanently delete this shipment?')) return;
+  try {
+    await fetch(`/admin-secure-92x/shipments/${id}/delete`, { method: 'POST' });
+    showToast('Shipment deleted', 'success');
+    loadShipments();
+    loadDashboard();
+  } catch(e) { showToast('Delete failed', 'error'); }
+}
+
+// ═══════════════════════════════════════════════
+// PAYMENTS
+// ═══════════════════════════════════════════════
+async function loadPayments() {
+  const status = document.getElementById('paymentStatusFilter')?.value || 'pending';
+  try {
+    const r = await fetch(`/api/admin/payments?status=${status}`);
+    if (!r.ok) throw new Error('API error');
+    currentPayments = await r.json();
+    renderPaymentsTable(currentPayments);
+  } catch(e) {
+    document.getElementById('paymentsTbody').innerHTML = '<tr><td colspan="7"><div class="empty-state"><i class="fas fa-exclamation-triangle"></i><p>Failed to load payments</p></div></td></tr>';
+    showToast('Could not load payments', 'error');
+  }
+}
+
+function renderPaymentsTable(payments) {
+  const tbody = document.getElementById('paymentsTbody');
+  if (!payments.length) {
+    tbody.innerHTML = '<tr><td colspan="7"><div class="empty-state"><i class="fas fa-inbox"></i><p>No payments found</p></div></td></tr>';
+    return;
+  }
+  tbody.innerHTML = payments.map(p => `
+    <tr>
+      <td><span style="color:var(--text3);font-size:0.72rem;">#${p.id}</span></td>
+      <td><span class="code">${p.tracking_code}</span></td>
+      <td>${esc(p.recipient_name) || '—'}</td>
+      <td><strong style="color:var(--text);font-family:'JetBrains Mono',monospace;">$${parseFloat(p.amount).toFixed(2)}</strong></td>
+      <td>${esc(p.payment_method)}</td>
+      <td>${getPayPill(p.status)}</td>
+      <td>
+        <div style="display:flex;gap:0.35rem;flex-wrap:nowrap;">
+          <button class="btn btn-secondary btn-sm" onclick="viewPayment(${p.id})" title="View"><i class="fas fa-eye"></i></button>
+          ${p.status === 'pending' ? `
+            <button class="btn btn-success btn-sm" onclick="approvePayment(${p.id})" title="Approve"><i class="fas fa-check"></i></button>
+            <button class="btn btn-danger btn-sm" onclick="rejectPaymentPrompt(${p.id})" title="Reject"><i class="fas fa-times"></i></button>` : ''}
+        </div>
+      </td>
+    </tr>`).join('');
+}
+
+function viewPayment(id) {
+  const payment = currentPayments.find(p => p.id === id);
+  if (!payment) return;
+  currentPaymentId = id;
+  document.getElementById('paymentDetailBody').innerHTML = `
+    <div style="display:grid;grid-template-columns:1fr;gap:0.875rem;margin-bottom:1rem;">
+      <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm);padding:0.875rem;">
+        <div style="font-size:0.63rem;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;font-weight:700;margin-bottom:0.35rem;">Tracking</div>
+        <div class="code">${payment.tracking_code}</div>
+      </div>
+      <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm);padding:0.875rem;">
+        <div style="font-size:0.63rem;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;font-weight:700;margin-bottom:0.35rem;">Amount</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:1.1rem;font-weight:700;color:var(--green-bright);">$${parseFloat(payment.amount).toFixed(2)}</div>
+      </div>
+      <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm);padding:0.875rem;">
+        <div style="font-size:0.63rem;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;font-weight:700;margin-bottom:0.35rem;">Recipient</div>
+        <div style="font-size:0.82rem;color:var(--text);">${esc(payment.recipient_name)}</div>
+      </div>
+      <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm);padding:0.875rem;">
+        <div style="font-size:0.63rem;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;font-weight:700;margin-bottom:0.35rem;">Email</div>
+        <div style="font-size:0.82rem;color:var(--text);">${esc(payment.recipient_email) || '—'}</div>
+      </div>
+    </div>
+    ${payment.transaction_hash ? `
+      <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm);padding:0.875rem;margin-bottom:1rem;">
+        <div style="font-size:0.63rem;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;font-weight:700;margin-bottom:0.35rem;">Transaction Hash</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--accent);word-break:break-all;">${esc(payment.transaction_hash)}</div>
+      </div>` : ''}
+    ${payment.proof_image ? `<img src="${payment.proof_image}" style="max-width:100%;border-radius:var(--radius-sm);border:1px solid var(--border);">` : ''}`;
+
+  document.getElementById('modalApproveBtn').style.display = payment.status === 'pending' ? 'inline-flex' : 'none';
+  document.getElementById('modalRejectBtn').style.display = payment.status === 'pending' ? 'inline-flex' : 'none';
+  openModal('paymentModal');
+}
+
+async function approvePayment(id) {
+  if (!confirm('Approve this payment?')) return;
+  try {
+    await fetch(`/api/admin/payments/${id}/approve`, { method: 'POST' });
+    showToast('Payment approved!', 'success');
+    loadPayments();
+    loadDashboard();
+  } catch(e) { showToast('Approval failed', 'error'); }
+}
+
+function approveFromModal() {
+  if (currentPaymentId) { approvePayment(currentPaymentId); closeModal('paymentModal'); }
+}
+
+function rejectPaymentPrompt(id) {
+  const r = prompt('Rejection reason:');
+  if (r) rejectPayment(id, r);
+}
+
+async function rejectPayment(id, reason) {
+  try {
+    await fetch(`/api/admin/payments/${id}/reject`, {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({reason})
+    });
+    showToast('Payment rejected', 'info');
+    loadPayments();
+    loadDashboard();
+  } catch(e) { showToast('Rejection failed', 'error'); }
+}
+
+function rejectFromModal() {
+  if (currentPaymentId) { rejectPaymentPrompt(currentPaymentId); closeModal('paymentModal'); }
+}
+
+async function updatePendingBadge() {
+  try {
+    const r = await fetch('/api/admin/payments?status=pending');
+    if (!r.ok) return;
+    const payments = await r.json();
+    document.getElementById('pendingBadge').textContent = `${payments.length} Pending`;
+    document.getElementById('st-payment').textContent = payments.length;
+  } catch(e) {}
+}
+
+// ═══════════════════════════════════════════════
+// PAYMENT ROUTES
+// ═══════════════════════════════════════════════
+function switchRouteTab(tab) {
+  document.getElementById('routeCryptoPanel').style.display = tab === 'crypto' ? 'block' : 'none';
+  document.getElementById('routeManualPanel').style.display = tab === 'manual' ? 'block' : 'none';
+  document.getElementById('routeCryptoTab').classList.toggle('active', tab === 'crypto');
+  document.getElementById('routeManualTab').classList.toggle('active', tab === 'manual');
+}
+
+const cryptoRouteMap = {
+  Bitcoin: { prefix: 'btc', defaultConfirmations: 3, defaultNetwork: 'Bitcoin' },
+  Ethereum: { prefix: 'eth', defaultConfirmations: 12, defaultNetwork: 'ERC20' },
+  Litecoin: { prefix: 'ltc', defaultConfirmations: 6, defaultNetwork: 'Litecoin' },
+  USDT: { prefix: 'usdt', defaultConfirmations: 12, defaultNetwork: 'TRC20' },
+  BNB: { prefix: 'bnb', defaultConfirmations: 15, defaultNetwork: 'BEP20' },
+  Solana: { prefix: 'sol', defaultConfirmations: 32, defaultNetwork: 'Solana' },
+  TRON: { prefix: 'trx', defaultConfirmations: 20, defaultNetwork: 'TRC20' },
+  XRP: { prefix: 'xrp', defaultConfirmations: 6, defaultNetwork: 'XRP Ledger' },
+  Dogecoin: { prefix: 'doge', defaultConfirmations: 20, defaultNetwork: 'Dogecoin' }
+};
+
+function setValue(id, value) {
+  const el = document.getElementById(id);
+  if (el && value !== undefined && value !== null) el.value = value;
+}
+
+function setChecked(id, value) {
+  const el = document.getElementById(id);
+  if (el) el.checked = value !== false;
+}
+
+let paymentRouteQrImages = {};
+
+const manualQrMap = {
+  PayPal: { prefix: 'paypal', title: 'PayPal QR Code' },
+  CashApp: { prefix: 'cashapp', title: 'CashApp QR Code' },
+  Zelle: { prefix: 'zelle', title: 'Zelle QR Code' },
+  Chime: { prefix: 'chime', title: 'Chime QR Code' },
+  BankTransfer: { prefix: 'bank', title: 'Bank Transfer QR Code' },
+  ApplePay: { prefix: 'apple', title: 'Apple Pay QR Code' },
+  GooglePay: { prefix: 'google', title: 'Google Pay QR Code' }
+};
+
+function addQrUploadControl(key, prefix, title) {
+  if (document.getElementById(`${prefix}QrInput`)) return;
+  const anchor = document.getElementById(`${prefix}Enabled`)?.closest('.route-card-head');
+  if (!anchor) return;
+  const box = document.createElement('div');
+  box.className = 'qr-upload-box';
+  box.innerHTML = `
+    <div class="field">
+      <label>${title || 'QR Code Image'}</label>
+      <div class="qr-upload-actions">
+        <img id="${prefix}QrPreview" class="qr-preview" alt="${title || 'QR preview'}" style="display:none;">
+        <input type="file" id="${prefix}QrInput" accept="image/*" style="display:none;">
+        <button type="button" class="btn btn-secondary btn-sm" onclick="document.getElementById('${prefix}QrInput').click()"><i class="fas fa-upload"></i> Upload QR</button>
+        <button type="button" class="btn btn-danger btn-sm" onclick="clearQrImage('${key}','${prefix}')"><i class="fas fa-trash"></i> Remove</button>
+      </div>
+      <p class="route-note">This uploaded image will show on the user payment page. It will not be auto-generated.</p>
+    </div>`;
+  anchor.insertAdjacentElement('afterend', box);
+  document.getElementById(`${prefix}QrInput`).addEventListener('change', (e) => handleQrUpload(e, key, prefix));
+}
+
+function initQrUploadControls() {
+  Object.entries(cryptoRouteMap).forEach(([name, cfg]) => addQrUploadControl(name, cfg.prefix, `${name} QR Code`));
+  Object.entries(manualQrMap).forEach(([name, cfg]) => addQrUploadControl(name, cfg.prefix, cfg.title));
+}
+
+function handleQrUpload(event, key, prefix) {
+  const file = event.target.files?.[0];
+  if (!file) return;
+  if (!file.type.startsWith('image/')) {
+    showToast('Upload an image file only', 'error');
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = () => {
+    paymentRouteQrImages[key] = reader.result;
+    setQrPreview(prefix, reader.result);
+    showToast(`${key.replace('BankTransfer','Bank Transfer')} QR uploaded`, 'success');
+  };
+  reader.readAsDataURL(file);
+}
+
+function setQrPreview(prefix, dataUrl) {
+  const img = document.getElementById(`${prefix}QrPreview`);
+  if (!img) return;
+  if (dataUrl) {
+    img.src = dataUrl;
+    img.style.display = 'block';
+  } else {
+    img.removeAttribute('src');
+    img.style.display = 'none';
+  }
+}
+
+function clearQrImage(key, prefix) {
+  paymentRouteQrImages[key] = '';
+  setQrPreview(prefix, '');
+  const input = document.getElementById(`${prefix}QrInput`);
+  if (input) input.value = '';
+}
+
+function getQrImage(key) {
+  return paymentRouteQrImages[key] || '';
+}
+
+function getPaymentRoutesFromForm() {
+  const crypto = {};
+  Object.entries(cryptoRouteMap).forEach(([name, cfg]) => {
+    crypto[name] = {
+      enabled: document.getElementById(`${cfg.prefix}Enabled`)?.checked ?? true,
+      address: document.getElementById(`${cfg.prefix}Address`)?.value.trim() || '',
+      minConfirmations: Number(document.getElementById(`${cfg.prefix}Confirmations`)?.value || cfg.defaultConfirmations),
+      network: document.getElementById(`${cfg.prefix}Network`)?.value.trim() || cfg.defaultNetwork,
+      tag: document.getElementById(`${cfg.prefix}Tag`)?.value.trim() || '',
+      qrImage: getQrImage(name)
+    };
+  });
+
+  const manual = {
+    PayPal: { enabled: document.getElementById('paypalEnabled').checked, email: document.getElementById('paypalEmail').value.trim(), instruction: document.getElementById('paypalInstruction').value.trim(), qrImage: getQrImage('PayPal') },
+    CashApp: { enabled: document.getElementById('cashappEnabled').checked, tag: document.getElementById('cashappTag').value.trim(), instruction: document.getElementById('cashappInstruction').value.trim(), qrImage: getQrImage('CashApp') },
+    Zelle: { enabled: document.getElementById('zelleEnabled').checked, account: document.getElementById('zelleAccount').value.trim(), name: document.getElementById('zelleName').value.trim(), qrImage: getQrImage('Zelle') },
+    Chime: { enabled: document.getElementById('chimeEnabled').checked, account: document.getElementById('chimeAccount').value.trim(), name: document.getElementById('chimeName').value.trim(), qrImage: getQrImage('Chime') },
+    BankTransfer: { enabled: document.getElementById('bankEnabled').checked, bankName: document.getElementById('bankName').value.trim(), accountName: document.getElementById('bankAccountName').value.trim(), accountNumber: document.getElementById('bankAccountNumber').value.trim(), routingNumber: document.getElementById('bankRoutingNumber').value.trim(), qrImage: getQrImage('BankTransfer') },
+    ApplePay: { enabled: document.getElementById('appleEnabled').checked, account: document.getElementById('applePayAccount').value.trim(), qrImage: getQrImage('ApplePay') },
+    GooglePay: { enabled: document.getElementById('googleEnabled').checked, account: document.getElementById('googlePayAccount').value.trim(), qrImage: getQrImage('GooglePay') }
+  };
+
+  return { crypto, manual, updatedAt: new Date().toISOString() };
+}
+
+function applyPaymentRoutes(data = {}) {
+  const crypto = data.crypto || data.wallets || {};
+  Object.entries(cryptoRouteMap).forEach(([name, cfg]) => {
+    const route = crypto[name] || {};
+    setChecked(`${cfg.prefix}Enabled`, route.enabled);
+    setValue(`${cfg.prefix}Address`, route.address || '');
+    setValue(`${cfg.prefix}Confirmations`, route.minConfirmations || cfg.defaultConfirmations);
+    setValue(`${cfg.prefix}Network`, route.network || cfg.defaultNetwork);
+    setValue(`${cfg.prefix}Tag`, route.tag || '');
+    paymentRouteQrImages[name] = route.qrImage || '';
+    setQrPreview(cfg.prefix, route.qrImage || '');
+  });
+
+  const manual = data.manual || {};
+  setChecked('paypalEnabled', manual.PayPal?.enabled);
+  setValue('paypalEmail', manual.PayPal?.email || '');
+  setValue('paypalInstruction', manual.PayPal?.instruction || 'Send payment using Friends and Family where available.');
+  setChecked('cashappEnabled', manual.CashApp?.enabled);
+  setValue('cashappTag', manual.CashApp?.tag || '');
+  setValue('cashappInstruction', manual.CashApp?.instruction || 'Use your tracking code as payment note.');
+  setChecked('zelleEnabled', manual.Zelle?.enabled);
+  setValue('zelleAccount', manual.Zelle?.account || '');
+  setValue('zelleName', manual.Zelle?.name || '');
+  setChecked('chimeEnabled', manual.Chime?.enabled);
+  setValue('chimeAccount', manual.Chime?.account || '');
+  setValue('chimeName', manual.Chime?.name || '');
+  setChecked('bankEnabled', manual.BankTransfer?.enabled);
+  setValue('bankName', manual.BankTransfer?.bankName || '');
+  setValue('bankAccountName', manual.BankTransfer?.accountName || '');
+  setValue('bankAccountNumber', manual.BankTransfer?.accountNumber || '');
+  setValue('bankRoutingNumber', manual.BankTransfer?.routingNumber || '');
+  setChecked('appleEnabled', manual.ApplePay?.enabled);
+  setValue('applePayAccount', manual.ApplePay?.account || '');
+  setChecked('googleEnabled', manual.GooglePay?.enabled);
+  setValue('googlePayAccount', manual.GooglePay?.account || '');
+  Object.entries(manualQrMap).forEach(([name, cfg]) => {
+    const route = manual[name] || {};
+    paymentRouteQrImages[name] = route.qrImage || '';
+    setQrPreview(cfg.prefix, route.qrImage || '');
+  });
+}
+
+async function loadWalletSettings() {
+  try {
+    const r = await fetch('/api/admin/payment-routes');
+    if (r.ok) {
+      const data = await r.json();
+      applyPaymentRoutes(data);
+      return;
+    }
+  } catch(e) {}
+
+  try {
+    const oldWalletRes = await fetch('/api/admin/wallets');
+    if (oldWalletRes.ok) {
+      const wallets = await oldWalletRes.json();
+      applyPaymentRoutes({ crypto: wallets });
+    }
+  } catch(e) {}
+
+  try {
+    const saved = localStorage.getItem('paymentRoutes');
+    if (saved) applyPaymentRoutes(JSON.parse(saved));
+  } catch(e) {}
+}
+
+document.getElementById('walletForm')?.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const routes = getPaymentRoutesFromForm();
+  localStorage.setItem('paymentRoutes', JSON.stringify(routes));
+
+  try {
+    const r = await fetch('/api/admin/payment-routes', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(routes)
+    });
+    const data = await r.json().catch(() => ({}));
+    if (!r.ok || data.success === false) throw new Error(data.error || 'Save failed');
+    showToast('Payment routes saved!', 'success');
+    return;
+  } catch(e) {
+    try {
+      await fetch('/api/admin/wallets', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify(routes.crypto)
+      });
+      showToast('Crypto wallets saved. Add /api/admin/payment-routes to save other methods on server.', 'info');
+    } catch(err) {
+      showToast('Saved locally only. Server endpoint is not ready yet.', 'info');
+    }
+  }
+});
+
+// ═══════════════════════════════════════════════
+// CHANGE PASSWORD
+// ═══════════════════════════════════════════════
+async function changePassword() {
+  const cur = document.getElementById('curPwd').value;
+  const np = document.getElementById('newPwd').value;
+  const cp = document.getElementById('conPwd').value;
+  const flash = document.getElementById('profileFlash');
+
+  if (np.length < 6) { flash.innerHTML = '<div class="alert alert-error"><i class="fas fa-exclamation-circle"></i> Min 6 characters</div>'; return; }
+  if (np !== cp) { flash.innerHTML = '<div class="alert alert-error"><i class="fas fa-exclamation-circle"></i> Passwords do not match</div>'; return; }
+
+  try {
+    const r = await fetch('/admin/change-password', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ currentPassword: cur, newPassword: np })
+    });
+    const d = await r.json();
+    if (d.success) {
+      flash.innerHTML = '<div class="alert alert-success"><i class="fas fa-check"></i> Updated! Redirecting…</div>';
+      setTimeout(() => window.location.href = '/admin-secure-92x/logout', 2000);
+    } else {
+      flash.innerHTML = `<div class="alert alert-error"><i class="fas fa-exclamation-circle"></i> ${esc(d.error)}</div>`;
+    }
+  } catch(e) {
+    flash.innerHTML = '<div class="alert alert-error"><i class="fas fa-exclamation-circle"></i> Network error</div>';
+  }
+}
+
+// ═══════════════════════════════════════════════
+// EDIT SHIPMENT
+// ═══════════════════════════════════════════════
+function switchEditTab(tab) {
+  document.getElementById('editTabDetails').style.display = tab === 'details' ? 'block' : 'none';
+  document.getElementById('editTabProgress').style.display = tab === 'progress' ? 'block' : 'none';
+  document.getElementById('editTabHistory').style.display = tab === 'history' ? 'block' : 'none';
+
+  document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+  const map = { details: 'tabDetailsBtn', progress: 'tabProgressBtn', history: 'tabHistoryBtn' };
+  const activeBtn = document.getElementById(map[tab]);
+  if (activeBtn) activeBtn.classList.add('active');
+}
+
+async function editShipment(id) {
+  const shipment = allShipments.find(s => s.id === id);
+  if (!shipment) return;
+  currentEditShipment = shipment;
+
+  await Promise.all([loadShipmentHistory(id), loadShipmentProgress(id)]);
+
+  document.getElementById('editShipmentId').value = shipment.id;
+  document.getElementById('editTrackingCode').textContent = shipment.tracking_code;
+  document.getElementById('editStatus').value = shipment.status || 'Pending';
+  document.getElementById('editRecipientName').value = shipment.recipient_name || '';
+  document.getElementById('editCustomerEmail').value = shipment.customer_email || '';
+  document.getElementById('editOrigin').value = shipment.shipping_origin || '';
+  document.getElementById('editDestAddress').value = shipment.destination_address || '';
+  document.getElementById('editDestCity').value = shipment.destination_city || '';
+  document.getElementById('editCurrentLocation').value = shipment.current_location || '';
+  document.getElementById('editWeight').value = shipment.weight || '';
+  document.getElementById('editItemDesc').value = shipment.item_description || '';
+  document.getElementById('editCarrier').value = shipment.carrier || '';
+  document.getElementById('editEstDelivery').value = shipment.estimated_delivery || '';
+  document.getElementById('editDeliveryDate').value = shipment.delivery_date || '';
+  document.getElementById('editInsuranceFee').value = shipment.shipping_fee_paid || '0.00';
+  document.getElementById('editPackageFee').value = shipment.shipping_fee_due || '0.00';
+  document.getElementById('editClearanceCost').value = shipment.clearance_cost || '0.00';
+  document.getElementById('editPaymentStatus').value = shipment.payment_status || 'Pending';
+  document.getElementById('editSignatureReq').value = shipment.signature_required || 'No';
+  document.getElementById('editNotes').value = shipment.notes || '';
+  document.getElementById('editShipmentFlash').innerHTML = '';
+
+  switchEditTab('details');
+  openModal('editShipmentModal');
+}
+
+async function loadShipmentHistory(shipmentId) {
+  try {
+    const r = await fetch(`/api/admin/shipments/${shipmentId}/history`);
+    shipmentHistory = await r.json();
+  } catch(e) { shipmentHistory = []; }
+  renderHistoryEntries();
+}
+
+async function loadShipmentProgress(shipmentId) {
+  try {
+    const r = await fetch(`/api/admin/shipments/${shipmentId}/progress`);
+    shipmentProgress = await r.json();
+    document.getElementById('progressCurrentStep').value = shipmentProgress.current_step || 'order_confirmed';
+    document.getElementById('progressOrderConfirmed').value = shipmentProgress.order_confirmed_date || '';
+    document.getElementById('progressOrderLocation').value = shipmentProgress.order_confirmed_location || '';
+    document.getElementById('progressPicked').value = shipmentProgress.picked_date || '';
+    document.getElementById('progressPickedLocation').value = shipmentProgress.picked_location || '';
+    document.getElementById('progressOnWay').value = shipmentProgress.on_way_date || '';
+    document.getElementById('progressOnWayLocation').value = shipmentProgress.on_way_location || '';
+    document.getElementById('progressCustomHold').value = shipmentProgress.custom_hold_date || '';
+    document.getElementById('progressCustomLocation').value = shipmentProgress.custom_hold_location || '';
+    document.getElementById('progressDelivered').value = shipmentProgress.delivered_date || '';
+    document.getElementById('progressDeliveredLocation').value = shipmentProgress.delivered_location || '';
+  } catch(e) {}
+}
+
+function renderHistoryEntries() {
+  const container = document.getElementById('historyEntriesList');
+  if (!shipmentHistory.length) {
+    container.innerHTML = '<div class="empty-state"><i class="fas fa-history"></i><p>No history entries. Click Add Entry to begin.</p></div>';
+    return;
+  }
+  container.innerHTML = shipmentHistory.map((entry, i) => `
+    <div class="history-entry-item">
+      <div style="display:flex;gap:0.5rem;margin-bottom:0.5rem;align-items:center;flex-wrap:wrap;">
+        <select class="history-status" data-index="${i}" style="flex:1;min-width:140px;">
+          <option ${entry.status==='Order Confirmed'?'selected':''}>Order Confirmed</option>
+          <option ${entry.status==='Picked by Courier'?'selected':''}>Picked by Courier</option>
+          <option ${entry.status==='On The Way'?'selected':''}>On The Way</option>
+          <option ${entry.status==='Custom Hold'?'selected':''}>Custom Hold</option>
+          <option ${entry.status==='Delivered'?'selected':''}>Delivered</option>
+          <option ${entry.status==='Info'?'selected':''}>Info</option>
+        </select>
+        <input type="text" class="history-date" value="${esc(entry.date||'')}" placeholder="Date & Time" style="flex:2;min-width:140px;">
+        <button class="btn btn-danger btn-xs" onclick="removeHistoryEntry(${i})" type="button"><i class="fas fa-trash"></i></button>
+      </div>
+      <input type="text" class="history-title" value="${esc(entry.title||'')}" placeholder="Title / Headline" style="margin-bottom:0.5rem;width:100%;">
+      <textarea class="history-description" placeholder="Description" rows="2" style="width:100%;">${esc(entry.description||'')}</textarea>
+    </div>`).join('');
+}
+
+function addHistoryEntry() {
+  shipmentHistory.push({
+    status: 'Info',
+    date: new Date().toLocaleString('en-US', { month:'short', day:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit' }),
+    title: '',
+    description: ''
+  });
+  renderHistoryEntries();
+  const list = document.getElementById('historyEntriesList');
+  setTimeout(() => { list.scrollTop = list.scrollHeight; }, 50);
+}
+
+function removeHistoryEntry(i) {
+  shipmentHistory.splice(i, 1);
+  renderHistoryEntries();
+}
+
+async function saveShipmentChanges() {
+  const id = document.getElementById('editShipmentId').value;
+  const flashEl = document.getElementById('editShipmentFlash');
+
+  const updatedHistory = [];
+  document.querySelectorAll('.history-entry-item').forEach(item => {
+    updatedHistory.push({
+      status: item.querySelector('.history-status').value,
+      date: item.querySelector('.history-date').value,
+      title: item.querySelector('.history-title').value,
+      description: item.querySelector('.history-description').value
+    });
+  });
+
+  const progressData = {
+    current_step: document.getElementById('progressCurrentStep').value,
+    order_confirmed_date: document.getElementById('progressOrderConfirmed').value,
+    order_confirmed_location: document.getElementById('progressOrderLocation').value,
+    picked_date: document.getElementById('progressPicked').value,
+    picked_location: document.getElementById('progressPickedLocation').value,
+    on_way_date: document.getElementById('progressOnWay').value,
+    on_way_location: document.getElementById('progressOnWayLocation').value,
+    custom_hold_date: document.getElementById('progressCustomHold').value,
+    custom_hold_location: document.getElementById('progressCustomLocation').value,
+    delivered_date: document.getElementById('progressDelivered').value,
+    delivered_location: document.getElementById('progressDeliveredLocation').value
+  };
+
+  const shipmentData = {
+    status: document.getElementById('editStatus').value,
+    recipient_name: document.getElementById('editRecipientName').value,
+    customer_email: document.getElementById('editCustomerEmail').value,
+    shipping_origin: document.getElementById('editOrigin').value,
+    destination_address: document.getElementById('editDestAddress').value,
+    destination_city: document.getElementById('editDestCity').value,
+    current_location: document.getElementById('editCurrentLocation').value,
+    weight: document.getElementById('editWeight').value,
+    item_description: document.getElementById('editItemDesc').value,
+    carrier: document.getElementById('editCarrier').value,
+    estimated_delivery: document.getElementById('editEstDelivery').value,
+    delivery_date: document.getElementById('editDeliveryDate').value,
+    shipping_fee_paid: document.getElementById('editInsuranceFee').value,
+    shipping_fee_due: document.getElementById('editPackageFee').value,
+    clearance_cost: document.getElementById('editClearanceCost').value,
+    payment_status: document.getElementById('editPaymentStatus').value,
+    signature_required: document.getElementById('editSignatureReq').value,
+    notes: document.getElementById('editNotes').value,
+    last_update: new Date().toLocaleString()
+  };
+
+  try {
+    await Promise.all([
+      fetch(`/api/admin/shipments/${id}/progress`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(progressData) }),
+      fetch(`/api/admin/shipments/${id}/history`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({history: updatedHistory}) })
+    ]);
+
+    const r = await fetch(`/api/admin/shipments/${id}`, {
+      method: 'PUT',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(shipmentData)
+    });
+    const res = await r.json();
+
+    if (res.success) {
+      closeModal('editShipmentModal');
+      loadShipments();
+      loadDashboard();
+      showToast('Shipment updated!', 'success');
+    } else {
+      flashEl.innerHTML = `<div class="alert alert-error"><i class="fas fa-exclamation-circle"></i> ${esc(res.error || 'Save failed')}</div>`;
+    }
+  } catch(e) {
+    flashEl.innerHTML = '<div class="alert alert-error"><i class="fas fa-exclamation-circle"></i> Network error while saving</div>';
+  }
+}
+
+// ═══════════════════════════════════════════════
+// MODAL HELPERS
+// ═══════════════════════════════════════════════
+function openModal(id) {
+  document.getElementById(id).classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+  // Only restore body scroll if no other modals are open
+  if (!document.querySelector('.overlay.open')) {
+    document.body.style.overflow = '';
+  }
+}
+
+document.querySelectorAll('.overlay').forEach(overlay => {
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) closeModal(overlay.id);
+  });
+});
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.overlay.open').forEach(o => closeModal(o.id));
+  }
+});
+
+function openProfileModal() { openModal('profileModal'); }
+
+// ═══════════════════════════════════════════════
+// TOAST NOTIFICATIONS
+// ═══════════════════════════════════════════════
+function showToast(message, type = 'info') {
+  const container = document.getElementById('toastContainer');
+  const toast = document.createElement('div');
+  const icons = { success: 'fa-check-circle', error: 'fa-exclamation-circle', info: 'fa-info-circle' };
+  toast.className = `toast ${type}`;
+  toast.innerHTML = `<i class="fas ${icons[type] || 'fa-info-circle'}"></i> ${esc(message)}`;
+  container.appendChild(toast);
+  setTimeout(() => {
+    toast.style.opacity = '0';
+    toast.style.transform = 'translateX(20px)';
+    toast.style.transition = 'all 0.3s ease';
+    setTimeout(() => toast.remove(), 300);
+  }, 3500);
+}
+
+// ═══════════════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════════════
+function esc(str) {
+  if (!str) return '';
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function getStatusPill(s) {
+  const map = {
+    'In Transit': 's-transit',
+    'Delivered': 's-delivered',
+    'Pending': 's-pending',
+    'Delayed': 's-delayed',
+    'Processing': 's-processing',
+    'Out for Delivery': 's-transit',
+    'Custom Hold': 's-delayed'
+  };
+  return `<span class="status-pill ${map[s] || 's-pending'}">${esc(s) || 'Pending'}</span>`;
+}
+
+function getPayPill(p) {
+  const isPaid = p === 'Paid' || p === 'approved';
+  return `<span class="pay-pill ${isPaid ? 'pay-paid' : 'pay-pending'}">${esc(p) || 'Pending'}</span>`;
+}
+
+// ═══════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════
+initQrUploadControls();
+loadDashboard();
+</script>
+</body>
+</html>

@@ -1,0 +1,1359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NexShip Xpress | Global Logistics & Courier Services</title>
+    <link rel="icon" type="image/png" href="/assets/img/logo/logo.png">
+    <meta name="description" content="NexShip Xpress - Worldwide delivery service and expert in logistics and eCommerce. International shipping, air freight, ocean freight, trucking and warehousing solutions.">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --green: #0F6E3F;
+            --green-mid: #1a8a50;
+            --green-light: #22c55e;
+            --green-pale: #dcfce7;
+            --ink: #0a0f0d;
+            --ink2: #141a17;
+            --muted: #5a6b62;
+            --ghost: #e8efe9;
+            --white: #ffffff;
+            --sand: #f7f5f0;
+            --gold: #c8a84b;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--white);
+            color: var(--ink);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        h1,h2,h3,h4,h5,h6 { font-family: 'Plus Jakarta Sans', sans-serif; }
+
+        /* ─── NAV ─── */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            padding: 0 5%;
+            height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: background 0.4s, box-shadow 0.4s;
+        }
+
+        nav.scrolled {
+            background: rgba(255,255,255,0.97);
+            backdrop-filter: blur(16px);
+            box-shadow: 0 1px 0 rgba(0,0,0,0.06);
+        }
+
+        nav.hero-nav { background: transparent; }
+
+        .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+        .nav-logo img { height: 38px; }
+        .nav-logo span {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: var(--white);
+            transition: color 0.3s;
+        }
+        nav.scrolled .nav-logo span { color: var(--ink); }
+
+        .nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+        .nav-links a {
+            font-size: 0.88rem;
+            font-weight: 500;
+            color: rgba(255,255,255,0.85);
+            text-decoration: none;
+            letter-spacing: 0.02em;
+            transition: color 0.3s;
+        }
+        nav.scrolled .nav-links a { color: var(--muted); }
+        .nav-links a:hover { color: var(--white) !important; }
+        nav.scrolled .nav-links a:hover { color: var(--green) !important; }
+
+        .nav-cta {
+            background: var(--green);
+            color: var(--white) !important;
+            padding: 0.55rem 1.4rem;
+            border-radius: 100px;
+            font-size: 0.85rem !important;
+            font-weight: 600 !important;
+            letter-spacing: 0.03em;
+            transition: background 0.3s, transform 0.2s !important;
+        }
+        .nav-cta:hover { background: var(--green-mid) !important; transform: translateY(-1px); }
+
+        .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+        .hamburger span { display: block; width: 24px; height: 2px; background: white; border-radius: 2px; transition: all 0.3s; }
+        nav.scrolled .hamburger span { background: var(--ink); }
+
+        /* ─── HERO ─── */
+        .hero {
+            min-height: 100vh;
+            background: var(--ink2);
+            position: relative;
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+        }
+
+        .hero-bg-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            pointer-events: none;
+        }
+        .orb1 { width: 600px; height: 600px; background: rgba(15,110,63,0.25); top: -100px; right: -100px; }
+        .orb2 { width: 400px; height: 400px; background: rgba(34,197,94,0.08); bottom: 0; left: 20%; }
+        .orb3 { width: 200px; height: 200px; background: rgba(200,168,75,0.1); top: 20%; left: 5%; }
+
+        .hero-grid-overlay {
+            position: absolute;
+            inset: 0;
+            background-image: linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+        }
+
+        .hero-content {
+            padding: 140px 6% 80px 8%;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(15,110,63,0.2);
+            border: 1px solid rgba(34,197,94,0.3);
+            color: var(--green-light);
+            padding: 0.4rem 1rem;
+            border-radius: 100px;
+            font-size: 0.78rem;
+            font-weight: 500;
+            
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+        }
+        .hero-eyebrow::before {
+            content: '';
+            width: 6px; height: 6px;
+            background: var(--green-light);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse { 0%,100%{ opacity:1; transform:scale(1); } 50%{ opacity:0.5; transform:scale(1.5); } }
+
+        .hero h1 {
+            font-size: clamp(2.8rem, 5vw, 4.5rem);
+            font-weight: 800;
+            line-height: 1.08;
+            color: var(--white);
+            
+            margin-bottom: 1.5rem;
+        }
+        .hero h1 em {
+            font-style: normal;
+            background: linear-gradient(135deg, var(--green-light), var(--gold));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero-desc {
+            font-size: 1rem;
+            color: rgba(255,255,255,0.55);
+            max-width: 480px;
+            line-height: 1.75;
+            margin-bottom: 2.5rem;
+        }
+
+        .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 3.5rem; }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--green);
+            color: white;
+            padding: 0.85rem 1.8rem;
+            border-radius: 100px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-primary:hover { background: var(--green-mid); transform: translateY(-2px); box-shadow: 0 12px 32px rgba(15,110,63,0.4); color: white; }
+
+        .btn-outline {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: transparent;
+            color: rgba(255,255,255,0.75);
+            padding: 0.85rem 1.8rem;
+            border-radius: 100px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            text-decoration: none;
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.3s;
+        }
+        .btn-outline:hover { border-color: rgba(255,255,255,0.5); color: white; background: rgba(255,255,255,0.05); }
+
+        .hero-trust {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        .trust-avatars { display: flex; }
+        .trust-avatars img {
+            width: 34px; height: 34px;
+            border-radius: 50%;
+            border: 2px solid var(--ink2);
+            margin-left: -10px;
+            object-fit: cover;
+        }
+        .trust-avatars img:first-child { margin-left: 0; }
+        .trust-text { font-size: 0.82rem; color: rgba(255,255,255,0.5); line-height: 1.4; }
+        .trust-text strong { color: rgba(255,255,255,0.85); display: block; }
+
+        .hero-visual {
+            position: relative;
+            z-index: 2;
+            padding: 140px 6% 80px 2%;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .hero-img-main {
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+        .hero-img-main img {
+            width: 100%;
+            height: 380px;
+            object-fit: cover;
+            display: block;
+            filter: brightness(0.85);
+        }
+
+        .hero-img-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .hero-img-row img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 16px;
+            filter: brightness(0.8);
+        }
+
+        .hero-stat-float {
+            position: absolute;
+            background: rgba(255,255,255,0.07);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 14px;
+            padding: 0.9rem 1.2rem;
+            z-index: 3;
+        }
+        .hsf-top { bottom: 24px; left: 24px; }
+        .hsf-label { font-size: 0.7rem; color: rgba(255,255,255,0.5); text-transform: uppercase;  }
+        .hsf-value { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.4rem; font-weight: 700; color: var(--white); }
+        .hsf-sub { font-size: 0.72rem; color: var(--green-light); }
+
+        /* ─── TICKER ─── */
+        .ticker-wrap {
+            background: var(--green);
+            overflow: hidden;
+            padding: 0.75rem 0;
+            white-space: nowrap;
+        }
+        .ticker-track {
+            display: inline-flex;
+            animation: ticker 40s linear infinite;
+        }
+        .ticker-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0 2.5rem;
+            font-size: 0.82rem;
+            font-weight: 500;
+            color: rgba(255,255,255,0.9);
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+        }
+        .ticker-dot { width: 4px; height: 4px; border-radius: 50%; background: rgba(255,255,255,0.4); }
+        @keyframes ticker { 0%{ transform:translateX(0); } 100%{ transform:translateX(-50%); } }
+
+        /* ─── TRACK ─── */
+        .track-section {
+            background: var(--sand);
+            padding: 5rem 8%;
+        }
+        .track-inner {
+            max-width: 860px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .track-inner h2 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+        }
+        .track-inner p { color: var(--muted); margin-bottom: 2rem; }
+        .track-form {
+            display: flex;
+            gap: 0.75rem;
+            background: white;
+            padding: 0.5rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 32px rgba(0,0,0,0.06);
+        }
+        .track-form input {
+            flex: 1;
+            border: none;
+            outline: none;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            padding: 0.75rem 1rem;
+            background: transparent;
+            color: var(--ink);
+        }
+        .track-form input::placeholder { color: #aaa; }
+        .track-form button {
+            background: var(--green);
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 12px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+            white-space: nowrap;
+        }
+        .track-form button:hover { background: var(--green-mid); transform: scale(1.02); }
+
+        #trackResult {
+            margin-top: 1.5rem;
+            text-align: left;
+        }
+        .track-success {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            border-left: 4px solid var(--green);
+            box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+        }
+        .track-error { color: #c62828; font-size: 0.9rem; }
+
+        /* ─── STATS ─── */
+        .stats-section {
+            padding: 5rem 8%;
+            background: var(--white);
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1px;
+            background: #e5e5e5;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+        .stat-cell {
+            background: white;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            transition: background 0.3s;
+        }
+        .stat-cell:hover { background: var(--sand); }
+        .stat-num {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--green);
+            
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+        .stat-label { font-size: 0.88rem; color: var(--muted); font-weight: 400; }
+
+        /* ─── ABOUT ─── */
+        .about-section {
+            padding: 6rem 8%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6rem;
+            align-items: center;
+        }
+        .about-imgs {
+            position: relative;
+        }
+        .about-img-main {
+            width: 100%;
+            height: 440px;
+            object-fit: cover;
+            border-radius: 20px;
+        }
+        .about-img-inset {
+            position: absolute;
+            bottom: -24px;
+            right: -24px;
+            width: 45%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 16px;
+            border: 6px solid white;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+        }
+        .about-badge-float {
+            position: absolute;
+            top: 24px;
+            left: -20px;
+            background: var(--green);
+            color: white;
+            border-radius: 14px;
+            padding: 1rem 1.3rem;
+            text-align: center;
+            box-shadow: 0 8px 24px rgba(15,110,63,0.35);
+        }
+        .about-badge-float .big { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 2rem; font-weight: 800; }
+        .about-badge-float .small { font-size: 0.72rem; opacity: 0.85; }
+
+        .about-content .label {
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--green);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+        }
+        .about-content h2 {
+            font-size: 2.4rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 1.2rem;
+            line-height: 1.2;
+        }
+        .about-content p { color: var(--muted); line-height: 1.8; margin-bottom: 1rem; font-size: 0.95rem; }
+
+        .checkmarks { list-style: none; margin: 1.5rem 0 2rem; display: flex; flex-direction: column; gap: 0.75rem; }
+        .checkmarks li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            font-size: 0.9rem;
+            color: var(--ink);
+        }
+        .checkmarks li::before {
+            content: '';
+            width: 20px; height: 20px;
+            background: var(--green-pale);
+            border-radius: 50%;
+            flex-shrink: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5 10l4 4 6-6' stroke='%230F6E3F' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+            background-size: cover;
+        }
+
+        /* ─── SERVICES ─── */
+        .services-section {
+            padding: 6rem 8%;
+            background: var(--ink2);
+        }
+        .services-section .sec-header { margin-bottom: 3.5rem; }
+        .sec-label {
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--green-light);
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            margin-bottom: 1rem;
+        }
+        .sec-title {
+            font-size: clamp(1.8rem, 3vw, 2.6rem);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: var(--white);
+            max-width: 560px;
+        }
+        .sec-title-dark { color: var(--ink); }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+        .service-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px;
+            padding: 2rem;
+            text-decoration: none;
+            display: block;
+            transition: background 0.3s, border-color 0.3s, transform 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        .service-card::before {
+            content: '';
+            position: absolute;
+            bottom: 0; right: 0;
+            width: 120px; height: 120px;
+            background: radial-gradient(circle at 100% 100%, rgba(34,197,94,0.08), transparent 70%);
+            pointer-events: none;
+        }
+        .service-card:hover {
+            background: rgba(255,255,255,0.07);
+            border-color: rgba(34,197,94,0.3);
+            transform: translateY(-4px);
+        }
+        .service-icon-wrap {
+            width: 52px; height: 52px;
+            background: rgba(15,110,63,0.25);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            transition: background 0.3s;
+        }
+        .service-card:hover .service-icon-wrap { background: rgba(15,110,63,0.4); }
+        .service-icon-wrap i { color: var(--green-light); font-size: 1.3rem; }
+        .service-card h3 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: var(--white);
+            margin-bottom: 0.75rem;
+        }
+        .service-card p { font-size: 0.87rem; color: rgba(255,255,255,0.45); line-height: 1.7; }
+        .service-card .arrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            margin-top: 1.5rem;
+            font-size: 0.82rem;
+            color: var(--green-light);
+            font-weight: 500;
+            opacity: 0;
+            transform: translateX(-8px);
+            transition: opacity 0.3s, transform 0.3s;
+        }
+        .service-card:hover .arrow { opacity: 1; transform: translateX(0); }
+
+        /* ─── WHY ─── */
+        .why-section {
+            padding: 6rem 8%;
+            background: var(--sand);
+        }
+        .why-section .sec-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 3.5rem;
+            gap: 2rem;
+        }
+        .why-section .sec-header p { color: var(--muted); max-width: 380px; font-size: 0.95rem; line-height: 1.7; }
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+        }
+        .why-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem 1.5rem;
+            transition: box-shadow 0.3s, transform 0.3s;
+        }
+        .why-card:hover { box-shadow: 0 16px 40px rgba(0,0,0,0.08); transform: translateY(-4px); }
+        .why-icon {
+            width: 48px; height: 48px;
+            border-radius: 12px;
+            background: var(--green-pale);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.25rem;
+        }
+        .why-icon i { color: var(--green); font-size: 1.15rem; }
+        .why-card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.6rem; }
+        .why-card p { font-size: 0.85rem; color: var(--muted); line-height: 1.7; }
+
+        /* ─── HOW ─── */
+        .how-section {
+            padding: 6rem 8%;
+            background: white;
+        }
+        .how-section .sec-header { text-align: center; margin-bottom: 4rem; }
+        .how-section .sec-title { margin: 0 auto; }
+        .how-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3rem; position: relative; }
+        .how-grid::before {
+            content: '';
+            position: absolute;
+            top: 35px;
+            left: 16.67%;
+            right: 16.67%;
+            height: 2px;
+            background: repeating-linear-gradient(90deg, var(--green) 0, var(--green) 8px, transparent 8px, transparent 16px);
+            z-index: 0;
+        }
+        .how-step { text-align: center; position: relative; z-index: 1; }
+        .step-circle {
+            width: 70px; height: 70px;
+            border-radius: 50%;
+            background: var(--green);
+            color: white;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            box-shadow: 0 8px 24px rgba(15,110,63,0.35);
+        }
+        .how-step h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.75rem; }
+        .how-step p { font-size: 0.88rem; color: var(--muted); line-height: 1.7; }
+
+        /* ─── TESTIMONIALS ─── */
+        .testimonials-section {
+            padding: 6rem 8%;
+            background: var(--ink2);
+        }
+        .testimonials-section .sec-header { margin-bottom: 3rem; }
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 1.5rem;
+        }
+        .tcard {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px;
+            padding: 2rem;
+        }
+        .tcard.featured {
+            grid-row: 1 / span 2;
+            background: var(--green);
+            border-color: transparent;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .stars { color: var(--gold); font-size: 0.85rem; letter-spacing: 1px; margin-bottom: 1rem; }
+        .tcard.featured .stars { color: rgba(255,255,255,0.6); }
+        .tcard-text { font-size: 0.92rem; color: rgba(255,255,255,0.65); line-height: 1.75; margin-bottom: 1.5rem; font-style: italic; }
+        .tcard.featured .tcard-text { color: rgba(255,255,255,0.85); font-size: 1.05rem; }
+        .tcard-author { display: flex; align-items: center; gap: 0.75rem; }
+        .tcard-author img { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; }
+        .tcard-author .name { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.9rem; font-weight: 600; color: white; }
+        .tcard-author .role { font-size: 0.75rem; color: rgba(255,255,255,0.45); }
+        .tcard.featured .tcard-author .role { color: rgba(255,255,255,0.65); }
+
+        /* ─── NETWORK ─── */
+        .network-section {
+            padding: 6rem 8%;
+            background: var(--sand);
+            text-align: center;
+        }
+        .network-map-wrap {
+            margin: 3rem auto 2rem;
+            max-width: 760px;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+        .network-map-wrap img {
+            width: 100%;
+            height: 320px;
+            object-fit: cover;
+            filter: saturate(0.7) brightness(0.9);
+        }
+        .network-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(15,110,63,0.2), rgba(0,0,0,0.3));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .network-badges {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+        .network-badge {
+            background: white;
+            border-radius: 100px;
+            padding: 0.55rem 1.2rem;
+            font-size: 0.82rem;
+            font-weight: 500;
+            color: var(--ink);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+        .network-badge i { color: var(--green); margin-right: 0.4rem; }
+
+        /* ─── CTA ─── */
+        .cta-section {
+            padding: 7rem 8%;
+            background: var(--green);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+        .cta-section h2 {
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            font-weight: 800;
+            color: white;
+            
+            margin-bottom: 1rem;
+            position: relative;
+        }
+        .cta-section p {
+            color: rgba(255,255,255,0.7);
+            max-width: 500px;
+            margin: 0 auto 2.5rem;
+            position: relative;
+        }
+        .btn-white {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: white;
+            color: var(--green);
+            padding: 1rem 2.5rem;
+            border-radius: 100px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.3s;
+            position: relative;
+        }
+        .btn-white:hover { transform: translateY(-3px); box-shadow: 0 16px 40px rgba(0,0,0,0.2); color: var(--green); }
+
+        /* ─── FOOTER ─── */
+        footer {
+            background: var(--ink);
+            color: #888;
+            padding: 4rem 8% 2rem;
+        }
+        .footer-top {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+            padding-bottom: 3rem;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+        }
+        .footer-brand .logo-text {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 1rem;
+        }
+        .footer-brand p { font-size: 0.85rem; line-height: 1.7; color: #666; max-width: 280px; }
+        .footer-socials { display: flex; gap: 0.75rem; margin-top: 1.5rem; }
+        .social-btn {
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #888;
+            font-size: 0.85rem;
+            transition: border-color 0.3s, color 0.3s;
+            text-decoration: none;
+        }
+        .social-btn:hover { border-color: var(--green-light); color: var(--green-light); }
+        .footer-col h4 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.9rem; color: white; margin-bottom: 1.25rem; }
+        .footer-col a {
+            display: block;
+            color: #666;
+            text-decoration: none;
+            font-size: 0.85rem;
+            margin-bottom: 0.7rem;
+            transition: color 0.3s;
+        }
+        .footer-col a:hover { color: var(--green-light); }
+        .footer-col .contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.6rem;
+            margin-bottom: 0.8rem;
+            font-size: 0.85rem;
+        }
+        .footer-col .contact-item i { color: var(--green-mid); margin-top: 2px; width: 14px; flex-shrink: 0; }
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: #555;
+            gap: 1rem;
+        }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 1100px) {
+            .hero { grid-template-columns: 1fr; }
+            .hero-visual { display: none; }
+            .hero-content { padding: 140px 8% 80px; }
+            .services-grid { grid-template-columns: 1fr 1fr; }
+            .why-grid { grid-template-columns: 1fr 1fr; }
+            .testimonials-grid { grid-template-columns: 1fr 1fr; }
+            .tcard.featured { grid-row: auto; }
+            .footer-top { grid-template-columns: 1fr 1fr; }
+            .stats-grid { grid-template-columns: 1fr 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .hamburger { display: flex; }
+            .about-section { grid-template-columns: 1fr; gap: 3rem; }
+            .about-img-inset { display: none; }
+            .services-grid { grid-template-columns: 1fr; }
+            .why-grid { grid-template-columns: 1fr 1fr; }
+            .how-grid { grid-template-columns: 1fr; }
+            .how-grid::before { display: none; }
+            .testimonials-grid { grid-template-columns: 1fr; }
+            .footer-top { grid-template-columns: 1fr; }
+            .why-section .sec-header { flex-direction: column; align-items: flex-start; }
+            .track-form { flex-direction: column; }
+            .track-form button { padding: 0.85rem; }
+            .footer-bottom { flex-direction: column; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav id="navbar" class="hero-nav">
+    <a href="/" class="nav-logo">
+        <img src="/assets/img/logo/logo.png" alt="NexShip Xpress" onerror="this.style.display='none'">
+        <span>NexShip Xpress</span>
+    </a>
+    <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/about.html">About</a></li>
+        <li><a href="/services.html">Services</a></li>
+        <li><a href="/network.html">Network</a></li>
+        <li><a href="/track.html">Track Parcel</a></li>
+        <li><a href="/contact.html" class="nav-cta">Contact Us</a></li>
+    </ul>
+    <div class="hamburger" id="hamburger">
+        <span></span><span></span><span></span>
+    </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+    <div class="hero-bg-orb orb1"></div>
+    <div class="hero-bg-orb orb2"></div>
+    <div class="hero-bg-orb orb3"></div>
+    <div class="hero-grid-overlay"></div>
+
+    <div class="hero-content">
+        <div class="hero-eyebrow">Global Logistics Leader Since 2010</div>
+        <h1>Moving the World,<br><em>Seamlessly.</em></h1>
+        <p class="hero-desc">NexShip Xpress delivers end-to-end logistics for businesses and individuals — from air freight to last-mile delivery — with real-time tracking and zero compromise on safety.</p>
+        <div class="hero-actions">
+            <a href="/track.html" class="btn-primary">Track Your Parcel <i class="fas fa-arrow-right"></i></a>
+            <a href="/services.html" class="btn-outline">Explore Services</a>
+        </div>
+        <div class="hero-trust">
+            <div class="trust-avatars">
+                <img src="https://i.pravatar.cc/80?img=11" alt="">
+                <img src="https://i.pravatar.cc/80?img=32" alt="">
+                <img src="https://i.pravatar.cc/80?img=54" alt="">
+                <img src="https://i.pravatar.cc/80?img=23" alt="">
+            </div>
+            <div class="trust-text">
+                <strong>86,000+ Happy Customers</strong>
+                Trusted worldwide for reliable delivery
+            </div>
+        </div>
+    </div>
+
+    <div class="hero-visual">
+        <div class="hero-img-main" style="position:relative;">
+            <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&q=80" alt="Global Logistics Operations">
+            <div class="hero-stat-float hsf-top">
+                <div class="hsf-label">On-time Delivery</div>
+                <div class="hsf-value">98.6%</div>
+                <div class="hsf-sub">↑ 2.3% this quarter</div>
+            </div>
+        </div>
+        <div class="hero-img-row">
+            <img src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?w=400&q=80" alt="Air Freight">
+            <img src="https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?w=400&q=80" alt="Ocean Freight">
+        </div>
+    </div>
+</section>
+
+<!-- Ticker -->
+<div class="ticker-wrap">
+    <div class="ticker-track">
+        <span class="ticker-item"><i class="fas fa-plane" style="font-size:0.7rem;"></i> Air Freight</span><span class="ticker-dot"></span>
+        <span class="ticker-item"><i class="fas fa-ship" style="font-size:0.7rem;"></i> Ocean Freight</span><span class="ticker-dot"></span>
+        <span class="ticker-item"><i class="fas fa-truck" style="font-size:0.7rem;"></i> Express Trucking</span><span class="ticker-dot"></span>
+        <span class="ticker-item"><i class="fas fa-warehouse" style="font-size:0.7rem;"></i> Warehousing</span><span class="ticker-dot"></span>
+        <span class="ticker-item"><i class="fas fa-globe" style="font-size:0.7rem;"></i> 180+ Countries</span><span class="ticker-dot"></span>
+        <span class="ticker-item"><i class="fas fa-box" style="font-size:0.7rem;"></i> Last-Mile Delivery</span><span class="ticker-dot"></span>
+        <span class="ticker-item"><i class="fas fa-shield-alt" style="font-size:0.7rem;"></i> Fully Insured</span><span class="ticker-dot"></span>
+        <span class="ticker-item"><i class="fas fa-clock" style="font-size:0.7rem;"></i> 24/7 Support</span><span class="ticker-dot"></span>
+        <!-- duplicate for seamless loop -->
+        <span class="ticker-item"><i class="fas fa-plane" style="font-size:0.7rem;"></i> Air Freight</span><span class="ticker-dot"></span>
+        <span class="ticker-item"><i class="fas fa-ship" style="font-size:0.7rem;"></i> Ocean Freight</span><span class="ticker-dot"></span>
+        <span class="ticker-item"><i class="fas fa-truck" style="font-size:0.7rem;"></i> Express Trucking</span><span class="ticker-dot"></span>
+        <span class="ticker-item"><i class="fas fa-warehouse" style="font-size:0.7rem;"></i> Warehousing</span><span class="ticker-dot"></span>
+        <span class="ticker-item"><i class="fas fa-globe" style="font-size:0.7rem;"></i> 180+ Countries</span><span class="ticker-dot"></span>
+        <span class="ticker-item"><i class="fas fa-box" style="font-size:0.7rem;"></i> Last-Mile Delivery</span><span class="ticker-dot"></span>
+        <span class="ticker-item"><i class="fas fa-shield-alt" style="font-size:0.7rem;"></i> Fully Insured</span><span class="ticker-dot"></span>
+        <span class="ticker-item"><i class="fas fa-clock" style="font-size:0.7rem;"></i> 24/7 Support</span><span class="ticker-dot"></span>
+    </div>
+</div>
+
+<!-- Track -->
+<section class="track-section">
+    <div class="track-inner">
+        <h2>Track Your Shipment</h2>
+        <p>Enter your tracking number for real-time updates on your package location and estimated delivery.</p>
+        <div class="track-form">
+            <input type="text" id="trackInput" placeholder="e.g. NEX-1234567">
+            <button onclick="trackShipment()"><i class="fas fa-search" style="margin-right:6px;"></i>Track Now</button>
+        </div>
+        <div id="trackResult"></div>
+    </div>
+</section>
+
+<!-- Stats -->
+<section class="stats-section">
+    <div class="stats-grid">
+        <div class="stat-cell">
+            <div class="stat-num counter" data-target="97371">0</div>
+            <div class="stat-label">Deliveries Completed</div>
+        </div>
+        <div class="stat-cell">
+            <div class="stat-num counter" data-target="86303">0</div>
+            <div class="stat-label">Happy Customers</div>
+        </div>
+        <div class="stat-cell">
+            <div class="stat-num counter" data-target="205">0</div>
+            <div class="stat-label">Industry Awards</div>
+        </div>
+        <div class="stat-cell">
+            <div class="stat-num counter" data-target="4307">0</div>
+            <div class="stat-label">Expert Team Members</div>
+        </div>
+    </div>
+</section>
+
+<!-- About -->
+<section class="about-section">
+    <div class="about-imgs" data-aos="fade-right">
+        <img class="about-img-main" src="https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=700&q=80" alt="NexShip Operations">
+        <img class="about-img-inset" src="https://images.unsplash.com/photo-1543286386-2e659306cd6c?w=400&q=80" alt="Warehouse">
+        <div class="about-badge-float">
+            <div class="big">15+</div>
+            <div class="small">Years of Excellence</div>
+        </div>
+    </div>
+    <div class="about-content" data-aos="fade-left">
+        <div class="label">About NexShip Xpress</div>
+        <h2>World's Most Trusted Logistics Network</h2>
+        <p>NexShip Xpress offers its customers a close network of modern, multi-user facilities covering several million square metres — from flagship distribution hubs to last-mile fulfilment centres.</p>
+        <p>We have been serving businesses of all sizes for over a decade, providing innovative solutions that drive efficiency and give our clients a decisive competitive edge.</p>
+        <ul class="checkmarks">
+            <li>ISO-certified warehouses across 6 continents</li>
+            <li>Real-time GPS tracking from pickup to delivery</li>
+            <li>Customs clearance & documentation support</li>
+            <li>Dedicated account management for enterprises</li>
+        </ul>
+        <a href="/about.html" class="btn-primary" style="display:inline-flex;">Learn About Us <i class="fas fa-arrow-right"></i></a>
+    </div>
+</section>
+
+<!-- Services -->
+<section class="services-section">
+    <div class="sec-header" data-aos="fade-up">
+        <div class="sec-label">What We Offer</div>
+        <h2 class="sec-title">Specialist Logistics<br>Solutions for Every Need</h2>
+    </div>
+    <div class="services-grid">
+        <a href="/service-ocean.html" class="service-card" data-aos="fade-up" data-aos-delay="0">
+            <div class="service-icon-wrap"><i class="fas fa-ship"></i></div>
+            <h3>Ocean Freight</h3>
+            <p>Full containers, loose cargo or special equipment — shipped reliably from and to any port in the world. Cost-effective FCL and LCL options with door-to-door delivery.</p>
+            <span class="arrow">Learn more <i class="fas fa-arrow-right"></i></span>
+        </a>
+        <a href="/service-air.html" class="service-card" data-aos="fade-up" data-aos-delay="80">
+            <div class="service-icon-wrap"><i class="fas fa-plane"></i></div>
+            <h3>Air Freight</h3>
+            <p>Time-critical shipments delivered to any destination worldwide with priority handling, flight tracking, and next-flight-out emergency options for urgent cargo.</p>
+            <span class="arrow">Learn more <i class="fas fa-arrow-right"></i></span>
+        </a>
+        <a href="/service-trucking.html" class="service-card" data-aos="fade-up" data-aos-delay="160">
+            <div class="service-icon-wrap"><i class="fas fa-truck"></i></div>
+            <h3>Trucking & Road</h3>
+            <p>Domestic and cross-border trucking with GPS-tracked vehicles, flexible load options from 3 to 30 tonnes, and dedicated driver assignment.</p>
+            <span class="arrow">Learn more <i class="fas fa-arrow-right"></i></span>
+        </a>
+        <div class="service-card" data-aos="fade-up" data-aos-delay="240">
+            <div class="service-icon-wrap"><i class="fas fa-warehouse"></i></div>
+            <h3>Warehousing</h3>
+            <p>Climate-controlled, secure, and strategically located warehouses for efficient pick-and-pack, inventory management, and cross-docking operations.</p>
+            <span class="arrow" style="opacity:1;transform:none;">Available now <i class="fas fa-arrow-right"></i></span>
+        </div>
+        <div class="service-card" data-aos="fade-up" data-aos-delay="320">
+            <div class="service-icon-wrap"><i class="fas fa-box-open"></i></div>
+            <h3>Courier & eCommerce</h3>
+            <p>Scalable courier solutions purpose-built for eCommerce merchants — branded tracking pages, returns management, and API integration with major platforms.</p>
+            <span class="arrow" style="opacity:1;transform:none;">Available now <i class="fas fa-arrow-right"></i></span>
+        </div>
+        <div class="service-card" data-aos="fade-up" data-aos-delay="400">
+            <div class="service-icon-wrap"><i class="fas fa-exchange-alt"></i></div>
+            <h3>Supply Chain & 3PL</h3>
+            <p>End-to-end supply chain management from sourcing to final delivery. Dedicated 3PL services for retailers, manufacturers, and healthcare providers.</p>
+            <span class="arrow" style="opacity:1;transform:none;">Available now <i class="fas fa-arrow-right"></i></span>
+        </div>
+    </div>
+</section>
+
+<!-- Why Choose Us -->
+<section class="why-section">
+    <div class="sec-header" data-aos="fade-up">
+        <div>
+            <div class="sec-label" style="color:var(--green);">Why NexShip</div>
+            <h2 class="sec-title sec-title-dark">Built for Businesses<br>That Can't Afford Delays</h2>
+        </div>
+        <p>We combine cutting-edge technology with decades of logistics expertise to deliver results that consistently exceed expectations.</p>
+    </div>
+    <div class="why-grid">
+        <div class="why-card" data-aos="fade-up" data-aos-delay="0">
+            <div class="why-icon"><i class="fas fa-shield-alt"></i></div>
+            <h3>Safety First</h3>
+            <p>Advanced identity & access management, tamper-evident packaging, and full cargo insurance on every shipment.</p>
+        </div>
+        <div class="why-card" data-aos="fade-up" data-aos-delay="80">
+            <div class="why-icon"><i class="fas fa-satellite-dish"></i></div>
+            <h3>Real-Time Tracking</h3>
+            <p>Live GPS updates, milestone notifications via SMS and email, and a customer portal with full shipment history.</p>
+        </div>
+        <div class="why-card" data-aos="fade-up" data-aos-delay="160">
+            <div class="why-icon"><i class="fas fa-bolt"></i></div>
+            <h3>Speed & Reliability</h3>
+            <p>98.6% on-time delivery rate backed by redundant routing, partner airline agreements, and 24/7 operations teams.</p>
+        </div>
+        <div class="why-card" data-aos="fade-up" data-aos-delay="240">
+            <div class="why-icon"><i class="fas fa-headset"></i></div>
+            <h3>24/7 Support</h3>
+            <p>Dedicated account managers and a round-the-clock support team ready to resolve any issue before it becomes a problem.</p>
+        </div>
+        <div class="why-card" data-aos="fade-up" data-aos-delay="320">
+            <div class="why-icon"><i class="fas fa-globe"></i></div>
+            <h3>Global Reach</h3>
+            <p>Direct coverage in 180+ countries with a network of trusted partners and customs brokers for seamless cross-border shipping.</p>
+        </div>
+        <div class="why-card" data-aos="fade-up" data-aos-delay="400">
+            <div class="why-icon"><i class="fas fa-leaf"></i></div>
+            <h3>Eco Commitment</h3>
+            <p>Carbon-neutral shipping options, electric last-mile fleet in major cities, and reusable packaging programmes available.</p>
+        </div>
+        <div class="why-card" data-aos="fade-up" data-aos-delay="480">
+            <div class="why-icon"><i class="fas fa-chart-line"></i></div>
+            <h3>Analytics Dashboard</h3>
+            <p>Business intelligence portal with freight spend analytics, delivery performance reports, and cost-saving recommendations.</p>
+        </div>
+        <div class="why-card" data-aos="fade-up" data-aos-delay="560">
+            <div class="why-icon"><i class="fas fa-code"></i></div>
+            <h3>API Integration</h3>
+            <p>Connect NexShip directly to your ERP, WMS, or eCommerce platform with our developer-friendly REST API and webhooks.</p>
+        </div>
+    </div>
+</section>
+
+<!-- How It Works -->
+<section class="how-section">
+    <div class="sec-header">
+        <div class="sec-label" style="color:var(--green);">Simple Process</div>
+        <h2 class="sec-title sec-title-dark">Ship Anywhere in 3 Steps</h2>
+    </div>
+    <div class="how-grid">
+        <div class="how-step" data-aos="fade-up" data-aos-delay="0">
+            <div class="step-circle">1</div>
+            <h3>Create Your Order</h3>
+            <p>Enter package details — weight, dimensions, and destination. Choose your service level and pay securely. Print your shipping label instantly or request a pickup.</p>
+        </div>
+        <div class="how-step" data-aos="fade-up" data-aos-delay="100">
+            <div class="step-circle">2</div>
+            <h3>Schedule Pickup</h3>
+            <p>Book a free doorstep pickup at a time that suits you, or drop off at any of our 2,000+ service points. We handle packaging, customs forms, and documentation.</p>
+        </div>
+        <div class="how-step" data-aos="fade-up" data-aos-delay="200">
+            <div class="step-circle">3</div>
+            <h3>Track & Receive</h3>
+            <p>Monitor your shipment 24/7 via our app or portal. Receive SMS and email alerts at every milestone until confirmed delivery at the destination.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials -->
+<section class="testimonials-section">
+    <div class="sec-header" data-aos="fade-up">
+        <div class="sec-label">Client Stories</div>
+        <h2 class="sec-title">Trusted by Businesses<br>Around the World</h2>
+    </div>
+    <div class="testimonials-grid">
+        <div class="tcard featured" data-aos="fade-up">
+            <div>
+                <div class="stars">★★★★★</div>
+                <p class="tcard-text">"NexShip Xpress has been instrumental in our international expansion. Their logistics infrastructure gave us the confidence to enter 12 new markets in a single year — something we could never have done with our previous provider. On-time delivery improved from 74% to 98% within the first quarter."</p>
+            </div>
+            <div class="tcard-author">
+                <img src="https://i.pravatar.cc/80?img=44" alt="Gilda Morton">
+                <div>
+                    <div class="name">Gilda Morton</div>
+                    <div class="role">Retail Director, GlobalMart Inc.</div>
+                </div>
+            </div>
+        </div>
+        <div class="tcard" data-aos="fade-up" data-aos-delay="80">
+            <div class="stars">★★★★★</div>
+            <p class="tcard-text">"One of the fastest courier services I've used. Their tracking system is accurate, real-time, and their support team is always available. Highly recommended."</p>
+            <div class="tcard-author">
+                <img src="https://i.pravatar.cc/80?img=11" alt="Shanna Anderson">
+                <div>
+                    <div class="name">Shanna Anderson</div>
+                    <div class="role">E-commerce Business Owner</div>
+                </div>
+            </div>
+        </div>
+        <div class="tcard" data-aos="fade-up" data-aos-delay="160">
+            <div class="stars">★★★★★</div>
+            <p class="tcard-text">"Damage claims dropped from 15% to under 1% since switching. On-time deliveries, careful handling, and a team that genuinely cares about your cargo."</p>
+            <div class="tcard-author">
+                <img src="https://i.pravatar.cc/80?img=67" alt="Aurelio Howell">
+                <div>
+                    <div class="name">Aurelio Howell</div>
+                    <div class="role">Logistics Manager, BuildCo</div>
+                </div>
+            </div>
+        </div>
+        <div class="tcard" data-aos="fade-up" data-aos-delay="240">
+            <div class="stars">★★★★★</div>
+            <p class="tcard-text">"Working with NexShip daily is a pleasure. Their efficiency in transporting finished and returned goods in a timely, secure manner has genuinely transformed our supply chain."</p>
+            <div class="tcard-author">
+                <img src="https://i.pravatar.cc/80?img=30" alt="Antony Walsh">
+                <div>
+                    <div class="name">Antony Walsh</div>
+                    <div class="role">Supply Chain Director, Weavr Co.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Network -->
+<section class="network-section">
+    <div data-aos="fade-up">
+        <div class="sec-label" style="color:var(--green);">Our Reach</div>
+        <h2 class="sec-title sec-title-dark" style="margin:0 auto 1rem;max-width:500px;">Coverage Across<br>180+ Countries</h2>
+        <p style="color:var(--muted);max-width:480px;margin:0 auto;">From remote islands to major metropolises — if there's a postal address, we deliver there.</p>
+    </div>
+    <div class="network-map-wrap">
+        <img src="https://images.unsplash.com/photo-1574482620811-1aa16ffe3c82?w=900&q=80" alt="Global Network Map">
+        <div class="network-overlay">
+            <div style="text-align:center;">
+                <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:2.5rem;font-weight:800;color:white;">180+</div>
+                <div style="color:rgba(255,255,255,0.7);font-size:0.9rem;">Countries & Territories</div>
+            </div>
+        </div>
+    </div>
+    <div class="network-badges">
+        <span class="network-badge"><i class="fas fa-check-circle"></i>North America</span>
+        <span class="network-badge"><i class="fas fa-check-circle"></i>Europe</span>
+        <span class="network-badge"><i class="fas fa-check-circle"></i>Asia Pacific</span>
+        <span class="network-badge"><i class="fas fa-check-circle"></i>Middle East</span>
+        <span class="network-badge"><i class="fas fa-check-circle"></i>Africa</span>
+        <span class="network-badge"><i class="fas fa-check-circle"></i>Latin America</span>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+    <h2>Ready to Ship Smarter?</h2>
+    <p>Join 86,000+ businesses and individuals who trust NexShip Xpress with their most critical deliveries every day.</p>
+    <a href="/contact.html" class="btn-white">Get a Free Quote <i class="fas fa-arrow-right"></i></a>
+</section>
+
+<!-- Footer -->
+<footer>
+    <div class="footer-top">
+        <div class="footer-brand">
+            <div class="logo-text">NexShip Xpress</div>
+            <p>Fast, reliable, and secure logistics for businesses of all sizes. End-to-end solutions from local deliveries to global freight.</p>
+            <div class="footer-socials">
+                <a href="#" class="social-btn"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#" class="social-btn"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-btn"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-btn"><i class="fab fa-facebook-f"></i></a>
+            </div>
+        </div>
+        <div class="footer-col">
+            <h4>Company</h4>
+            <a href="/">Home</a>
+            <a href="/about.html">About Us</a>
+            <a href="/services.html">Services</a>
+            <a href="/network.html">Global Network</a>
+            <a href="/track.html">Track Parcel</a>
+            <a href="/contact.html">Contact</a>
+        </div>
+        <div class="footer-col">
+            <h4>Services</h4>
+            <a href="/service-express.html">Express Delivery</a>
+            <a href="/service-air.html">Air Freight</a>
+            <a href="/service-ocean.html">Ocean Freight</a>
+            <a href="/service-trucking.html">Trucking</a>
+            <a href="/services.html">Warehousing</a>
+            <a href="/services.html">3PL Solutions</a>
+        </div>
+        <div class="footer-col">
+            <h4>Contact</h4>
+            <div class="contact-item"><i class="fas fa-envelope"></i><span>nexshipxpress@outlook.com</span></div>
+            <div class="contact-item"> <i class="fab fa-whatsapp"></i> <a href="https://wa.me/16099749715?text=Hello%20NexShip%20Express%20Support" target="_blank" rel="noopener"> Chat on WhatsApp </a> </div>
+            <div class="contact-item"><i class="fas fa-clock"></i><span>Mon – Sun: 9 AM – 9 PM</span></div>
+            <div class="contact-item"><i class="fas fa-map-marker-alt"></i><span>Washington, D.C. USA</span></div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <span>© 2015 NexShip Xpress. All rights reserved.</span>
+        <span>Your Trusted Global Logistics Partner</span>
+    </div>
+</footer>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init({ once: true, duration: 800, easing: 'ease-out-cubic', offset: 60 });
+
+    // Navbar scroll behaviour
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 60) {
+            navbar.classList.remove('hero-nav');
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.add('hero-nav');
+            navbar.classList.remove('scrolled');
+        }
+    });
+
+    // Hamburger
+    document.getElementById('hamburger').addEventListener('click', function() {
+        const nl = document.querySelector('.nav-links');
+        const open = nl.style.display === 'flex';
+        nl.style.display = open ? 'none' : 'flex';
+        nl.style.flexDirection = 'column';
+        nl.style.position = 'fixed';
+        nl.style.top = '72px';
+        nl.style.left = '0';
+        nl.style.right = '0';
+        nl.style.background = 'white';
+        nl.style.padding = '1.5rem 8%';
+        nl.style.gap = '1.2rem';
+        nl.style.boxShadow = '0 8px 32px rgba(0,0,0,0.08)';
+        if (!open) {
+            nl.querySelectorAll('a').forEach(a => a.style.color = '#333');
+        }
+    });
+
+    // Counter animation
+    const counters = document.querySelectorAll('.counter');
+    const counterObs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
+            const el = entry.target;
+            const target = parseInt(el.dataset.target);
+            let current = 0;
+            const step = target / 80;
+            const timer = setInterval(() => {
+                current += step;
+                if (current >= target) { current = target; clearInterval(timer); }
+                el.textContent = Math.floor(current).toLocaleString();
+            }, 20);
+            counterObs.unobserve(el);
+        });
+    }, { threshold: 0.3 });
+    counters.forEach(c => counterObs.observe(c));
+
+    // Track shipment
+    async function trackShipment() {
+        const code = document.getElementById('trackInput').value.trim().toUpperCase();
+        const resultDiv = document.getElementById('trackResult');
+        if (!code) {
+            resultDiv.innerHTML = '<p class="track-error">Please enter a tracking number.</p>';
+            return;
+        }
+        resultDiv.innerHTML = '<p style="color:var(--muted);font-size:.9rem;">Searching our database…</p>';
+        try {
+            const res = await fetch(`/api/track/${code}`);
+            if (res.status === 404) {
+                resultDiv.innerHTML = '<p class="track-error">Tracking code not found. Please check and try again.</p>';
+            } else if (res.ok) {
+                const data = await res.json();
+                resultDiv.innerHTML = `
+                <div class="track-success">
+                    <strong style="color:var(--green);display:block;margin-bottom:.75rem;">✓ Shipment Found</strong>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem;font-size:.88rem;">
+                        <div><span style="color:var(--muted);">Status</span><br><strong>${data.status||'Pending'}</strong></div>
+                        <div><span style="color:var(--muted);">Recipient</span><br><strong>${data.recipient_name||'—'}</strong></div>
+                        <div><span style="color:var(--muted);">Current Location</span><br><strong>${data.current_location||'—'}</strong></div>
+                        <div><span style="color:var(--muted);">Est. Delivery</span><br><strong>${data.estimated_delivery||'—'}</strong></div>
+                    </div>
+                    <a href="/track.html?code=${code}" style="display:inline-flex;align-items:center;gap:.4rem;margin-top:1rem;color:var(--green);font-weight:600;font-size:.88rem;text-decoration:none;">View full details <i class="fas fa-arrow-right" style="font-size:.75rem;"></i></a>
+                </div>`;
+            }
+        } catch(e) {
+            resultDiv.innerHTML = '<p class="track-error">Network error. Please try again.</p>';
+        }
+    }
+
+    document.getElementById('trackInput').addEventListener('keypress', e => { if (e.key === 'Enter') trackShipment(); });
+</script>
+</body>
+</html>

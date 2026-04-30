@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>Trucking Services | NexShip Xpress - Ground Transportation</title>
+    <link rel="icon" type="image/png" href="/assets/img/logo/logo.png">
+    <meta name="description" content="NexShip Xpress trucking services - Reliable ground transportation for domestic and cross-border shipments. Full truckload and LTL options.">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --green: #0F6E3F;
+            --green-mid: #1a8a50;
+            --green-light: #22c55e;
+            --green-pale: #dcfce7;
+            --ink: #0a0f0d;
+            --ink2: #141a17;
+            --muted: #5a6b62;
+            --ghost: #e8efe9;
+            --white: #ffffff;
+            --sand: #f7f5f0;
+            --gold: #c8a84b;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--white);
+            color: var(--ink);
+            overflow-x: hidden;
+            line-height: 1.6;
+            padding-top: 72px;
+        }
+
+        h1,h2,h3,h4,h5,h6 { font-family: 'Plus Jakarta Sans', sans-serif; }
+
+        /* ─── NAV ─── */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            padding: 0 5%;
+            height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(255,255,255,0.97);
+            backdrop-filter: blur(16px);
+            box-shadow: 0 1px 0 rgba(0,0,0,0.06);
+        }
+
+        .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+        .nav-logo img { height: 38px; }
+        .nav-logo span {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: var(--ink);
+        }
+
+        .nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+        .nav-links a {
+            font-size: 0.88rem;
+            font-weight: 500;
+            color: var(--muted);
+            text-decoration: none;
+            letter-spacing: 0.02em;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover { color: var(--green); }
+
+        .nav-cta {
+            background: var(--green);
+            color: var(--white) !important;
+            padding: 0.55rem 1.4rem;
+            border-radius: 100px;
+            font-size: 0.85rem !important;
+            font-weight: 600 !important;
+            letter-spacing: 0.03em;
+            transition: background 0.3s, transform 0.2s !important;
+        }
+        .nav-cta:hover { background: var(--green-mid) !important; transform: translateY(-1px); }
+
+        .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; z-index: 1001; }
+        .hamburger span { display: block; width: 24px; height: 2px; background: var(--ink); border-radius: 2px; transition: all 0.3s; }
+        .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+        .hamburger.active span:nth-child(2) { opacity: 0; }
+        .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+        /* ─── PAGE HEADER ─── */
+        .page-header {
+            background: linear-gradient(135deg, var(--green) 0%, #0A532F 100%);
+            padding: 100px 0 60px;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        .page-header::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+        .page-header h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+        .page-header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            position: relative;
+        }
+
+        /* ─── CONTAINER ─── */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 5%;
+        }
+
+        /* ─── SECTION TITLES ─── */
+        .section-title {
+            text-align: center;
+            font-size: clamp(1.8rem, 3vw, 2.5rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+        .section-subtitle {
+            text-align: center;
+            color: var(--muted);
+            margin-bottom: 3rem;
+            font-size: 1rem;
+        }
+
+        /* ─── SERVICE CONTENT ─── */
+        .service-content {
+            padding: 5rem 0;
+        }
+        .service-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+        .service-img {
+            border-radius: 20px;
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+        }
+        .service-text h2 {
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+        .service-text p {
+            color: var(--muted);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            margin-top: 1.5rem;
+        }
+        .feature-list li {
+            padding: 0.8rem 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            border-bottom: 1px solid var(--ghost);
+            font-size: 0.95rem;
+        }
+        .feature-list li:last-child { border-bottom: none; }
+        .feature-list li i {
+            color: var(--green);
+            font-size: 1.1rem;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        /* ─── FLEET ─── */
+        .fleet-section {
+            background: var(--sand);
+            padding: 5rem 0;
+        }
+        .fleet-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+        }
+        .fleet-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            transition: all 0.3s;
+            border: 1px solid transparent;
+        }
+        .fleet-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            border-color: var(--green-pale);
+        }
+        .fleet-card i {
+            font-size: 2.5rem;
+            color: var(--green);
+            margin-bottom: 1rem;
+        }
+        .fleet-card h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        .fleet-card p {
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        /* ─── CTA BANNER ─── */
+        .cta-banner {
+            padding: 5rem 0;
+            text-align: center;
+        }
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, var(--green) 0%, var(--green-mid) 100%);
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 100px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(15,110,63,0.4);
+            color: white;
+        }
+
+        /* ─── FAQ ─── */
+        .faq-section {
+            background: var(--sand);
+            padding: 5rem 0;
+        }
+        .faq-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .faq-item {
+            background: white;
+            border-radius: 15px;
+            margin-bottom: 1rem;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid transparent;
+        }
+        .faq-item:hover {
+            box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+            border-color: var(--green-pale);
+        }
+        .faq-item.active {
+            border-color: var(--green-pale);
+        }
+        .faq-question {
+            font-weight: 700;
+            font-size: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            color: var(--ink);
+        }
+        .faq-question i {
+            color: var(--green);
+            transition: transform 0.3s;
+            flex-shrink: 0;
+        }
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
+        }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, margin-top 0.3s ease;
+            color: var(--muted);
+            line-height: 1.7;
+            font-size: 0.92rem;
+        }
+        .faq-item.active .faq-answer {
+            max-height: 300px;
+            margin-top: 1rem;
+        }
+
+        /* ─── FOOTER ─── */
+        footer {
+            background: var(--ink);
+            color: #888;
+            padding: 4rem 5% 2rem;
+        }
+        .footer-top {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr 1fr 1fr;
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto 3rem;
+            padding-bottom: 3rem;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+        }
+        .footer-brand .logo-text {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 1rem;
+        }
+        .footer-brand p { font-size: 0.85rem; line-height: 1.7; color: #666; max-width: 280px; }
+        .footer-socials { display: flex; gap: 0.75rem; margin-top: 1.5rem; }
+        .social-btn {
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #888;
+            font-size: 0.85rem;
+            transition: border-color 0.3s, color 0.3s;
+            text-decoration: none;
+        }
+        .social-btn:hover { border-color: var(--green-light); color: var(--green-light); }
+        .footer-col h4 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.9rem; color: white; margin-bottom: 1.25rem; }
+        .footer-col a, .footer-col .footer-link {
+            display: block;
+            color: #666;
+            text-decoration: none;
+            font-size: 0.85rem;
+            margin-bottom: 0.7rem;
+            transition: color 0.3s;
+        }
+        .footer-col a:hover, .footer-col .footer-link:hover { color: var(--green-light); }
+        .footer-col .contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.6rem;
+            margin-bottom: 0.8rem;
+            font-size: 0.85rem;
+        }
+        .footer-col .contact-item i { color: var(--green-mid); margin-top: 2px; width: 14px; flex-shrink: 0; }
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: #555;
+            gap: 1rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 991px) {
+            .nav-links {
+                display: flex;
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 80%;
+                max-width: 320px;
+                height: 100vh;
+                background: white;
+                flex-direction: column;
+                padding: 100px 2rem 2rem;
+                transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+                gap: 1.5rem;
+            }
+            .nav-links.active { right: 0; }
+            .nav-links a { 
+                margin: 0;
+                font-size: 1rem;
+                color: var(--ink) !important;
+            }
+            .hamburger { display: flex; }
+            .service-grid { grid-template-columns: 1fr; }
+            .fleet-grid { grid-template-columns: 1fr 1fr; }
+            .footer-top { grid-template-columns: 1fr 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            body { padding-top: 64px; }
+            nav { height: 64px; }
+            .page-header { padding: 80px 0 40px; }
+            .service-content { padding: 3rem 0; }
+            .service-img { height: 280px; }
+            .fleet-grid { grid-template-columns: 1fr; }
+            .footer-top { grid-template-columns: 1fr; }
+            .footer-bottom { flex-direction: column; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav>
+    <a href="/" class="nav-logo">
+        <img src="/assets/img/logo/logo.png" alt="NexShip Xpress" onerror="this.style.display='none'">
+        <span>NexShip Xpress</span>
+    </a>
+    <div class="nav-links" id="navLinks">
+        <a href="/">Home</a>
+        <a href="/about.html">About</a>
+        <a href="/services.html">Services</a>
+        <a href="/network.html">Network</a>
+        <a href="/track.html">Track Parcel</a>
+        <a href="/contact.html" class="nav-cta">Contact Us</a>
+    </div>
+    <div class="hamburger" id="hamburger">
+        <span></span><span></span><span></span>
+    </div>
+</nav>
+
+<!-- Page Header -->
+<section class="page-header">
+    <div data-aos="fade-up">
+        <h1>Trucking Services</h1>
+        <p>Reliable ground transportation for domestic and cross-border shipments</p>
+    </div>
+</section>
+
+<!-- Service Content -->
+<section class="service-content">
+    <div class="container">
+        <div class="service-grid">
+            <div data-aos="fade-right">
+                <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=600" alt="Trucking Services" class="service-img">
+            </div>
+            <div class="service-text" data-aos="fade-left">
+                <h2>Professional Trucking & Ground Transport</h2>
+                <p>We detail trucks based on cargo requirements ranging from normal 3-5 ton covered trucks to specialized vehicles for international or domestic locations. Our ground transportation network covers the entire continental United States and cross-border routes to Canada and Mexico.</p>
+                <p>All our trucks are equipped with GPS tracking, temperature control options, and safety features to ensure your cargo arrives in perfect condition. We offer both full truckload (FTL) and less than truckload (LTL) options.</p>
+                <ul class="feature-list">
+                    <li><i class="fas fa-check-circle"></i> Full truckload and LTL options</li>
+                    <li><i class="fas fa-check-circle"></i> Refrigerated trucks available</li>
+                    <li><i class="fas fa-check-circle"></i> Flatbed and specialized equipment</li>
+                    <li><i class="fas fa-check-circle"></i> Cross-border shipping expertise</li>
+                    <li><i class="fas fa-check-circle"></i> 24/7 GPS tracking</li>
+                    <li><i class="fas fa-check-circle"></i> Expedited shipping available</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Fleet Section -->
+<section class="fleet-section">
+    <div class="container">
+        <h2 class="section-title" data-aos="fade-up">Our Fleet</h2>
+        <p class="section-subtitle" data-aos="fade-up">Specialized vehicles for every cargo type</p>
+        <div class="fleet-grid">
+            <div class="fleet-card" data-aos="fade-up" data-aos-delay="0">
+                <i class="fas fa-truck"></i>
+                <h3>Dry Vans</h3>
+                <p>Standard freight transport</p>
+            </div>
+            <div class="fleet-card" data-aos="fade-up" data-aos-delay="100">
+                <i class="fas fa-temperature-low"></i>
+                <h3>Refrigerated</h3>
+                <p>Temperature controlled cargo</p>
+            </div>
+            <div class="fleet-card" data-aos="fade-up" data-aos-delay="200">
+                <i class="fas fa-arrows-alt"></i>
+                <h3>Flatbed</h3>
+                <p>Oversized & heavy cargo</p>
+            </div>
+            <div class="fleet-card" data-aos="fade-up" data-aos-delay="300">
+                <i class="fas fa-shield-alt"></i>
+                <h3>Secure</h3>
+                <p>High-value cargo transport</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Banner -->
+<section class="cta-banner">
+    <div class="container" data-aos="fade-up">
+        <h2 class="section-title">Ready to Ship by Ground?</h2>
+        <p class="section-subtitle">Get a free quote for your trucking needs today</p>
+        <a href="/contact.html" class="btn-primary">Get a Free Quote <i class="fas fa-arrow-right"></i></a>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="faq-section">
+    <div class="container">
+        <h2 class="section-title" data-aos="fade-up">Frequently Asked Questions</h2>
+        <div class="faq-wrapper">
+            <div class="faq-item" data-aos="fade-up" data-aos-delay="0">
+                <div class="faq-question">
+                    What is the difference between FTL and LTL?
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">FTL (Full Truckload) is when your shipment fills an entire truck exclusively for your cargo. LTL (Less than Truckload) is when your shipment shares truck space with other shipments, making it ideal for smaller loads that don't require a full truck.</div>
+            </div>
+            <div class="faq-item" data-aos="fade-up" data-aos-delay="100">
+                <div class="faq-question">
+                    Do you offer expedited shipping?
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">Yes, we offer expedited trucking services for time-sensitive shipments. Our expedited service provides dedicated vehicles and direct routing for the fastest possible delivery. Contact us for availability and pricing in your area.</div>
+            </div>
+            <div class="faq-item" data-aos="fade-up" data-aos-delay="200">
+                <div class="faq-question">
+                    Can you handle hazardous materials?
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">Yes, we are fully certified to transport hazardous materials. Our drivers are HAZMAT-certified and our vehicles are equipped with specialized safety equipment. Proper documentation and packaging are required. Contact us for specific requirements.</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <div class="footer-top">
+        <div class="footer-brand">
+            <div class="logo-text">NexShip Xpress</div>
+            <p>Fast, reliable, and secure logistics for businesses of all sizes. End-to-end solutions from local deliveries to global freight.</p>
+            <div class="footer-socials">
+                <a href="#" class="social-btn"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#" class="social-btn"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-btn"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-btn"><i class="fab fa-facebook-f"></i></a>
+            </div>
+        </div>
+        <div class="footer-col">
+            <h4>Company</h4>
+            <a href="/">Home</a>
+            <a href="/about.html">About Us</a>
+            <a href="/services.html">Services</a>
+            <a href="/network.html">Global Network</a>
+            <a href="/track.html">Track Parcel</a>
+            <a href="/contact.html">Contact</a>
+        </div>
+        <div class="footer-col">
+            <h4>Services</h4>
+            <a href="/service-express.html">Express Delivery</a>
+            <a href="/service-air.html">Air Freight</a>
+            <a href="/service-ocean.html">Ocean Freight</a>
+            <a href="/service-trucking.html">Trucking</a>
+            <a href="/services.html">Warehousing</a>
+            <a href="/services.html">3PL Solutions</a>
+        </div>
+        <div class="footer-col">
+            <h4>Contact</h4>
+            <div class="contact-item"><i class="fas fa-envelope"></i><span>nexshipxpress@outlook.com</span></div>
+            <div class="contact-item"><i class="fab fa-whatsapp"></i><a href="https://wa.me/16099749715?text=Hello%20NexShip%20Express%20Support" target="_blank" rel="noopener" class="footer-link">Chat on WhatsApp</a></div>
+            <div class="contact-item"><i class="fas fa-clock"></i><span>Mon – Sun: 9 AM – 9 PM</span></div>
+            <div class="contact-item"><i class="fas fa-map-marker-alt"></i><span>Washington, D.C. USA</span></div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <span>© 2015 NexShip Xpress. All rights reserved.</span>
+        <span>Your Trusted Global Logistics Partner</span>
+    </div>
+</footer>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init({ once: true, duration: 800, easing: 'ease-out-cubic', offset: 60 });
+
+    // Mobile menu toggle
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+    
+    hamburger.addEventListener('click', function() {
+        this.classList.toggle('active');
+        navLinks.classList.toggle('active');
+        document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
+    });
+
+    // Close menu when clicking a link
+    navLinks.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            hamburger.classList.remove('active');
+            navLinks.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!navLinks.contains(e.target) && !hamburger.contains(e.target)) {
+            hamburger.classList.remove('active');
+            navLinks.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    });
+
+    // FAQ accordion
+    document.querySelectorAll('.faq-item').forEach(item => {
+        item.addEventListener('click', function() {
+            document.querySelectorAll('.faq-item.active').forEach(openItem => {
+                if (openItem !== this) openItem.classList.remove('active');
+            });
+            this.classList.toggle('active');
+        });
+    });
+</script>
+</body>
+</html>

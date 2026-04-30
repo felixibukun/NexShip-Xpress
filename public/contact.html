@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>Contact Us | NexShip Xpress - Get in Touch</title>
+    <meta name="description" content="Contact NexShip Xpress for shipping inquiries, quotes, and customer support. We're here to help 24/7.">
+    <link rel="icon" type="image/png" href="/assets/img/logo/logo.png">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --green: #0F6E3F;
+            --green-mid: #1a8a50;
+            --green-light: #22c55e;
+            --green-pale: #dcfce7;
+            --ink: #0a0f0d;
+            --ink2: #141a17;
+            --muted: #5a6b62;
+            --ghost: #e8efe9;
+            --white: #ffffff;
+            --sand: #f7f5f0;
+            --gold: #c8a84b;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--white);
+            color: var(--ink);
+            overflow-x: hidden;
+            line-height: 1.6;
+            padding-top: 72px;
+        }
+
+        h1,h2,h3,h4,h5,h6 { font-family: 'Plus Jakarta Sans', sans-serif; }
+
+        /* ─── NAV ─── */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            padding: 0 5%;
+            height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(255,255,255,0.97);
+            backdrop-filter: blur(16px);
+            box-shadow: 0 1px 0 rgba(0,0,0,0.06);
+            transition: all 0.3s;
+        }
+
+        .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+        .nav-logo img { height: 38px; }
+        .nav-logo span {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: var(--ink);
+        }
+
+        .nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+        .nav-links a {
+            font-size: 0.88rem;
+            font-weight: 500;
+            color: var(--muted);
+            text-decoration: none;
+            letter-spacing: 0.02em;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover { color: var(--green); }
+
+        .nav-cta {
+            background: var(--green);
+            color: var(--white) !important;
+            padding: 0.55rem 1.4rem;
+            border-radius: 100px;
+            font-size: 0.85rem !important;
+            font-weight: 600 !important;
+            letter-spacing: 0.03em;
+            transition: background 0.3s, transform 0.2s !important;
+        }
+        .nav-cta:hover { background: var(--green-mid) !important; transform: translateY(-1px); }
+
+        .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; z-index: 1001; }
+        .hamburger span { display: block; width: 24px; height: 2px; background: var(--ink); border-radius: 2px; transition: all 0.3s; }
+        .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+        .hamburger.active span:nth-child(2) { opacity: 0; }
+        .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+        /* ─── PAGE HEADER ─── */
+        .page-header {
+            background: linear-gradient(135deg, var(--green) 0%, #0A532F 100%);
+            padding: 100px 0 60px;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        .page-header::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+        .page-header h1 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+        .page-header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            position: relative;
+        }
+
+        /* ─── CONTACT SECTION ─── */
+        .contact-section {
+            padding: 5rem 5%;
+        }
+        .container { max-width: 1200px; margin: 0 auto; }
+
+        .contact-info-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 4rem;
+        }
+
+        .contact-info-card {
+            background: var(--sand);
+            padding: 2.5rem 2rem;
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.3s;
+            border: 1px solid transparent;
+        }
+        .contact-info-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            border-color: var(--green-pale);
+        }
+
+        .contact-icon {
+            width: 70px; height: 70px;
+            background: linear-gradient(135deg, var(--green) 0%, var(--green-light) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            box-shadow: 0 8px 24px rgba(15,110,63,0.3);
+        }
+        .contact-icon i { font-size: 2rem; color: white; }
+
+        .contact-info-card h3 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            color: var(--ink);
+        }
+        .contact-info-card p { color: var(--muted); line-height: 1.7; }
+        .contact-info-card a { color: var(--green); text-decoration: none; font-weight: 600; }
+        .contact-info-card a:hover { text-decoration: underline; }
+
+        .contact-forms-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .contact-form {
+            background: var(--sand);
+            padding: 2.5rem;
+            border-radius: 20px;
+            border: 1px solid var(--ghost);
+        }
+        .contact-form h3 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--ink);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        .form-group { margin-bottom: 1rem; }
+        .form-group.full { grid-column: 1 / -1; }
+
+        .form-control {
+            width: 100%;
+            padding: 0.85rem 1rem;
+            border-radius: 12px;
+            border: 1px solid var(--ghost);
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            background: white;
+            transition: all 0.3s;
+            outline: none;
+        }
+        .form-control:focus {
+            border-color: var(--green);
+            box-shadow: 0 0 0 3px var(--green-pale);
+        }
+        .form-control::placeholder { color: #aaa; }
+
+        textarea.form-control { resize: vertical; min-height: 120px; }
+
+        .submit-btn {
+            background: linear-gradient(135deg, var(--green) 0%, var(--green-mid) 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 100px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 600;
+            font-size: 0.95rem;
+            width: 100%;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 0.5rem;
+        }
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(15,110,63,0.4);
+        }
+        .submit-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* ─── MAP SECTION ─── */
+        .map-section {
+            padding: 0 5% 5rem;
+        }
+        .map-container {
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .map-container iframe {
+            display: block;
+            width: 100%;
+            height: 400px;
+            border: 0;
+        }
+
+        /* ─── FOOTER ─── */
+        footer {
+            background: var(--ink);
+            color: #888;
+            padding: 4rem 5% 2rem;
+        }
+        .footer-top {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+            padding-bottom: 3rem;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+        }
+        .footer-brand .logo-text {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 1rem;
+        }
+        .footer-brand p { font-size: 0.85rem; line-height: 1.7; color: #666; max-width: 280px; }
+        .footer-socials { display: flex; gap: 0.75rem; margin-top: 1.5rem; }
+        .social-btn {
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #888;
+            font-size: 0.85rem;
+            transition: border-color 0.3s, color 0.3s;
+            text-decoration: none;
+        }
+        .social-btn:hover { border-color: var(--green-light); color: var(--green-light); }
+        .footer-col h4 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.9rem; color: white; margin-bottom: 1.25rem; }
+        .footer-col a, .footer-col .footer-link {
+            display: block;
+            color: #666;
+            text-decoration: none;
+            font-size: 0.85rem;
+            margin-bottom: 0.7rem;
+            transition: color 0.3s;
+        }
+        .footer-col a:hover, .footer-col .footer-link:hover { color: var(--green-light); }
+        .footer-col .contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.6rem;
+            margin-bottom: 0.8rem;
+            font-size: 0.85rem;
+        }
+        .footer-col .contact-item i { color: var(--green-mid); margin-top: 2px; width: 14px; flex-shrink: 0; }
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: #555;
+            gap: 1rem;
+        }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 991px) {
+            .nav-links {
+                display: flex;
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 80%;
+                max-width: 320px;
+                height: 100vh;
+                background: white;
+                flex-direction: column;
+                padding: 100px 2rem 2rem;
+                transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+                gap: 1.5rem;
+            }
+            .nav-links.active { right: 0; }
+            .nav-links a { 
+                margin: 0;
+                font-size: 1rem;
+                color: var(--ink) !important;
+            }
+            .hamburger { display: flex; }
+            .contact-info-grid { grid-template-columns: 1fr 1fr; }
+            .contact-forms-grid { grid-template-columns: 1fr; }
+            .footer-top { grid-template-columns: 1fr 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            body { padding-top: 64px; }
+            nav { height: 64px; }
+            .page-header { padding: 80px 0 40px; }
+            .contact-info-grid { grid-template-columns: 1fr; }
+            .form-grid { grid-template-columns: 1fr; }
+            .contact-form { padding: 1.5rem; }
+            .map-container iframe { height: 300px; }
+            .footer-top { grid-template-columns: 1fr; }
+            .footer-bottom { flex-direction: column; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav>
+    <a href="/" class="nav-logo">
+        <img src="/assets/img/logo/logo.png" alt="NexShip Xpress" onerror="this.style.display='none'">
+        <span>NexShip Xpress</span>
+    </a>
+    <div class="nav-links" id="navLinks">
+        <a href="/">Home</a>
+        <a href="/about.html">About</a>
+        <a href="/services.html">Services</a>
+        <a href="/network.html">Network</a>
+        <a href="/track.html">Track Parcel</a>
+        <a href="/contact.html" class="nav-cta">Contact Us</a>
+    </div>
+    <div class="hamburger" id="hamburger">
+        <span></span><span></span><span></span>
+    </div>
+</nav>
+
+<!-- Page Header -->
+<section class="page-header">
+    <div data-aos="fade-up">
+        <h1>Contact Us</h1>
+        <p>We're here to help. Reach out to us anytime.</p>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section class="contact-section">
+    <div class="container">
+        <div class="contact-info-grid">
+            <div class="contact-info-card" data-aos="fade-up" data-aos-delay="0">
+                <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+                <h3>Visit Us</h3>
+                <p>Washington, D.C.<br>United States of America</p>
+            </div>
+            <div class="contact-info-card" data-aos="fade-up" data-aos-delay="100">
+                <div class="contact-icon"><i class="fab fa-whatsapp"></i></div>
+                <h3>WhatsApp Support</h3>
+                <p><a href="https://wa.me/16099749715?text=Hello%20NexShip%20Express%20Support" target="_blank" rel="noopener">Chat on WhatsApp</a><br>Mon-Sun: 9AM - 9PM</p>
+            </div>
+            <div class="contact-info-card" data-aos="fade-up" data-aos-delay="200">
+                <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                <h3>Email Us</h3>
+                <p>nexshipxpress@outlook.com<br>Support 24/7</p>
+            </div>
+        </div>
+        
+        <div class="contact-forms-grid">
+            <div class="contact-form" data-aos="fade-right">
+                <h3>Send Us a Message</h3>
+                <form id="contactForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Your Name" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" class="form-control" placeholder="Your Email" required>
+                        </div>
+                        <div class="form-group full">
+                            <input type="text" class="form-control" placeholder="Subject">
+                        </div>
+                        <div class="form-group full">
+                            <textarea class="form-control" rows="5" placeholder="Your Message" required></textarea>
+                        </div>
+                    </div>
+                    <button type="submit" class="submit-btn">Send Message <i class="fas fa-paper-plane ms-2"></i></button>
+                </form>
+            </div>
+            <div class="contact-form" data-aos="fade-left">
+                <h3>Get a Shipping Quote</h3>
+                <form id="quoteForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="From Location" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="To Location" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Package Weight (lbs)">
+                        </div>
+                        <div class="form-group">
+                            <select class="form-control">
+                                <option value="">Select Service Type</option>
+                                <option>Express Delivery</option>
+                                <option>Air Freight</option>
+                                <option>Ocean Freight</option>
+                                <option>Trucking</option>
+                                <option>Warehousing</option>
+                            </select>
+                        </div>
+                        <div class="form-group full">
+                            <input type="email" class="form-control" placeholder="Your Email for Quote" required>
+                        </div>
+                        <div class="form-group full">
+                            <textarea class="form-control" rows="3" placeholder="Additional Details"></textarea>
+                        </div>
+                    </div>
+                    <button type="submit" class="submit-btn">Request Quote <i class="fas fa-calculator ms-2"></i></button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Map Section -->
+<section class="map-section">
+    <div class="container">
+        <div class="map-container" data-aos="fade-up">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3105.1503822695863!2d-77.036870684648!3d38.895112279569!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89b7b7bcdecbb1df%3A0x715969d86d0b76bf!2sWashington%2C+DC!5e0!3m2!1sen!2sus!4v1700000000000!5m2!1sen!2sus" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <div class="footer-top">
+        <div class="footer-brand">
+            <div class="logo-text">NexShip Xpress</div>
+            <p>Fast, reliable, and secure logistics for businesses of all sizes. End-to-end solutions from local deliveries to global freight.</p>
+            <div class="footer-socials">
+                <a href="#" class="social-btn"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#" class="social-btn"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-btn"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-btn"><i class="fab fa-facebook-f"></i></a>
+            </div>
+        </div>
+        <div class="footer-col">
+            <h4>Company</h4>
+            <a href="/">Home</a>
+            <a href="/about.html">About Us</a>
+            <a href="/services.html">Services</a>
+            <a href="/network.html">Global Network</a>
+            <a href="/track.html">Track Parcel</a>
+            <a href="/contact.html">Contact</a>
+        </div>
+        <div class="footer-col">
+            <h4>Services</h4>
+            <a href="/service-express.html">Express Delivery</a>
+            <a href="/service-air.html">Air Freight</a>
+            <a href="/service-ocean.html">Ocean Freight</a>
+            <a href="/service-trucking.html">Trucking</a>
+            <a href="/services.html">Warehousing</a>
+            <a href="/services.html">3PL Solutions</a>
+        </div>
+        <div class="footer-col">
+            <h4>Contact</h4>
+            <div class="contact-item"><i class="fas fa-envelope"></i><span>nexshipxpress@outlook.com</span></div>
+            <div class="contact-item"><i class="fab fa-whatsapp"></i><a href="https://wa.me/16099749715?text=Hello%20NexShip%20Express%20Support" target="_blank" rel="noopener" class="footer-link">Chat on WhatsApp</a></div>
+            <div class="contact-item"><i class="fas fa-clock"></i><span>Mon – Sun: 9 AM – 9 PM</span></div>
+            <div class="contact-item"><i class="fas fa-map-marker-alt"></i><span>Washington, D.C. USA</span></div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <span>© 2015 NexShip Xpress. All rights reserved.</span>
+        <span>Your Trusted Global Logistics Partner</span>
+    </div>
+</footer>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init({ once: true, duration: 800, easing: 'ease-out-cubic', offset: 60 });
+
+    // Mobile menu toggle
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+    
+    hamburger.addEventListener('click', function() {
+        this.classList.toggle('active');
+        navLinks.classList.toggle('active');
+        document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
+    });
+
+    // Close menu when clicking a link
+    navLinks.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            hamburger.classList.remove('active');
+            navLinks.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!navLinks.contains(e.target) && !hamburger.contains(e.target)) {
+            hamburger.classList.remove('active');
+            navLinks.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    });
+
+    // Form submissions with loading states
+    document.getElementById('contactForm')?.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const submitBtn = this.querySelector('.submit-btn');
+        const originalHTML = submitBtn.innerHTML;
+        
+        // Show loading state
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+        submitBtn.disabled = true;
+        
+        const formData = {
+            name: this.querySelector('input[placeholder="Your Name"]').value.trim(),
+            email: this.querySelector('input[placeholder="Your Email"]').value.trim(),
+            subject: this.querySelector('input[placeholder="Subject"]').value.trim(),
+            message: this.querySelector('textarea[placeholder="Your Message"]').value.trim()
+        };
+        
+        // Client-side validation
+        if (!formData.name || !formData.email || !formData.message) {
+            alert('Please fill in all required fields (Name, Email, and Message).');
+            submitBtn.innerHTML = originalHTML;
+            submitBtn.disabled = false;
+            return;
+        }
+        
+        // Email validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(formData.email)) {
+            alert('Please enter a valid email address.');
+            submitBtn.innerHTML = originalHTML;
+            submitBtn.disabled = false;
+            return;
+        }
+        
+        try {
+            const response = await fetch('/api/contact', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData)
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                alert('✅ Thank you for your message! We have sent a confirmation to your email and will get back to you within 24 hours.');
+                this.reset();
+            } else {
+                throw new Error(data.error || 'Failed to send message');
+            }
+        } catch (error) {
+            alert('❌ Failed to send message. Please try again or email us directly at nexshipxpress@outlook.com');
+            console.error('Contact form error:', error);
+        } finally {
+            // Reset button
+            submitBtn.innerHTML = originalHTML;
+            submitBtn.disabled = false;
+        }
+    });
+    
+    document.getElementById('quoteForm')?.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const submitBtn = this.querySelector('.submit-btn');
+        const originalHTML = submitBtn.innerHTML;
+        
+        // Show loading state
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Calculating...';
+        submitBtn.disabled = true;
+        
+        const formData = {
+            from: this.querySelector('input[placeholder="From Location"]').value.trim(),
+            to: this.querySelector('input[placeholder="To Location"]').value.trim(),
+            weight: this.querySelector('input[placeholder="Package Weight (lbs)"]').value.trim(),
+            serviceType: this.querySelector('select').value,
+            email: this.querySelector('input[placeholder="Your Email for Quote"]').value.trim(),
+            details: this.querySelector('textarea[placeholder="Additional Details"]').value.trim()
+        };
+        
+        // Client-side validation
+        if (!formData.from || !formData.to || !formData.email) {
+            alert('Please fill in all required fields (From Location, To Location, and Email).');
+            submitBtn.innerHTML = originalHTML;
+            submitBtn.disabled = false;
+            return;
+        }
+        
+        // Email validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(formData.email)) {
+            alert('Please enter a valid email address.');
+            submitBtn.innerHTML = originalHTML;
+            submitBtn.disabled = false;
+            return;
+        }
+        
+        try {
+            const response = await fetch('/api/quote', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData)
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                alert('✅ Thank you! We are preparing your quote and will send it to your email within 2-4 hours.');
+                this.reset();
+            } else {
+                throw new Error(data.error || 'Failed to submit quote');
+            }
+        } catch (error) {
+            alert('❌ Failed to submit quote request. Please try again or contact us via WhatsApp for immediate assistance.');
+            console.error('Quote form error:', error);
+        } finally {
+            // Reset button
+            submitBtn.innerHTML = originalHTML;
+            submitBtn.disabled = false;
+        }
+    });
+</script>
+</body>
+</html>

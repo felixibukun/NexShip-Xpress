@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login | NexShip Xpress</title>
+    <link rel="icon" type="image/png" href="/assets/img/logo/logo.png">
+    <meta name="description" content="Administrator login for NexShip Xpress shipment management system.">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        
+        :root {
+            --primary: #0F6E3F;
+            --primary-dark: #0A532F;
+            --primary-light: #4CAF50;
+        }
+        
+        .login-container {
+            width: 100%;
+            max-width: 450px;
+        }
+        
+        .login-box {
+            background: white;
+            border-radius: 24px;
+            padding: 2.5rem;
+            box-shadow: 0 30px 50px rgba(0,0,0,0.2);
+            animation: fadeInUp 0.6s ease;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .logo {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .logo-img {
+            height: 60px;
+        }
+        
+        h1 {
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 0.5rem;
+        }
+        
+        .brand {
+            text-align: center;
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+        
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .input-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-size: 0.9rem;
+        }
+        
+        .password-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        
+        .password-wrapper input {
+            width: 100%;
+            padding: 1rem 1rem;
+            padding-right: 3rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .password-wrapper input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(15,110,63,0.1);
+        }
+        
+        .toggle-password {
+            position: absolute;
+            right: 1rem;
+            cursor: pointer;
+            color: #999;
+            font-size: 1.1rem;
+            transition: color 0.3s;
+            background: white;
+            padding: 0;
+        }
+        
+        .toggle-password:hover {
+            color: var(--primary);
+        }
+        
+        button {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 0.5rem;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(15,110,63,0.3);
+        }
+        
+        .error {
+            color: #c62828;
+            text-align: center;
+            margin-top: 1rem;
+            padding: 0.8rem;
+            background: #ffebee;
+            border-radius: 10px;
+            font-size: 0.85rem;
+        }
+        
+        .back-link {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+        
+        .back-link a {
+            color: #666;
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.3s;
+        }
+        
+        .back-link a:hover {
+            color: var(--primary);
+        }
+        
+        .admin-badge {
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 0.7rem;
+            color: #aaa;
+        }
+        
+        /* Responsive */
+        @media (max-width: 500px) {
+            .login-box {
+                padding: 1.8rem;
+            }
+            h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-box">
+            <div class="logo">
+                <img src="/assets/img/logo/logo.png" alt="NexShip Xpress" class="logo-img">
+            </div>
+            <h1>Admin Portal</h1>
+            <div class="brand">NexShip Xpress</div>
+            
+            <form action="/admin-secure-92x/login" method="POST" id="loginForm">
+                <div class="input-group">
+                    <label class="input-label"><i class="fas fa-lock me-2"></i> Password</label>
+                    <div class="password-wrapper">
+                        <input type="password" name="password" id="password" placeholder="Enter admin password" required autofocus>
+                        <i class="fas fa-eye toggle-password" id="togglePassword"></i>
+                    </div>
+                </div>
+                
+                <button type="submit">
+                    <i class="fas fa-sign-in-alt me-2"></i> Login to Dashboard
+                </button>
+            </form>
+            
+            <div class="error" id="errorMsg"></div>
+            
+            <div class="back-link">
+                <a href="/"><i class="fas fa-arrow-left me-1"></i> Back to Homepage</a>
+            </div>
+            
+            <div class="admin-badge">
+                <i class="fas fa-shield-alt"></i> Secure Administrator Access
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Show/Hide Password Toggle
+        const togglePassword = document.getElementById('togglePassword');
+        const passwordInput = document.getElementById('password');
+        
+        togglePassword.addEventListener('click', function() {
+            // Toggle password type
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            
+            // Toggle eye icon
+            this.classList.toggle('fa-eye');
+            this.classList.toggle('fa-eye-slash');
+        });
+        
+        // Check for error in URL
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('error')) {
+            document.getElementById('errorMsg').innerHTML = '<i class="fas fa-exclamation-triangle me-2"></i> Invalid password. Please try again.';
+        }
+        
+        // Prevent form double submission
+        document.getElementById('loginForm').addEventListener('submit', function() {
+            const submitBtn = this.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Logging in...';
+        });
+    </script>
+</body>
+</html>

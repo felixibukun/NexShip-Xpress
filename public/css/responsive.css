@@ -1,0 +1,371 @@
+/* ============================================
+   NEXSHIP XPRESS - MOBILE RESPONSIVE CSS
+   This file makes ALL pages responsive
+   ============================================ */
+
+/* Tablet Devices (768px - 1024px) */
+@media (max-width: 1024px) {
+    /* General */
+    .container {
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+    
+    /* Stats Grid */
+    .stats-container, .stats-grid, .why-container, 
+    .why-grid, .steps-container, .testimonials-grid, 
+    .network-grid, .industries-grid, .services-grid,
+    .row.g-4 {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+    
+    /* About Section */
+    .about-container {
+        grid-template-columns: 1fr !important;
+        gap: 2rem !important;
+    }
+    
+    /* Service Detail Pages */
+    .service-content .row {
+        flex-direction: column;
+    }
+    
+    .service-content .col-lg-6 {
+        width: 100%;
+    }
+    
+    /* Pricing Cards */
+    .pricing-card {
+        margin-bottom: 1rem;
+    }
+}
+
+/* Mobile Devices (up to 768px) */
+@media (max-width: 768px) {
+    /* Container */
+    .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    
+    /* Typography */
+    h1, .hero h1, .page-header h1 {
+        font-size: 2rem !important;
+        line-height: 1.3 !important;
+    }
+    
+    h2, .section-title {
+        font-size: 1.8rem !important;
+    }
+    
+    h3 {
+        font-size: 1.3rem !important;
+    }
+    
+    p {
+        font-size: 0.95rem !important;
+    }
+    
+    /* Navigation */
+    .navbar .nav-links {
+        position: fixed;
+        top: 70px;
+        left: -100%;
+        width: 80%;
+        height: calc(100vh - 70px);
+        background: white;
+        flex-direction: column;
+        padding: 2rem;
+        transition: 0.3s ease;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        z-index: 999;
+    }
+    
+    .navbar .nav-links.active {
+        left: 0;
+    }
+    
+    .navbar .nav-links a {
+        margin: 1rem 0;
+        font-size: 1.1rem;
+    }
+    
+    .mobile-menu-btn {
+        display: block !important;
+    }
+    
+    /* Hero Section */
+    .hero {
+        padding: 120px 1rem 60px !important;
+        text-align: center;
+    }
+    
+    .hero .hero-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .hero-btn {
+        width: 100%;
+        text-align: center;
+        justify-content: center;
+    }
+    
+    /* Tracking Card */
+    .tracking-card {
+        margin: -40px 1rem 0 !important;
+        padding: 1.5rem !important;
+    }
+    
+    .tracking-input-group {
+        flex-direction: column !important;
+        gap: 0.8rem !important;
+    }
+    
+    .tracking-input-group input,
+    .tracking-input-group button {
+        width: 100%;
+    }
+    
+    /* Stats Section */
+    .stats-container, .stats-grid, .why-container, 
+    .why-grid, .steps-container, .testimonials-grid, 
+    .network-grid, .industries-grid, .services-grid {
+        grid-template-columns: 1fr !important;
+        gap: 1rem !important;
+    }
+    
+    .stat-card, .service-card, .why-card, .testimonial-card,
+    .network-item, .industry-card, .pricing-card {
+        margin-bottom: 0;
+    }
+    
+    /* About Section */
+    .about-section .row {
+        flex-direction: column;
+    }
+    
+    .about-img {
+        height: 250px !important;
+        width: 100%;
+        object-fit: cover;
+    }
+    
+    .about-features {
+        grid-template-columns: 1fr !important;
+    }
+    
+    /* How It Works */
+    .step-number {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+    }
+    
+    /* Service Detail Pages */
+    .service-img {
+        height: 250px !important;
+    }
+    
+    .feature-list li {
+        font-size: 0.9rem;
+    }
+    
+    /* Contact Form */
+    .contact-form {
+        padding: 1.5rem !important;
+    }
+    
+    .contact-form .row {
+        flex-direction: column;
+    }
+    
+    .contact-form .col-md-6 {
+        width: 100%;
+    }
+    
+    /* Table (Admin Dashboard) */
+    .table-wrapper {
+        overflow-x: auto;
+    }
+    
+    table {
+        min-width: 800px;
+    }
+    
+    th, td {
+        padding: 0.5rem !important;
+        font-size: 0.75rem !important;
+    }
+    
+    /* Admin Dashboard Form */
+    .add-form .form-row {
+        flex-direction: column;
+    }
+    
+    .add-form .form-group {
+        width: 100%;
+    }
+    
+    /* Footer */
+    .footer-container, .footer .row {
+        grid-template-columns: 1fr !important;
+        text-align: center;
+    }
+    
+    .footer a {
+        text-align: center;
+    }
+    
+    /* Map */
+    .map-container iframe {
+        height: 250px !important;
+    }
+    
+    /* FAQ */
+    .faq-question {
+        font-size: 1rem !important;
+    }
+    
+    /* Modal */
+    .modal-content {
+        width: 95% !important;
+        margin: 1rem;
+    }
+    
+    /* Sidebar (Admin) */
+    .sidebar {
+        transform: translateX(-100%);
+        width: 280px !important;
+    }
+    
+    .sidebar.active {
+        transform: translateX(0);
+    }
+    
+    .main-content {
+        margin-left: 0 !important;
+        padding: 1rem !important;
+    }
+    
+    .menu-toggle {
+        display: block;
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 1000;
+        background: var(--primary);
+        color: white;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+}
+
+/* Small Mobile Devices (up to 480px) */
+@media (max-width: 480px) {
+    /* Typography */
+    h1, .hero h1, .page-header h1 {
+        font-size: 1.8rem !important;
+    }
+    
+    h2, .section-title {
+        font-size: 1.5rem !important;
+    }
+    
+    /* Logo */
+    .logo-img {
+        height: 35px !important;
+    }
+    
+    /* Buttons */
+    .hero-btn, .btn-service, .cta-btn {
+        padding: 0.8rem 1.2rem !important;
+        font-size: 0.9rem !important;
+    }
+    
+    /* Stats Numbers */
+    .stat-number, .stat-network-number {
+        font-size: 2rem !important;
+    }
+    
+    /* Service Cards */
+    .service-icon {
+        width: 50px !important;
+        height: 50px !important;
+        font-size: 1.5rem !important;
+    }
+    
+    /* Testimonials */
+    .testimonial-text {
+        font-size: 0.9rem !important;
+    }
+    
+    /* Admin Dashboard */
+    .stats-grid {
+        grid-template-columns: 1fr !important;
+    }
+    
+    .top-bar {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+    
+    .user-menu {
+        justify-content: center;
+    }
+}
+
+/* Fix for all pages - ensure images are responsive */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Fix for all cards */
+.service-card, .stat-card, .why-card, .testimonial-card,
+.network-item, .industry-card, .pricing-card, .team-card,
+.region-card, .warehouse-card, .contact-info-card {
+    margin-bottom: 1rem;
+}
+
+/* Fix for forms */
+input, select, textarea, button {
+    max-width: 100%;
+}
+
+/* Fix for tables */
+table {
+    width: 100%;
+    display: block;
+    overflow-x: auto;
+}
+
+/* Hide mobile menu button by default, show on mobile */
+.mobile-menu-btn {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--dark);
+}
+
+/* Menu toggle for admin sidebar */
+.menu-toggle {
+    display: none;
+}
+
+/* Show mobile menu button on mobile */
+@media (max-width: 768px) {
+    .mobile-menu-btn {
+        display: block;
+    }
+}

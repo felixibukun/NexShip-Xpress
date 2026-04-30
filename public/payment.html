@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>Clearance Payment | NexShip Xpress</title>
+    <link rel="icon" type="image/png" href="/assets/img/logo/logo.png">
+    <meta name="description" content="Secure clearance payment for your NexShip Xpress shipment">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'jakarta': ['Plus Jakarta Sans', 'sans-serif'],
+                        'inter': ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+
+    <style>
+        [x-cloak] { display: none !important; }
+        * { -webkit-tap-highlight-color: transparent; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        @keyframes floatSoft {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-14px); }
+        }
+        @keyframes pulseRing {
+            0% { transform: scale(.95); opacity: .65; }
+            70% { transform: scale(1.35); opacity: 0; }
+            100% { transform: scale(1.35); opacity: 0; }
+        }
+        @keyframes shine {
+            0% { transform: translateX(-120%) skewX(-18deg); }
+            100% { transform: translateX(180%) skewX(-18deg); }
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .bg-premium {
+            background:
+                radial-gradient(circle at 20% 20%, rgba(255,255,255,.22), transparent 32%),
+                radial-gradient(circle at 82% 18%, rgba(16,185,129,.22), transparent 34%),
+                linear-gradient(135deg, #111827 0%, #1e3a8a 42%, #059669 100%);
+            background-size: 220% 220%;
+            animation: gradientShift 16s ease infinite;
+        }
+        .glass-nav {
+            background: rgba(255, 255, 255, .92);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border-bottom: 1px solid rgba(15, 23, 42, .08);
+            box-shadow: 0 20px 50px rgba(15, 23, 42, .08);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, .96);
+            backdrop-filter: blur(22px);
+            -webkit-backdrop-filter: blur(22px);
+            border: 1px solid rgba(255, 255, 255, .78);
+            box-shadow: 0 24px 80px rgba(15, 23, 42, .12);
+        }
+        .premium-border {
+            border: 1px solid rgba(148, 163, 184, .22);
+        }
+        .input-premium, .select-premium, .textarea-premium {
+            background: rgba(255, 255, 255, .92);
+            border: 1.5px solid rgba(203, 213, 225, .85);
+            transition: all .25s ease;
+            font-size: 16px;
+        }
+        .input-premium:focus, .select-premium:focus, .textarea-premium:focus {
+            outline: none;
+            border-color: #059669;
+            box-shadow: 0 0 0 5px rgba(5, 150, 105, .12);
+            background: #fff;
+        }
+        .btn-premium {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+            transition: all .28s ease;
+        }
+        .btn-premium:before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            width: 35%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,.35), transparent);
+            animation: shine 3.5s infinite;
+        }
+        .btn-premium:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 18px 38px rgba(5, 150, 105, .28);
+        }
+        .btn-premium:disabled {
+            opacity: .55;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        .soft-float { animation: floatSoft 8s ease-in-out infinite; }
+        .secure-pulse { position: relative; }
+        .secure-pulse:after {
+            content: '';
+            position: absolute;
+            inset: -8px;
+            border-radius: 999px;
+            border: 2px solid rgba(16, 185, 129, .42);
+            animation: pulseRing 2.2s infinite;
+        }
+        .upload-area {
+            border: 2px dashed #cbd5e1;
+            transition: all .25s ease;
+            cursor: pointer;
+        }
+        .upload-area:hover {
+            border-color: #059669;
+            background: rgba(5, 150, 105, .05);
+        }
+        .loader-premium {
+            width: 26px;
+            height: 26px;
+            border: 3px solid rgba(255,255,255,.35);
+            border-top: 3px solid #fff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        ::-webkit-scrollbar { width: 9px; }
+        ::-webkit-scrollbar-track { background: #e5e7eb; }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #059669, #2563eb); border-radius: 999px; }
+
+        @media (max-width: 768px) {
+            .input-premium, .select-premium, .textarea-premium {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-slate-50 via-white to-emerald-50 text-slate-900" x-data="paymentSystem()" x-init="init()">
+
+<!-- Navigation -->
+<nav class="fixed top-0 left-0 right-0 z-50 glass-nav py-3">
+    <div class="max-w-7xl mx-auto px-4 flex items-center justify-between gap-4">
+        <a href="/" class="flex items-center gap-3 min-w-0">
+            <img src="/assets/img/logo/logo.png" alt="NexShip Xpress" class="h-10 md:h-12 w-auto shrink-0">
+            <span class="text-lg md:text-2xl font-black bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent truncate font-jakarta">NexShip Xpress</span>
+        </a>
+        <div class="hidden md:flex items-center gap-8 text-[15px] font-semibold">
+            <a href="/" class="text-slate-700 hover:text-green-600 transition">Home</a>
+            <a href="/track.html" class="text-slate-700 hover:text-green-600 transition">Track</a>
+            <a href="/services.html" class="text-slate-700 hover:text-green-600 transition">Services</a>
+            <a href="/contact.html" class="text-slate-700 hover:text-green-600 transition">Contact</a>
+            <a href="/payment.html" class="bg-green-600 text-white px-5 py-2.5 rounded-full text-sm font-bold hover:bg-green-700 transition">Pay Now</a>
+        </div>
+        <button @click="mobileMenu = !mobileMenu" class="md:hidden w-11 h-11 rounded-xl bg-slate-900 text-white flex items-center justify-center">
+            <i class="fas" :class="mobileMenu ? 'fa-times' : 'fa-bars'"></i>
+        </button>
+    </div>
+    <div x-show="mobileMenu" x-cloak class="md:hidden px-4 pt-3 pb-2">
+        <div class="glass-card rounded-2xl p-4 flex flex-col gap-3 font-semibold">
+            <a href="/" class="text-slate-700 py-2">Home</a>
+            <a href="/track.html" class="text-slate-700 py-2">Track</a>
+            <a href="/services.html" class="text-slate-700 py-2">Services</a>
+            <a href="/contact.html" class="text-slate-700 py-2">Contact</a>
+            <a href="/payment.html" class="bg-green-600 text-white px-4 py-2.5 rounded-full text-center font-bold">Pay Now</a>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero Header -->
+<header class="bg-premium pt-32 pb-20 relative overflow-hidden">
+    <div class="absolute inset-0 bg-slate-950/20"></div>
+    <div class="absolute -top-20 -left-20 w-80 h-80 bg-white/10 rounded-full blur-3xl soft-float"></div>
+    <div class="absolute top-20 right-4 w-96 h-96 bg-emerald-300/15 rounded-full blur-3xl soft-float" style="animation-delay: 1.5s"></div>
+    <div class="max-w-7xl mx-auto px-4 relative z-10">
+        <div class="max-w-4xl mx-auto text-center" data-aos="fade-up">
+            <div class="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-white/15 text-white backdrop-blur-md mb-6 premium-border">
+                <span class="secure-pulse w-3 h-3 rounded-full bg-emerald-300"></span>
+                <span class="text-sm font-bold">Secure clearance checkout</span>
+            </div>
+            <h1 class="text-3xl md:text-6xl font-black text-white tracking-tight mb-5 font-jakarta">Complete Your Clearance Payment</h1>
+            <p class="text-white/88 text-base md:text-xl max-w-2xl mx-auto leading-relaxed">Choose crypto or supported digital payment methods. Submit your confirmation and your shipment moves to review.</p>
+        </div>
+    </div>
+</header>
+
+<!-- Main Content -->
+<main class="max-w-7xl mx-auto px-4 -mt-10 relative z-20 pb-16">
+    <div class="grid lg:grid-cols-12 gap-8">
+        <!-- Left Column - Payment Form -->
+        <section class="lg:col-span-8">
+            <div class="glass-card rounded-3xl overflow-hidden" data-aos="fade-up" data-aos-delay="100">
+                <div class="px-6 md:px-8 py-6 bg-gradient-to-r from-emerald-50 to-blue-50 border-b border-slate-100">
+                    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center shadow-lg shadow-green-200">
+                                <i class="fas fa-shield-halved text-white text-xl"></i>
+                            </div>
+                            <div>
+                                <h2 class="text-xl md:text-2xl font-black text-slate-900 font-jakarta">Payment Details</h2>
+                                <p class="text-sm text-slate-500 mt-1">Tracking code and payment amount are loaded from your shipment.</p>
+                            </div>
+                        </div>
+                        <div class="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-full border border-emerald-100 text-emerald-700 font-bold text-sm w-fit">
+                            <i class="fas fa-lock"></i>
+                            Protected checkout
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-6 md:p-8">
+                    <!-- Summary Card -->
+                    <div class="mb-8 p-5 md:p-6 rounded-3xl bg-gradient-to-br from-emerald-50 via-white to-blue-50 border border-emerald-100">
+                        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-5">
+                            <div>
+                                <p class="text-sm text-emerald-700 font-bold mb-2">Payment For</p>
+                                <h3 class="text-xl md:text-2xl font-black text-slate-900 font-jakarta">Customs Clearance & Processing</h3>
+                                <div class="flex items-center flex-wrap gap-3 mt-3 text-sm text-slate-600">
+                                    <span class="inline-flex items-center gap-2">
+                                        <i class="fas fa-barcode text-green-600"></i>
+                                        <span class="font-semibold">Tracking:</span>
+                                        <span class="font-mono tracking-wider" x-text="trackingCode || 'Not supplied'"></span>
+                                    </span>
+                                    <button type="button" @click="copyToClipboard(trackingCode)" class="text-green-600 hover:text-green-700 font-bold" x-show="trackingCode">
+                                        <i class="fas fa-copy mr-1"></i>Copy
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="text-left md:text-right">
+                                <span class="block text-sm text-slate-500 font-semibold mb-1">Total Amount</span>
+                                <span class="text-4xl font-black text-slate-900 font-jakarta" x-text="formatMoney(totalAmount)"></span>
+                                <p class="text-xs text-slate-500 mt-2" x-show="insurance || expressProcessing">Includes selected extra options</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Form Step -->
+                    <div x-show="paymentStep === 'form'">
+                        <form @submit.prevent="proceedToPayment" class="space-y-7">
+                            <!-- Payment Method Selection -->
+                            <div class="space-y-4">
+                                <div class="flex items-center justify-between gap-3">
+                                    <label class="block text-lg font-black text-slate-850 font-jakarta">Select Payment Method</label>
+                                    <span class="text-xs font-bold text-emerald-700 bg-emerald-50 border border-emerald-100 rounded-full px-3 py-1">Review required</span>
+                                </div>
+
+                                <div class="grid md:grid-cols-2 gap-5">
+                                    <div>
+                                        <label class="block text-sm font-bold text-slate-700 mb-2">Payment method</label>
+                                        <select x-model="selectedPaymentType" @change="onPaymentTypeChange" class="select-premium w-full px-4 py-4 rounded-2xl font-semibold text-slate-800">
+                                            <template x-for="method in paymentTypes" :key="method.name">
+                                                <option :value="method.name" x-text="method.name"></option>
+                                            </template>
+                                        </select>
+                                    </div>
+
+                                    <div x-show="selectedPaymentType === 'Crypto'" x-cloak>
+                                        <label class="block text-sm font-bold text-slate-700 mb-2">Crypto currency</label>
+                                        <select x-model="selectedCrypto" @change="calculateCryptoAmount" class="select-premium w-full px-4 py-4 rounded-2xl font-semibold text-slate-800">
+                                            <template x-for="coin in cryptoMethods" :key="coin.symbol">
+                                                <option :value="coin.name" x-text="coin.name + ' (' + coin.symbol + ')'"></option>
+                                            </template>
+                                        </select>
+                                    </div>
+
+                                    <div x-show="selectedPaymentType !== 'Crypto'" x-cloak>
+                                        <label class="block text-sm font-bold text-slate-700 mb-2">Payment route</label>
+                                        <div class="input-premium w-full px-4 py-4 rounded-2xl font-semibold text-slate-800 flex items-center gap-3">
+                                            <i :class="currentPaymentType.icon" class="text-emerald-600"></i>
+                                            <span x-text="currentPaymentType.label"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="rounded-3xl border border-slate-200 bg-white p-5">
+                                    <div class="flex items-start gap-4">
+                                        <div class="w-12 h-12 rounded-2xl flex items-center justify-center text-white bg-gradient-to-br from-slate-900 to-slate-700 shrink-0">
+                                            <i :class="selectedPaymentType === 'Crypto' ? currentCrypto.icon : currentPaymentType.icon" class="text-xl"></i>
+                                        </div>
+                                        <div class="flex-1 min-w-0">
+                                            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
+                                                <h4 class="font-black text-slate-900 font-jakarta" x-text="selectedPaymentType === 'Crypto' ? currentCrypto.name : selectedPaymentType"></h4>
+                                                <span class="text-xs font-bold text-green-700 bg-green-50 border border-green-100 rounded-full px-3 py-1 w-fit">Available</span>
+                                            </div>
+                                            <p class="text-sm text-slate-600 mt-2" x-text="selectedPaymentType === 'Crypto' ? 'Live rate is fetched when available. Network issues will use fallback rate.' : currentPaymentType.description"></p>
+                                            <div x-show="selectedPaymentType === 'Crypto'" class="grid sm:grid-cols-2 gap-3 mt-4">
+                                                <div class="bg-slate-50 rounded-2xl p-4">
+                                                    <p class="text-xs font-bold text-slate-500 mb-1">Live USD Rate</p>
+                                                    <p class="font-mono text-lg font-black text-slate-900" x-text="liveRateText"></p>
+                                                </div>
+                                                <div class="bg-slate-50 rounded-2xl p-4">
+                                                    <p class="text-xs font-bold text-slate-500 mb-1">Estimated Crypto Amount</p>
+                                                    <p class="font-mono text-lg font-black text-slate-900" x-text="cryptoAmount ? cryptoAmount.toFixed(8) + ' ' + currentCrypto.symbol : 'Calculating...'"></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Recipient Info -->
+                            <div class="space-y-4 pt-2 border-t border-slate-200">
+                                <label class="block text-lg font-black text-slate-850 font-jakarta">Recipient Information</label>
+                                <div class="grid md:grid-cols-2 gap-5">
+                                    <div>
+                                        <label class="block text-sm font-bold text-slate-700 mb-2">Full Name <span class="text-red-500">*</span></label>
+                                        <div class="relative">
+                                            <i class="fas fa-user absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                                            <input type="text" x-model="recipientName" required class="input-premium w-full pl-12 pr-4 py-4 rounded-2xl">
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-bold text-slate-700 mb-2">Email Address <span class="text-red-500">*</span></label>
+                                        <div class="relative">
+                                            <i class="fas fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                                            <input type="email" x-model="recipientEmail" required class="input-premium w-full pl-12 pr-4 py-4 rounded-2xl">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Additional Options -->
+                            <div class="space-y-4 pt-2 border-t border-slate-200">
+                                <label class="block text-lg font-black text-slate-850 font-jakarta">Additional Options</label>
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <label class="flex items-start gap-4 rounded-2xl border border-slate-200 bg-white p-4 cursor-pointer hover:border-emerald-300 transition">
+                                        <input type="checkbox" x-model="insurance" class="mt-1 w-5 h-5 accent-emerald-600">
+                                        <span>
+                                            <span class="block font-black text-slate-900">Shipping Insurance</span>
+                                            <span class="block text-sm text-slate-500 mt-1">Add $5.00 protection to this clearance payment.</span>
+                                        </span>
+                                    </label>
+                                    <label class="flex items-start gap-4 rounded-2xl border border-slate-200 bg-white p-4 cursor-pointer hover:border-emerald-300 transition">
+                                        <input type="checkbox" x-model="expressProcessing" class="mt-1 w-5 h-5 accent-emerald-600">
+                                        <span>
+                                            <span class="block font-black text-slate-900">Express Processing</span>
+                                            <span class="block text-sm text-slate-500 mt-1">Add $10.00 priority review.</span>
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Terms -->
+                            <label class="flex items-start gap-3 pt-2">
+                                <input type="checkbox" x-model="termsAccepted" class="mt-1 w-5 h-5 accent-emerald-600">
+                                <span class="text-sm text-slate-600 leading-relaxed">I agree to the <a href="/terms.html" class="text-emerald-700 font-bold hover:underline">Terms of Service</a> and <a href="/privacy.html" class="text-emerald-700 font-bold hover:underline">Privacy Policy</a>.</span>
+                            </label>
+
+                            <button type="submit" :disabled="!termsAccepted || !recipientName || !recipientEmail || !trackingCode || !totalAmount" class="w-full btn-premium py-4 px-6 rounded-2xl font-black text-lg flex items-center justify-center gap-3">
+                                <span x-show="!loading"><i class="fas fa-lock mr-2"></i>Proceed to Payment Instructions</span>
+                                <span x-show="loading" class="loader-premium"></span>
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Instructions Step -->
+                    <div x-show="paymentStep === 'instructions'" x-cloak class="space-y-7">
+                        <div class="text-center py-4">
+                            <div class="w-24 h-24 mx-auto mb-4 rounded-full bg-emerald-50 border border-emerald-100 flex items-center justify-center relative">
+                                <i class="fas fa-clock text-4xl text-emerald-600"></i>
+                            </div>
+                            <h3 class="text-3xl font-black text-slate-900 mb-2 font-jakarta">Awaiting Payment</h3>
+                            <p class="text-slate-600">Send payment using the instruction below, then submit your confirmation.</p>
+                            <div class="inline-flex items-center gap-2 px-4 py-2 bg-amber-50 border border-amber-100 rounded-full mt-4 text-amber-700 font-black text-sm">
+                                <i class="fas fa-hourglass-half"></i>
+                                Time remaining: <span x-text="formatTime(countdown)"></span>
+                            </div>
+                        </div>
+
+                        <div class="p-5 md:p-6 rounded-3xl bg-slate-50 border border-slate-200 space-y-5">
+                            <div>
+                                <label class="block text-sm font-black text-slate-700 mb-2">Amount to Send</label>
+                                <div class="bg-white rounded-2xl border border-slate-200 p-4 flex items-center justify-between gap-3">
+                                    <div>
+                                        <p class="font-mono text-xl font-black text-slate-900" x-text="selectedPaymentType === 'Crypto' ? cryptoAmount.toFixed(8) : formatMoney(totalAmount)"></p>
+                                        <p class="text-xs text-slate-500 mt-1" x-text="selectedPaymentType === 'Crypto' ? currentCrypto.symbol + ' ≈ ' + formatMoney(totalAmount) : selectedPaymentType"></p>
+                                    </div>
+                                    <button @click="copyToClipboard(selectedPaymentType === 'Crypto' ? cryptoAmount.toFixed(8) : totalAmount.toFixed(2))" class="w-11 h-11 rounded-xl bg-emerald-50 text-emerald-700 hover:bg-emerald-100 transition">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div x-show="selectedPaymentType === 'Crypto'" x-cloak>
+                                <label class="block text-sm font-black text-slate-700 mb-2">Wallet Address</label>
+                                <div class="bg-white rounded-2xl border border-slate-200 p-4">
+                                    <div class="flex items-start justify-between gap-3 mb-4">
+                                        <code class="text-sm font-mono break-all text-slate-800" x-text="currentWalletAddress"></code>
+                                        <button @click="copyWalletAddress" class="shrink-0 w-11 h-11 rounded-xl bg-emerald-50 text-emerald-700 hover:bg-emerald-100 transition"><i class="fas fa-copy"></i></button>
+                                    </div>
+                                    <div class="flex justify-center" x-show="currentQrImage" x-cloak>
+                                        <img :src="currentQrImage" alt="Payment QR code" class="w-44 h-44 object-contain p-3 bg-white rounded-2xl border border-slate-200">
+                                    </div>
+                                    <div x-show="!currentQrImage" x-cloak class="rounded-2xl border border-amber-100 bg-amber-50 p-4 text-sm text-amber-700 font-semibold">
+                                        QR code is currently unavailable. Please use the wallet address above.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div x-show="selectedPaymentType !== 'Crypto'" x-cloak>
+                                <label class="block text-sm font-black text-slate-700 mb-2" x-text="selectedPaymentType + ' Details'"></label>
+                                <div class="bg-white rounded-2xl border border-slate-200 p-4 space-y-3">
+                                    <div class="flex justify-center" x-show="currentQrImage" x-cloak>
+                                        <img :src="currentQrImage" alt="Payment QR code" class="w-44 h-44 object-contain p-3 bg-white rounded-2xl border border-slate-200">
+                                    </div>
+                                    <template x-for="line in currentPaymentInstructions" :key="line.label">
+                                        <div class="flex items-start justify-between gap-3 border-b border-slate-100 last:border-b-0 pb-3 last:pb-0">
+                                            <div>
+                                                <p class="text-xs font-black text-slate-500 uppercase" x-text="line.label"></p>
+                                                <p class="font-semibold text-slate-900 break-all" x-text="line.value"></p>
+                                            </div>
+                                            <button @click="copyToClipboard(line.value)" class="shrink-0 text-emerald-700 hover:text-emerald-800"><i class="fas fa-copy"></i></button>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-black text-slate-700 mb-2">Payment Confirmation</label>
+                                <div class="space-y-3">
+                                    <input type="text" x-model="transactionHash" :placeholder="confirmationPlaceholder" class="input-premium w-full px-4 py-4 rounded-2xl text-sm">
+                                    <textarea x-model="paymentNote" placeholder="Optional note, sender name, wallet, email, tag, or reference used" class="textarea-premium w-full px-4 py-4 rounded-2xl text-sm min-h-[92px]"></textarea>
+                                    <div class="upload-area rounded-2xl p-5 text-center bg-white" @click="$refs.fileInput.click()" @dragover.prevent @drop.prevent="handleFileDrop">
+                                        <input type="file" x-ref="fileInput" @change="handleFileUpload" accept="image/*" class="hidden">
+                                        <i class="fas fa-cloud-upload-alt text-3xl text-slate-400 mb-3"></i>
+                                        <p class="text-sm font-bold text-slate-700">Upload payment proof</p>
+                                        <p class="text-xs text-slate-400 mt-1">Screenshot or receipt, PNG, JPG, WEBP</p>
+                                    </div>
+                                    <div x-show="uploadedFile" class="flex items-center justify-between bg-emerald-50 border border-emerald-100 p-3 rounded-xl">
+                                        <span class="text-sm font-bold text-emerald-700 truncate" x-text="uploadedFile?.name"></span>
+                                        <button type="button" @click="uploadedFile = null" class="text-red-600"><i class="fas fa-times"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-blue-50 border border-blue-100 p-4 rounded-2xl">
+                                <h4 class="font-black text-slate-900 mb-3 font-jakarta"><i class="fas fa-circle-info text-blue-600 mr-2"></i>Important Information</h4>
+                                <ul class="space-y-2 text-sm text-slate-600">
+                                    <li class="flex gap-2"><i class="fas fa-check-circle text-emerald-600 mt-1"></i><span>Send the exact amount shown.</span></li>
+                                    <li class="flex gap-2"><i class="fas fa-check-circle text-emerald-600 mt-1"></i><span>Use the tracking code as your payment note where possible.</span></li>
+                                    <li class="flex gap-2"><i class="fas fa-check-circle text-emerald-600 mt-1"></i><span>Review is required before your shipment payment status changes.</span></li>
+                                    <li class="flex gap-2"><i class="fas fa-check-circle text-emerald-600 mt-1"></i><span>You will receive an email notification after approval or rejection.</span></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="grid md:grid-cols-2 gap-3">
+                            <button @click="paymentStep = 'form'; clearInterval(timerInterval)" class="px-6 py-4 border-2 border-slate-200 text-slate-700 rounded-2xl font-black hover:bg-slate-50 transition"><i class="fas fa-arrow-left mr-2"></i>Back</button>
+                            <button @click="submitPaymentConfirmation" :disabled="!transactionHash || submitting" class="btn-premium px-6 py-4 rounded-2xl font-black flex items-center justify-center gap-2">
+                                <span x-show="!submitting"><i class="fas fa-check-circle mr-2"></i>I Have Made Payment</span>
+                                <span x-show="submitting" class="loader-premium"></span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Status Step -->
+                    <div x-show="paymentStep === 'status'" x-cloak class="text-center py-8">
+                        <div class="w-24 h-24 mx-auto mb-5 rounded-full flex items-center justify-center" :class="{'bg-yellow-100': paymentStatus === 'pending','bg-green-100': paymentStatus === 'submitted','bg-red-100': paymentStatus === 'failed'}">
+                            <i class="text-4xl" :class="{'fas fa-clock text-yellow-600': paymentStatus === 'pending','fas fa-check-circle text-green-600': paymentStatus === 'submitted','fas fa-times-circle text-red-600': paymentStatus === 'failed'}"></i>
+                        </div>
+                        <h3 class="text-3xl font-black text-slate-900 mb-2 font-jakarta" x-text="statusMessage"></h3>
+                        <p class="text-slate-600 max-w-xl mx-auto" x-text="statusDescription"></p>
+                        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-5 my-6 text-left max-w-xl mx-auto space-y-2 text-sm">
+                            <p><strong>Tracking Number:</strong> <span x-text="trackingCode"></span></p>
+                            <p><strong>Amount:</strong> <span x-text="formatMoney(totalAmount)"></span></p>
+                            <p><strong>Method:</strong> <span x-text="selectedPaymentType === 'Crypto' ? currentCrypto.name : selectedPaymentType"></span></p>
+                            <p><strong>Reference:</strong> <span class="font-mono text-xs break-all" x-text="transactionHash"></span></p>
+                        </div>
+                        <div class="grid md:grid-cols-2 gap-3 max-w-xl mx-auto">
+                            <a :href="`/track.html?code=${trackingCode}`" class="btn-premium px-6 py-4 rounded-2xl font-black text-center"><i class="fas fa-box mr-2"></i>Track Shipment</a>
+                            <a href="/contact.html" class="px-6 py-4 border-2 border-slate-200 text-slate-700 rounded-2xl font-black hover:bg-slate-50 transition text-center"><i class="fas fa-headset mr-2"></i>Contact Support</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Right Sidebar -->
+        <aside class="lg:col-span-4 space-y-6">
+            <div class="glass-card rounded-3xl overflow-hidden" data-aos="fade-up" data-aos-delay="200">
+                <div class="bg-gradient-to-r from-emerald-600 to-green-600 px-6 py-5">
+                    <h3 class="text-xl font-black text-white flex items-center gap-2 font-jakarta"><i class="fas fa-wallet"></i>Accepted Payments</h3>
+                </div>
+                <div class="p-6 space-y-3">
+                    <template x-for="method in paymentTypes" :key="method.name">
+                        <div class="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-slate-100">
+                            <div class="flex items-center gap-3">
+                                <div class="w-11 h-11 rounded-xl bg-slate-900 text-white flex items-center justify-center"><i :class="method.icon"></i></div>
+                                <span class="font-black text-slate-800" x-text="method.name"></span>
+                            </div>
+                            <span class="text-xs text-emerald-700 font-black"><i class="fas fa-check-circle"></i> Available</span>
+                        </div>
+                    </template>
+                </div>
+            </div>
+
+            <div class="glass-card rounded-3xl overflow-hidden" data-aos="fade-up" data-aos-delay="300">
+                <div class="bg-gradient-to-r from-blue-600 to-cyan-600 px-6 py-5">
+                    <h3 class="text-xl font-black text-white flex items-center gap-2 font-jakarta"><i class="fas fa-info-circle"></i>Clearance Information</h3>
+                </div>
+                <div class="p-6 space-y-5">
+                    <div class="flex gap-4">
+                        <div class="w-11 h-11 bg-blue-50 rounded-xl flex items-center justify-center shrink-0"><i class="fas fa-file-invoice text-blue-600"></i></div>
+                        <div><h4 class="font-black text-slate-900">What are clearance fees?</h4><p class="text-sm text-slate-600 mt-1">Fees covering customs processing, documentation, inspection, and handling.</p></div>
+                    </div>
+                    <div class="flex gap-4">
+                        <div class="w-11 h-11 bg-blue-50 rounded-xl flex items-center justify-center shrink-0"><i class="fas fa-clock text-blue-600"></i></div>
+                        <div><h4 class="font-black text-slate-900">Processing Time</h4><p class="text-sm text-slate-600 mt-1">Payments are reviewed within 1 to 2 hours. Shipment updates follow after approval.</p></div>
+                    </div>
+                    <div class="flex gap-4">
+                        <div class="w-11 h-11 bg-blue-50 rounded-xl flex items-center justify-center shrink-0"><i class="fas fa-shield-alt text-blue-600"></i></div>
+                        <div><h4 class="font-black text-slate-900">Payment Security</h4><p class="text-sm text-slate-600 mt-1">Payment proof goes to company review before shipment status changes.</p></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-card rounded-3xl p-6" data-aos="fade-up" data-aos-delay="400">
+                <h4 class="font-black text-slate-900 mb-4 font-jakarta">Need Help?</h4>
+                <div class="space-y-3 text-sm font-semibold">
+                    <a href="/contact.html" class="flex items-center text-emerald-700 hover:text-emerald-800 py-1"><i class="fas fa-headset mr-3"></i>Contact Support Team</a>
+                    <a href="mailto:nexshipxpress@outlook.com" class="flex items-center text-slate-600 hover:text-slate-900 py-1"><i class="fas fa-envelope mr-3"></i>nexshipxpress@outlook.com</a>
+                    <a href="https://wa.me/16099749715" target="_blank" rel="noopener" class="flex items-center text-slate-600 hover:text-slate-900 py-1"><i class="fab fa-whatsapp mr-3"></i>Chat on WhatsApp</a>
+                </div>
+            </div>
+        </aside>
+    </div>
+</main>
+
+<!-- Footer (matching track.html style) -->
+<footer style="background:linear-gradient(135deg,#1e1b4b 0%,#312e81 100%);border-top:none;margin-top:0;position:relative;z-index:1;">
+    <div style="max-width:1280px;margin:0 auto;padding:60px 24px 40px;">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:40px;margin-bottom:48px;">
+            <div>
+                <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+                    <div style="width:44px;height:44px;background:#ffffff;border:1px solid rgba(79,70,229,0.16);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;box-shadow:0 6px 18px rgba(79,70,229,0.12);">
+                        <img src="/assets/img/logo/logo.png" alt="NexShip Xpress Logo" style="width:34px;height:34px;object-fit:contain;">
+                    </div>
+                    <span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:700;color:white;">NexShip Xpress</span>
+                </div>
+                <p style="font-size:13px;color:#9ca3af;line-height:1.7;">Fast, reliable, and secure courier services worldwide.</p>
+                <div style="display:flex;gap:10px;margin-top:20px;">
+                    <a href="#" style="width:36px;height:36px;background:rgba(99,102,241,0.1);border:1px solid rgba(99,102,241,0.2);border-radius:10px;display:flex;align-items:center;justify-content:center;color:#818cf8;font-size:13px;text-decoration:none;transition:all 0.3s;" 
+                        onmouseover="this.style.background='rgba(99,102,241,0.2)'" onmouseout="this.style.background='rgba(99,102,241,0.1)'"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" style="width:36px;height:36px;background:rgba(99,102,241,0.1);border:1px solid rgba(99,102,241,0.2);border-radius:10px;display:flex;align-items:center;justify-content:center;color:#818cf8;font-size:13px;text-decoration:none;transition:all 0.3s;"
+                        onmouseover="this.style.background='rgba(99,102,241,0.2)'" onmouseout="this.style.background='rgba(99,102,241,0.1)'"><i class="fab fa-twitter"></i></a>
+                    <a href="#" style="width:36px;height:36px;background:rgba(99,102,241,0.1);border:1px solid rgba(99,102,241,0.2);border-radius:10px;display:flex;align-items:center;justify-content:center;color:#818cf8;font-size:13px;text-decoration:none;transition:all 0.3s;"
+                        onmouseover="this.style.background='rgba(99,102,241,0.2)'" onmouseout="this.style.background='rgba(99,102,241,0.1)'"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div>
+                <h4 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:700;color:white;margin-bottom:16px;letter-spacing:0.05em;text-transform:uppercase;">Quick Links</h4>
+                <div style="display:flex;flex-direction:column;gap:10px;">
+                    <a href="/track.html" style="font-size:14px;color:#9ca3af;text-decoration:none;transition:color 0.3s;" onmouseover="this.style.color='white'" onmouseout="this.style.color='#9ca3af'">Track Package</a>
+                    <a href="/payment.html" style="font-size:14px;color:#9ca3af;text-decoration:none;transition:color 0.3s;" onmouseover="this.style.color='white'" onmouseout="this.style.color='#9ca3af'">Make Payment</a>
+                    <a href="/services.html" style="font-size:14px;color:#9ca3af;text-decoration:none;transition:color 0.3s;" onmouseover="this.style.color='white'" onmouseout="this.style.color='#9ca3af'">Our Services</a>
+                    <a href="/contact.html" style="font-size:14px;color:#9ca3af;text-decoration:none;transition:color 0.3s;" onmouseover="this.style.color='white'" onmouseout="this.style.color='#9ca3af'">Contact Us</a>
+                </div>
+            </div>
+            <div>
+                <h4 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:700;color:white;margin-bottom:16px;letter-spacing:0.05em;text-transform:uppercase;">Support</h4>
+                <div style="display:flex;flex-direction:column;gap:10px;">
+                    <span style="font-size:14px;color:#9ca3af;display:flex;align-items:center;gap:10px;"><i class="fas fa-envelope" style="color:#818cf8;width:14px;"></i> nexshipxpress@outlook.com</span>
+                    <a href="https://wa.me/16099749715?text=Hello%20NexShip%20Express%20Support" target="_blank" rel="noopener" style="font-size:14px;color:#9ca3af;display:flex;align-items:center;gap:10px;text-decoration:none;"> <i class="fab fa-whatsapp" style="color:#818cf8;width:14px;"></i> Chat on WhatsApp </a>
+                    <span style="font-size:14px;color:#9ca3af;display:flex;align-items:center;gap:10px;"><i class="fas fa-clock" style="color:#818cf8;width:14px;"></i> 24/7 Support</span>
+                </div>
+            </div>
+        </div>
+        <div style="border-top:1px solid rgba(255,255,255,0.08);padding-top:24px;text-align:center;">
+            <p style="font-size:13px;color:#9ca3af;">&copy; 2015 NexShip Xpress. All rights reserved. | Premium Courier Services</p>
+        </div>
+    </div>
+</footer>
+
+<script>
+function paymentSystem() {
+    return {
+        mobileMenu: false,
+        loading: false,
+        submitting: false,
+        paymentStep: 'form',
+        countdown: 1800,
+        timerInterval: null,
+        termsAccepted: false,
+        recipientName: '',
+        recipientEmail: '',
+        trackingCode: '',
+        amount: 0,
+        transactionHash: '',
+        paymentNote: '',
+        uploadedFile: null,
+        insurance: false,
+        expressProcessing: false,
+        paymentStatus: 'pending',
+        statusMessage: 'Payment Submitted',
+        statusDescription: 'Your payment confirmation has been sent for review.',
+        selectedPaymentType: 'Crypto',
+        selectedCrypto: 'Bitcoin',
+        cryptoAmount: 0,
+        liveRates: {},
+        walletAddresses: {},
+        qrImages: {},
+        fallbackWallets: {
+            Bitcoin: 'bc1qxrqat06ul4y7f974ywy7m467rfzh6as87x0wlh',
+            Ethereum: '0x74247736434db2193dcc1d6047c03a43e630beb0',
+            Litecoin: 'ltc1q4030l8g0u6s8k9z5x6y7w8v9u0i1o2p3q4r5s6',
+            USDT: '0x74247736434db2193dcc1d6047c03a43e630beb0',
+            BNB: 'DcJHrrHSgvFpsYxqb6g97uaQTd2kE31rPUeDZTeDsjVq',
+            Solana: 'SoDcJHrrHSgvFpsYxqb6g97uaQTd2kE31rPUeDZTeDsjVq',
+            TRON: 'TWXhfxWXMPAaVgQjuoSvsJo3cQygW8cN2F',
+            XRP: 'rpZELkorMwhkkpShF5PvT8YnqRCupnLTNG',
+            Dogecoin: 'DJht6mJRCxVnZucDLmSNkaDD2DwuetnNCr'
+        },
+        fallbackRates: {
+            Bitcoin: 65000,
+            Ethereum: 3500,
+            Litecoin: 85,
+            USDT: 1,
+            BNB: 600,
+            Solana: 150,
+            TRON: 0.12,
+            XRP: 0.55,
+            Dogecoin: 0.15
+        },
+        cryptoMethods: [
+            { name: 'Bitcoin', symbol: 'BTC', id: 'bitcoin', icon: 'fab fa-bitcoin' },
+            { name: 'Ethereum', symbol: 'ETH', id: 'ethereum', icon: 'fab fa-ethereum' },
+            { name: 'Litecoin', symbol: 'LTC', id: 'litecoin', icon: 'fas fa-litecoin-sign' },
+            { name: 'USDT', symbol: 'USDT', id: 'tether', icon: 'fas fa-dollar-sign' },
+            { name: 'BNB', symbol: 'BNB', id: 'binancecoin', icon: 'fas fa-coins' },
+            { name: 'Solana', symbol: 'SOL', id: 'solana', icon: 'fas fa-sun' },
+            { name: 'TRON', symbol: 'TRX', id: 'tron', icon: 'fas fa-bolt' },
+            { name: 'XRP', symbol: 'XRP', id: 'ripple', icon: 'fas fa-xmark' },
+            { name: 'Dogecoin', symbol: 'DOGE', id: 'dogecoin', icon: 'fas fa-dog' }
+        ],
+        paymentTypes: [
+            { name: 'Crypto', label: 'Choose cryptocurrency', icon: 'fas fa-coins', description: 'Pay with BTC, ETH, LTC, USDT, BNB, SOL, TRX, XRP, or DOGE.' },
+            { name: 'PayPal', label: 'PayPal transfer', icon: 'fab fa-paypal', description: 'Send payment to the PayPal account shown after you continue.' },
+            { name: 'CashApp', label: 'CashApp transfer', icon: 'fas fa-dollar-sign', description: 'Send payment through CashApp and submit your receipt or transaction ID.' },
+            { name: 'Zelle', label: 'Zelle transfer', icon: 'fas fa-building-columns', description: 'Send payment through Zelle using the email or phone shown.' },
+            { name: 'Chime', label: 'Chime transfer', icon: 'fas fa-money-bill-transfer', description: 'Send payment through Chime and submit your transfer reference.' },
+            { name: 'Bank Transfer', label: 'Manual bank transfer', icon: 'fas fa-building-columns', description: 'Send payment to the listed bank account details.' },
+            { name: 'Apple Pay', label: 'Apple Pay transfer', icon: 'fab fa-apple-pay', description: 'Use Apple Pay details shown after you continue.' },
+            { name: 'Google Pay', label: 'Google Pay transfer', icon: 'fab fa-google-pay', description: 'Use Google Pay details shown after you continue.' }
+        ],
+        manualRoutes: {
+            PayPal: [{ label: 'PayPal Email', value: 'payments@nexship.com' }, { label: 'Payment Note', value: 'Use your tracking code as note' }],
+            CashApp: [{ label: 'CashApp Tag', value: '$NexShipXpress' }, { label: 'Payment Note', value: 'Use your tracking code as note' }],
+            Zelle: [{ label: 'Zelle Email', value: 'payments@nexship.com' }, { label: 'Recipient Name', value: 'NexShip Xpress' }],
+            Chime: [{ label: 'Chime Tag', value: '$NexShipXpress' }, { label: 'Recipient Name', value: 'NexShip Xpress' }],
+            'Bank Transfer': [{ label: 'Bank Name', value: 'NexShip Settlement Bank' }, { label: 'Account Name', value: 'NexShip Xpress LLC' }, { label: 'Account Number', value: '0001234567' }, { label: 'Routing Number', value: '021000021' }],
+            'Apple Pay': [{ label: 'Apple Pay Phone', value: '+1 555 123 4567' }, { label: 'Payment Note', value: 'Use your tracking code as note' }],
+            'Google Pay': [{ label: 'Google Pay Email', value: 'payments@nexship.com' }, { label: 'Payment Note', value: 'Use your tracking code as note' }]
+        },
+        get totalAmount() {
+            let total = Number(this.amount || 0);
+            if (this.insurance) total += 5;
+            if (this.expressProcessing) total += 10;
+            return total;
+        },
+        get currentCrypto() {
+            return this.cryptoMethods.find(c => c.name === this.selectedCrypto) || this.cryptoMethods[0];
+        },
+        get currentPaymentType() {
+            return this.paymentTypes.find(m => m.name === this.selectedPaymentType) || this.paymentTypes[0];
+        },
+        get currentWalletAddress() {
+            return this.walletAddresses[this.selectedCrypto] || this.fallbackWallets[this.selectedCrypto] || '';
+        },
+        get currentQrImage() {
+            return this.selectedPaymentType === 'Crypto' ? (this.qrImages[this.selectedCrypto] || '') : (this.qrImages[this.selectedPaymentType] || '');
+        },
+        get currentPaymentInstructions() {
+            return this.manualRoutes[this.selectedPaymentType] || [];
+        },
+        get confirmationPlaceholder() {
+            if (this.selectedPaymentType === 'Crypto') return 'Transaction hash / blockchain ID';
+            return 'Transaction ID, receipt number, sender tag, or payment reference';
+        },
+        get liveRateText() {
+            const rate = this.getCurrentRate();
+            if (!rate) return 'Loading...';
+            return this.formatMoney(rate);
+        },
+        init() {
+            if (window.AOS) AOS.init({ duration: 900, once: true });
+            this.loadUrlParams();
+            this.loadWalletAddresses();
+            this.fetchCryptoPrices();
+            this.calculateCryptoAmount();
+        },
+        loadUrlParams() {
+            const urlParams = new URLSearchParams(window.location.search);
+            this.trackingCode = urlParams.get('tracking') || urlParams.get('code') || '';
+            this.amount = parseFloat(urlParams.get('amount')) || 0;
+            this.recipientName = urlParams.get('name') || '';
+            this.recipientEmail = urlParams.get('email') || '';
+        },
+        async loadWalletAddresses() {
+            try {
+                const routeRes = await fetch('/api/payment-routes');
+                if (routeRes.ok) {
+                    const routes = await routeRes.json();
+                    const clean = {};
+                    const qr = {};
+                    Object.entries(routes.crypto || {}).forEach(([name, route]) => {
+                        if (route && route.address) clean[name] = route.address;
+                        if (route && route.qrImage) qr[name] = route.qrImage;
+                    });
+                    Object.entries(routes.manual || {}).forEach(([key, route]) => {
+                        const displayName = key === 'BankTransfer' ? 'Bank Transfer' : key;
+                        if (route && route.qrImage) qr[displayName] = route.qrImage;
+                    });
+                    this.walletAddresses = { ...this.fallbackWallets, ...clean };
+                    this.qrImages = qr;
+                    this.applyManualRoutes(routes.manual || {});
+                    return;
+                }
+            } catch (error) {}
+
+            try {
+                const res = await fetch('/api/wallets');
+                if (!res.ok) throw new Error('Wallet API failed');
+                const data = await res.json();
+                const clean = {};
+                const qr = {};
+                Object.keys(data || {}).forEach(key => {
+                    clean[key] = typeof data[key] === 'string' ? data[key] : data[key].address;
+                    if (typeof data[key] === 'object' && data[key].qrImage) qr[key] = data[key].qrImage;
+                });
+                this.walletAddresses = { ...this.fallbackWallets, ...clean };
+                this.qrImages = qr;
+            } catch (error) {
+                this.walletAddresses = { ...this.fallbackWallets };
+            }
+        },
+        applyManualRoutes(manual) {
+            const m = manual || {};
+            this.manualRoutes = {
+                PayPal: [
+                    { label: 'PayPal Email', value: m.PayPal?.email || 'payments@nexship.com' },
+                    { label: 'Instruction', value: m.PayPal?.instruction || 'Use your tracking code as note' }
+                ],
+                CashApp: [
+                    { label: 'CashApp Tag', value: m.CashApp?.tag || '$NexShipXpress' },
+                    { label: 'Instruction', value: m.CashApp?.instruction || 'Use your tracking code as note' }
+                ],
+                Zelle: [
+                    { label: 'Zelle Email or Phone', value: m.Zelle?.account || 'payments@nexship.com' },
+                    { label: 'Account Name', value: m.Zelle?.name || 'NexShip Xpress' }
+                ],
+                Chime: [
+                    { label: 'Chime Tag / Email', value: m.Chime?.account || '$NexShipXpress' },
+                    { label: 'Account Name', value: m.Chime?.name || 'NexShip Xpress' }
+                ],
+                'Bank Transfer': [
+                    { label: 'Bank Name', value: m.BankTransfer?.bankName || 'NexShip Settlement Bank' },
+                    { label: 'Account Name', value: m.BankTransfer?.accountName || 'NexShip Xpress LLC' },
+                    { label: 'Account Number', value: m.BankTransfer?.accountNumber || '0001234567' },
+                    { label: 'Routing Number', value: m.BankTransfer?.routingNumber || '021000021' }
+                ],
+                'Apple Pay': [{ label: 'Apple Pay Email / Phone', value: m.ApplePay?.account || '+1 555 123 4567' }],
+                'Google Pay': [{ label: 'Google Pay Email / Phone', value: m.GooglePay?.account || 'payments@nexship.com' }]
+            };
+        },
+        async fetchCryptoPrices() {
+            try {
+                const ids = this.cryptoMethods.map(c => c.id).join(',');
+                const res = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${ids}&vs_currencies=usd`);
+                if (!res.ok) throw new Error('Rate API failed');
+                const data = await res.json();
+                this.cryptoMethods.forEach(c => {
+                    if (data[c.id] && data[c.id].usd) this.liveRates[c.name] = data[c.id].usd;
+                });
+            } catch (error) {
+                this.liveRates = { ...this.fallbackRates };
+            }
+            this.calculateCryptoAmount();
+        },
+        getCurrentRate() {
+            return this.liveRates[this.selectedCrypto] || this.fallbackRates[this.selectedCrypto] || 1;
+        },
+        onPaymentTypeChange() {
+            if (this.selectedPaymentType === 'Crypto') this.calculateCryptoAmount();
+        },
+        calculateCryptoAmount() {
+            const rate = this.getCurrentRate();
+            this.cryptoAmount = rate ? this.totalAmount / rate : 0;
+        },
+        proceedToPayment() {
+            this.loading = true;
+            this.calculateCryptoAmount();
+            setTimeout(() => {
+                this.paymentStep = 'instructions';
+                this.loading = false;
+                this.startCountdown();
+            }, 300);
+        },
+        startCountdown() {
+            clearInterval(this.timerInterval);
+            this.countdown = 1800;
+            this.timerInterval = setInterval(() => {
+                if (this.countdown > 0) this.countdown--;
+                else {
+                    clearInterval(this.timerInterval);
+                    alert('Payment session expired. Please try again.');
+                    this.paymentStep = 'form';
+                }
+            }, 1000);
+        },
+        handleFileUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                this.uploadedFile = file;
+                this.convertToBase64(file);
+            }
+        },
+        handleFileDrop(event) {
+            const file = event.dataTransfer.files[0];
+            if (file && file.type.startsWith('image/')) {
+                this.uploadedFile = file;
+                this.convertToBase64(file);
+            }
+        },
+        convertToBase64(file) {
+            const reader = new FileReader();
+            reader.onload = (e) => { this.uploadedFile.data = e.target.result; };
+            reader.readAsDataURL(file);
+        },
+        async submitPaymentConfirmation() {
+            if (!this.transactionHash) {
+                alert('Please enter your payment reference.');
+                return;
+            }
+            this.submitting = true;
+            const formData = new FormData();
+            formData.append('tracking_code', this.trackingCode);
+            formData.append('amount', this.totalAmount);
+            formData.append('crypto_amount', this.selectedPaymentType === 'Crypto' ? this.cryptoAmount : '');
+            formData.append('payment_method', this.selectedPaymentType === 'Crypto' ? this.currentCrypto.name : this.selectedPaymentType);
+            formData.append('transaction_hash', this.transactionHash + (this.paymentNote ? ' | Note: ' + this.paymentNote : ''));
+            formData.append('recipient_name', this.recipientName);
+            formData.append('recipient_email', this.recipientEmail);
+            formData.append('insurance', this.insurance ? 'true' : 'false');
+            formData.append('express_processing', this.expressProcessing ? 'true' : 'false');
+            if (this.uploadedFile) formData.append('proof_image', this.uploadedFile);
+            try {
+                const res = await fetch('/api/payment/submit', { method: 'POST', body: formData });
+                const data = await res.json();
+                if (!data.success) throw new Error(data.error || 'Payment submission failed');
+                this.paymentStatus = 'submitted';
+                this.statusMessage = 'Payment Submitted';
+                this.statusDescription = 'Your payment confirmation has been submitted. We will review it and email you after approval or rejection.';
+                this.paymentStep = 'status';
+                clearInterval(this.timerInterval);
+            } catch (error) {
+                alert(error.message || 'Could not submit payment. Please try again.');
+            } finally {
+                this.submitting = false;
+            }
+        },
+        copyWalletAddress() { this.copyToClipboard(this.currentWalletAddress); },
+        copyToClipboard(text) {
+            if (!text) return;
+            navigator.clipboard.writeText(String(text)).then(() => {
+                alert('Copied to clipboard!');
+            }).catch(() => {});
+        },
+        formatMoney(value) {
+            return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(Number(value || 0));
+        },
+        formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${mins}:${secs.toString().padStart(2, '0')}`;
+        }
+    };
+}
+</script>
+</body>
+</html>

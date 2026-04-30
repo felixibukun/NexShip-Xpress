@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>Global Network | NexShip Xpress - Worldwide Logistics Coverage</title>
+    <meta name="description" content="NexShip Xpress global network spans 200+ countries with 50+ warehouses and 500+ partners worldwide. See our global coverage and logistics infrastructure.">
+    <link rel="icon" type="image/png" href="/assets/img/logo/logo.png">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --green: #0F6E3F;
+            --green-mid: #1a8a50;
+            --green-light: #22c55e;
+            --green-pale: #dcfce7;
+            --ink: #0a0f0d;
+            --ink2: #141a17;
+            --muted: #5a6b62;
+            --ghost: #e8efe9;
+            --white: #ffffff;
+            --sand: #f7f5f0;
+            --gold: #c8a84b;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--white);
+            color: var(--ink);
+            overflow-x: hidden;
+            line-height: 1.6;
+            padding-top: 72px;
+        }
+
+        h1,h2,h3,h4,h5,h6 { font-family: 'Plus Jakarta Sans', sans-serif; }
+
+        /* ─── NAV ─── */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            padding: 0 5%;
+            height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(255,255,255,0.97);
+            backdrop-filter: blur(16px);
+            box-shadow: 0 1px 0 rgba(0,0,0,0.06);
+        }
+
+        .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+        .nav-logo img { height: 38px; }
+        .nav-logo span {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: var(--ink);
+        }
+
+        .nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+        .nav-links a {
+            font-size: 0.88rem;
+            font-weight: 500;
+            color: var(--muted);
+            text-decoration: none;
+            letter-spacing: 0.02em;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover { color: var(--green); }
+
+        .nav-cta {
+            background: var(--green);
+            color: var(--white) !important;
+            padding: 0.55rem 1.4rem;
+            border-radius: 100px;
+            font-size: 0.85rem !important;
+            font-weight: 600 !important;
+            letter-spacing: 0.03em;
+            transition: background 0.3s, transform 0.2s !important;
+        }
+        .nav-cta:hover { background: var(--green-mid) !important; transform: translateY(-1px); }
+
+        .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; z-index: 1001; }
+        .hamburger span { display: block; width: 24px; height: 2px; background: var(--ink); border-radius: 2px; transition: all 0.3s; }
+        .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+        .hamburger.active span:nth-child(2) { opacity: 0; }
+        .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+        /* ─── PAGE HEADER ─── */
+        .page-header {
+            background: linear-gradient(135deg, var(--green) 0%, #0A532F 100%);
+            padding: 100px 0 60px;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        .page-header::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+        .page-header h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+        .page-header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        /* ─── CONTAINER ─── */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 5%;
+        }
+
+        /* ─── SECTION TITLES ─── */
+        .section-title {
+            text-align: center;
+            font-size: clamp(1.8rem, 3vw, 2.5rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+        .section-subtitle {
+            text-align: center;
+            color: var(--muted);
+            margin-bottom: 3rem;
+            font-size: 1rem;
+        }
+
+        /* ─── STATS ─── */
+        .stats-network {
+            padding: 5rem 0;
+            background: var(--sand);
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+        }
+        .stat-network-card {
+            background: white;
+            padding: 2.5rem 2rem;
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.3s;
+            border: 1px solid transparent;
+        }
+        .stat-network-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            border-color: var(--green-pale);
+        }
+        .stat-network-number {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--green) 0%, var(--green-light) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            line-height: 1;
+        }
+        .stat-network-card p {
+            font-weight: 600;
+            margin-top: 0.5rem;
+            color: var(--ink);
+        }
+        .stat-network-card small {
+            color: var(--muted);
+            font-size: 0.85rem;
+        }
+
+        /* ─── WORLD MAP ─── */
+        .map-section {
+            padding: 5rem 0;
+        }
+        .world-map-wrapper {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: var(--sand);
+            border-radius: 20px;
+            padding: 2rem;
+        }
+        .world-map {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* ─── REGIONS ─── */
+        .region-section {
+            padding: 5rem 0;
+            background: var(--sand);
+        }
+        .regions-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+        .region-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+            height: 100%;
+            border: 1px solid transparent;
+        }
+        .region-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            border-color: var(--green-pale);
+        }
+        .region-header {
+            background: linear-gradient(135deg, var(--green) 0%, var(--green-mid) 100%);
+            color: white;
+            padding: 2rem 1.5rem;
+            text-align: center;
+        }
+        .region-header i {
+            font-size: 2.5rem;
+            margin-bottom: 0.75rem;
+        }
+        .region-header h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin: 0;
+        }
+        .region-body {
+            padding: 1.5rem;
+        }
+        .country-list {
+            list-style: none;
+            padding: 0;
+        }
+        .country-list li {
+            padding: 0.6rem 0;
+            border-bottom: 1px solid var(--ghost);
+            display: flex;
+            align-items: flex-start;
+            gap: 0.6rem;
+            font-size: 0.9rem;
+            color: var(--ink);
+        }
+        .country-list li:last-child { border-bottom: none; }
+        .country-list li i {
+            color: var(--green);
+            font-size: 0.8rem;
+            margin-top: 3px;
+            flex-shrink: 0;
+        }
+        .region-hub {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 2px solid var(--green-pale);
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--muted);
+        }
+
+        /* ─── WAREHOUSES ─── */
+        .warehouse-section {
+            padding: 5rem 0;
+        }
+        .warehouses-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+        .warehouse-card {
+            background: var(--sand);
+            border-radius: 15px;
+            padding: 2rem;
+            transition: all 0.3s;
+            border: 1px solid var(--ghost);
+        }
+        .warehouse-card:hover {
+            transform: translateX(8px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            border-color: var(--green-pale);
+            background: white;
+        }
+        .warehouse-card h4 {
+            font-weight: 700;
+            color: var(--green);
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+        }
+        .warehouse-card p {
+            font-size: 0.9rem;
+            color: var(--muted);
+            margin-bottom: 0.35rem;
+        }
+        .warehouse-card strong {
+            color: var(--ink);
+        }
+
+        /* ─── PARTNERS ─── */
+        .partner-section {
+            padding: 5rem 0;
+            background: var(--sand);
+        }
+        .partners-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 1.5rem;
+        }
+        .partner-card {
+            text-align: center;
+            padding: 2rem 1rem;
+            background: white;
+            border-radius: 15px;
+            transition: all 0.3s;
+            border: 1px solid transparent;
+        }
+        .partner-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            border-color: var(--green-pale);
+        }
+        .partner-card i {
+            font-size: 2.5rem;
+            color: var(--green);
+            margin-bottom: 0.75rem;
+        }
+        .partner-card p {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--ink);
+        }
+
+        /* ─── FAQ ─── */
+        .faq-section {
+            padding: 5rem 0;
+        }
+        .faq-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .faq-item {
+            background: var(--sand);
+            border-radius: 15px;
+            margin-bottom: 1rem;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid transparent;
+        }
+        .faq-item:hover {
+            box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+            border-color: var(--green-pale);
+        }
+        .faq-item.active {
+            background: white;
+            border-color: var(--green-pale);
+        }
+        .faq-question {
+            font-weight: 700;
+            font-size: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            color: var(--ink);
+        }
+        .faq-question i {
+            color: var(--green);
+            transition: transform 0.3s;
+            flex-shrink: 0;
+        }
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
+        }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, margin-top 0.3s ease;
+            color: var(--muted);
+            line-height: 1.7;
+            font-size: 0.92rem;
+        }
+        .faq-item.active .faq-answer {
+            max-height: 300px;
+            margin-top: 1rem;
+        }
+
+        /* ─── FOOTER ─── */
+        footer {
+            background: var(--ink);
+            color: #888;
+            padding: 4rem 5% 2rem;
+        }
+        .footer-top {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr 1fr 1fr;
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto 3rem;
+            padding-bottom: 3rem;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+        }
+        .footer-brand .logo-text {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 1rem;
+        }
+        .footer-brand p { font-size: 0.85rem; line-height: 1.7; color: #666; max-width: 280px; }
+        .footer-socials { display: flex; gap: 0.75rem; margin-top: 1.5rem; }
+        .social-btn {
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #888;
+            font-size: 0.85rem;
+            transition: border-color 0.3s, color 0.3s;
+            text-decoration: none;
+        }
+        .social-btn:hover { border-color: var(--green-light); color: var(--green-light); }
+        .footer-col h4 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.9rem; color: white; margin-bottom: 1.25rem; }
+        .footer-col a, .footer-col .footer-link {
+            display: block;
+            color: #666;
+            text-decoration: none;
+            font-size: 0.85rem;
+            margin-bottom: 0.7rem;
+            transition: color 0.3s;
+        }
+        .footer-col a:hover, .footer-col .footer-link:hover { color: var(--green-light); }
+        .footer-col .contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.6rem;
+            margin-bottom: 0.8rem;
+            font-size: 0.85rem;
+        }
+        .footer-col .contact-item i { color: var(--green-mid); margin-top: 2px; width: 14px; flex-shrink: 0; }
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: #555;
+            gap: 1rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 991px) {
+            .nav-links {
+                display: flex;
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 80%;
+                max-width: 320px;
+                height: 100vh;
+                background: white;
+                flex-direction: column;
+                padding: 100px 2rem 2rem;
+                transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+                gap: 1.5rem;
+            }
+            .nav-links.active { right: 0; }
+            .nav-links a { 
+                margin: 0;
+                font-size: 1rem;
+                color: var(--ink) !important;
+            }
+            .hamburger { display: flex; }
+            .stats-grid { grid-template-columns: 1fr 1fr; }
+            .regions-grid { grid-template-columns: 1fr 1fr; }
+            .partners-grid { grid-template-columns: repeat(3, 1fr); }
+            .warehouses-grid { grid-template-columns: 1fr; }
+            .footer-top { grid-template-columns: 1fr 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            body { padding-top: 64px; }
+            nav { height: 64px; }
+            .page-header { padding: 80px 0 40px; }
+            .stats-grid { grid-template-columns: 1fr 1fr; }
+            .stat-network-number { font-size: 2.2rem; }
+            .regions-grid { grid-template-columns: 1fr; }
+            .partners-grid { grid-template-columns: repeat(2, 1fr); }
+            .footer-top { grid-template-columns: 1fr; }
+            .footer-bottom { flex-direction: column; text-align: center; }
+            .world-map-wrapper { padding: 1rem; }
+        }
+
+        @media (max-width: 480px) {
+            .stats-grid { grid-template-columns: 1fr; }
+            .partners-grid { grid-template-columns: 1fr 1fr; }
+            .stat-network-card { padding: 2rem 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav>
+    <a href="/" class="nav-logo">
+        <img src="/assets/img/logo/logo.png" alt="NexShip Xpress" onerror="this.style.display='none'">
+        <span>NexShip Xpress</span>
+    </a>
+    <div class="nav-links" id="navLinks">
+        <a href="/">Home</a>
+        <a href="/about.html">About</a>
+        <a href="/services.html">Services</a>
+        <a href="/network.html">Network</a>
+        <a href="/track.html">Track Parcel</a>
+        <a href="/contact.html" class="nav-cta">Contact Us</a>
+    </div>
+    <div class="hamburger" id="hamburger">
+        <span></span><span></span><span></span>
+    </div>
+</nav>
+
+<!-- Page Header -->
+<section class="page-header">
+    <div data-aos="fade-up">
+        <h1>Our Global Network</h1>
+        <p>Connected to every corner of the world. Your shipments, delivered anywhere.</p>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section class="stats-network">
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-network-card" data-aos="fade-up" data-aos-delay="0">
+                <div class="stat-network-number">200+</div>
+                <p>Countries Covered</p>
+                <small>Global reach across six continents</small>
+            </div>
+            <div class="stat-network-card" data-aos="fade-up" data-aos-delay="100">
+                <div class="stat-network-number">500+</div>
+                <p>Global Partners</p>
+                <small>Trusted agents worldwide</small>
+            </div>
+            <div class="stat-network-card" data-aos="fade-up" data-aos-delay="200">
+                <div class="stat-network-number">50+</div>
+                <p>Warehouses</p>
+                <small>Strategic storage locations</small>
+            </div>
+            <div class="stat-network-card" data-aos="fade-up" data-aos-delay="300">
+                <div class="stat-network-number">10K+</div>
+                <p>Daily Shipments</p>
+                <small>Moving goods every day</small>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- World Map Visualization -->
+<section class="map-section">
+    <div class="container">
+        <h2 class="section-title" data-aos="fade-up">Our Worldwide Presence</h2>
+        <p class="section-subtitle" data-aos="fade-up">Strategic locations covering major trade routes</p>
+        <div class="world-map-wrapper" data-aos="fade-up" data-aos-delay="100">
+            <svg class="world-map" viewBox="0 0 1000 500" xmlns="http://www.w3.org/2000/svg">
+                <rect width="1000" height="500" fill="#e8f5e9" rx="20"/>
+                <!-- North America -->
+                <circle cx="150" cy="120" r="12" fill="#0F6E3F" opacity="0.8">
+                    <title>USA - Headquarters</title>
+                </circle>
+                <text x="170" y="125" font-size="11" fill="#0F6E3F" font-weight="bold">USA (HQ)</text>
+                
+                <!-- South America -->
+                <circle cx="200" cy="300" r="8" fill="#4CAF50" opacity="0.8">
+                    <title>Brazil</title>
+                </circle>
+                <text x="215" y="305" font-size="10" fill="#4CAF50">Brazil</text>
+                
+                <!-- Europe -->
+                <circle cx="450" cy="150" r="10" fill="#0F6E3F" opacity="0.8">
+                    <title>UK</title>
+                </circle>
+                <text x="468" y="155" font-size="10" fill="#0F6E3F">UK</text>
+                
+                <circle cx="500" cy="160" r="8" fill="#4CAF50" opacity="0.8">
+                    <title>Germany</title>
+                </circle>
+                <text x="515" y="165" font-size="10" fill="#4CAF50">Germany</text>
+                
+                <circle cx="520" cy="185" r="8" fill="#4CAF50" opacity="0.8">
+                    <title>France</title>
+                </circle>
+                <text x="535" y="190" font-size="10" fill="#4CAF50">France</text>
+                
+                <!-- Asia -->
+                <circle cx="750" cy="200" r="10" fill="#0F6E3F" opacity="0.8">
+                    <title>China</title>
+                </circle>
+                <text x="768" y="205" font-size="10" fill="#0F6E3F">China</text>
+                
+                <circle cx="780" cy="230" r="8" fill="#4CAF50" opacity="0.8">
+                    <title>Japan</title>
+                </circle>
+                <text x="798" y="235" font-size="10" fill="#4CAF50">Japan</text>
+                
+                <circle cx="700" cy="250" r="8" fill="#4CAF50" opacity="0.8">
+                    <title>India</title>
+                </circle>
+                <text x="715" y="255" font-size="10" fill="#4CAF50">India</text>
+                
+                <!-- Australia -->
+                <circle cx="850" cy="400" r="8" fill="#4CAF50" opacity="0.8">
+                    <title>Australia</title>
+                </circle>
+                <text x="865" y="405" font-size="10" fill="#4CAF50">Australia</text>
+                
+                <!-- Africa -->
+                <circle cx="550" cy="320" r="8" fill="#4CAF50" opacity="0.8">
+                    <title>South Africa</title>
+                </circle>
+                <text x="565" y="325" font-size="10" fill="#4CAF50">South Africa</text>
+                
+                <!-- Connecting lines -->
+                <line x1="162" y1="120" x2="450" y2="150" stroke="#0F6E3F" stroke-width="1.5" stroke-dasharray="6,4" opacity="0.3"/>
+                <line x1="450" y1="150" x2="750" y2="200" stroke="#0F6E3F" stroke-width="1.5" stroke-dasharray="6,4" opacity="0.3"/>
+                <line x1="200" y1="300" x2="550" y2="320" stroke="#4CAF50" stroke-width="1.5" stroke-dasharray="6,4" opacity="0.3"/>
+                <line x1="750" y1="200" x2="850" y2="400" stroke="#4CAF50" stroke-width="1.5" stroke-dasharray="6,4" opacity="0.3"/>
+            </svg>
+        </div>
+    </div>
+</section>
+
+<!-- Regions Section -->
+<section class="region-section">
+    <div class="container">
+        <h2 class="section-title" data-aos="fade-up">Regional Coverage</h2>
+        <p class="section-subtitle" data-aos="fade-up">Strategic hubs across the globe</p>
+        <div class="regions-grid">
+            <div class="region-card" data-aos="fade-up" data-aos-delay="0">
+                <div class="region-header">
+                    <i class="fas fa-globe-americas"></i>
+                    <h3>North America</h3>
+                </div>
+                <div class="region-body">
+                    <ul class="country-list">
+                        <li><i class="fas fa-check-circle"></i> United States (HQ: Washington, D.C.)</li>
+                        <li><i class="fas fa-check-circle"></i> Canada (Toronto, Vancouver)</li>
+                        <li><i class="fas fa-check-circle"></i> Mexico (Mexico City, Guadalajara)</li>
+                    </ul>
+                    <div class="region-hub">Major Hubs: New York, Los Angeles, Chicago, Miami, Dallas</div>
+                </div>
+            </div>
+            <div class="region-card" data-aos="fade-up" data-aos-delay="100">
+                <div class="region-header">
+                    <i class="fas fa-globe-europe"></i>
+                    <h3>Europe</h3>
+                </div>
+                <div class="region-body">
+                    <ul class="country-list">
+                        <li><i class="fas fa-check-circle"></i> United Kingdom (London, Manchester)</li>
+                        <li><i class="fas fa-check-circle"></i> Germany (Frankfurt, Berlin, Hamburg)</li>
+                        <li><i class="fas fa-check-circle"></i> France (Paris, Lyon)</li>
+                        <li><i class="fas fa-check-circle"></i> Netherlands (Amsterdam, Rotterdam)</li>
+                        <li><i class="fas fa-check-circle"></i> Italy (Milan, Rome)</li>
+                        <li><i class="fas fa-check-circle"></i> Spain (Madrid, Barcelona)</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="region-card" data-aos="fade-up" data-aos-delay="200">
+                <div class="region-header">
+                    <i class="fas fa-globe-asia"></i>
+                    <h3>Asia Pacific</h3>
+                </div>
+                <div class="region-body">
+                    <ul class="country-list">
+                        <li><i class="fas fa-check-circle"></i> China (Shanghai, Beijing, Shenzhen)</li>
+                        <li><i class="fas fa-check-circle"></i> Japan (Tokyo, Osaka, Yokohama)</li>
+                        <li><i class="fas fa-check-circle"></i> South Korea (Seoul, Busan)</li>
+                        <li><i class="fas fa-check-circle"></i> India (Mumbai, Delhi, Bangalore)</li>
+                        <li><i class="fas fa-check-circle"></i> Singapore</li>
+                        <li><i class="fas fa-check-circle"></i> Australia (Sydney, Melbourne, Brisbane)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Warehouses Section -->
+<section class="warehouse-section">
+    <div class="container">
+        <h2 class="section-title" data-aos="fade-up">Our Warehouse Facilities</h2>
+        <p class="section-subtitle" data-aos="fade-up">Strategic storage locations for efficient distribution</p>
+        <div class="warehouses-grid">
+            <div class="warehouse-card" data-aos="fade-up" data-aos-delay="0">
+                <h4><i class="fas fa-warehouse"></i> North America Distribution Center</h4>
+                <p><strong>Location:</strong> Chicago, Illinois, USA</p>
+                <p><strong>Size:</strong> 500,000 sq ft</p>
+                <p><strong>Capabilities:</strong> Cross-docking, temperature-controlled storage, pick-and-pack, inventory management</p>
+            </div>
+            <div class="warehouse-card" data-aos="fade-up" data-aos-delay="100">
+                <h4><i class="fas fa-warehouse"></i> European Logistics Hub</h4>
+                <p><strong>Location:</strong> Rotterdam, Netherlands</p>
+                <p><strong>Size:</strong> 350,000 sq ft</p>
+                <p><strong>Capabilities:</strong> Fulfillment center, customs clearance, multi-modal transport</p>
+            </div>
+            <div class="warehouse-card" data-aos="fade-up" data-aos-delay="200">
+                <h4><i class="fas fa-warehouse"></i> Asia Pacific Warehouse</h4>
+                <p><strong>Location:</strong> Shanghai, China</p>
+                <p><strong>Size:</strong> 400,000 sq ft</p>
+                <p><strong>Capabilities:</strong> Manufacturing support, export consolidation, quality control</p>
+            </div>
+            <div class="warehouse-card" data-aos="fade-up" data-aos-delay="300">
+                <h4><i class="fas fa-warehouse"></i> South American Distribution Center</h4>
+                <p><strong>Location:</strong> São Paulo, Brazil</p>
+                <p><strong>Size:</strong> 200,000 sq ft</p>
+                <p><strong>Capabilities:</strong> Regional distribution, last-mile delivery hub, customs clearance</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Partners Section -->
+<section class="partner-section">
+    <div class="container">
+        <h2 class="section-title" data-aos="fade-up">Our Global Partners</h2>
+        <p class="section-subtitle" data-aos="fade-up">Trusted collaborators worldwide</p>
+        <div class="partners-grid">
+            <div class="partner-card" data-aos="fade-up" data-aos-delay="0">
+                <i class="fas fa-plane"></i>
+                <p>Major Airlines</p>
+            </div>
+            <div class="partner-card" data-aos="fade-up" data-aos-delay="100">
+                <i class="fas fa-ship"></i>
+                <p>Shipping Lines</p>
+            </div>
+            <div class="partner-card" data-aos="fade-up" data-aos-delay="200">
+                <i class="fas fa-truck"></i>
+                <p>Trucking Companies</p>
+            </div>
+            <div class="partner-card" data-aos="fade-up" data-aos-delay="300">
+                <i class="fas fa-warehouse"></i>
+                <p>Warehouse Providers</p>
+            </div>
+            <div class="partner-card" data-aos="fade-up" data-aos-delay="400">
+                <i class="fas fa-passport"></i>
+                <p>Customs Brokers</p>
+            </div>
+            <div class="partner-card" data-aos="fade-up" data-aos-delay="500">
+                <i class="fas fa-building"></i>
+                <p>Local Couriers</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="faq-section">
+    <div class="container">
+        <h2 class="section-title" data-aos="fade-up">Frequently Asked Questions</h2>
+        <p class="section-subtitle" data-aos="fade-up">About our global network</p>
+        <div class="faq-wrapper">
+            <div class="faq-item" data-aos="fade-up" data-aos-delay="0">
+                <div class="faq-question">
+                    Which countries do you ship to?
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">NexShip Xpress ships to over 200 countries worldwide. We have major hubs in North America, Europe, Asia Pacific, South America, and Africa. If you need delivery to a specific country, please contact our customer service team for availability and estimated delivery times.</div>
+            </div>
+            <div class="faq-item" data-aos="fade-up" data-aos-delay="100">
+                <div class="faq-question">
+                    How long does international shipping take?
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">International shipping times vary by destination and service type. Express air freight: 2-5 business days, Standard air freight: 5-7 business days, Ocean freight: 15-30 days depending on origin and destination. We provide real-time tracking for all international shipments.</div>
+            </div>
+            <div class="faq-item" data-aos="fade-up" data-aos-delay="200">
+                <div class="faq-question">
+                    Do you offer customs clearance assistance?
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">Yes! We provide full customs clearance assistance for all international shipments. Our team of experienced customs brokers will handle all documentation, duties, and taxes to ensure smooth clearance through customs. We also offer DDP (Delivered Duty Paid) services for select destinations.</div>
+            </div>
+            <div class="faq-item" data-aos="fade-up" data-aos-delay="300">
+                <div class="faq-question">
+                    What is the largest package you can ship?
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">We can ship packages of virtually any size. For express delivery, we accept packages up to 150 lbs. For freight shipments (air, ocean, trucking), we can handle oversized and heavy cargo including industrial equipment, vehicles, and project cargo. Contact us for a customized solution for your specific requirements.</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <div class="footer-top">
+        <div class="footer-brand">
+            <div class="logo-text">NexShip Xpress</div>
+            <p>Fast, reliable, and secure logistics for businesses of all sizes. End-to-end solutions from local deliveries to global freight.</p>
+            <div class="footer-socials">
+                <a href="#" class="social-btn"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#" class="social-btn"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-btn"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-btn"><i class="fab fa-facebook-f"></i></a>
+            </div>
+        </div>
+        <div class="footer-col">
+            <h4>Company</h4>
+            <a href="/">Home</a>
+            <a href="/about.html">About Us</a>
+            <a href="/services.html">Services</a>
+            <a href="/network.html">Global Network</a>
+            <a href="/track.html">Track Parcel</a>
+            <a href="/contact.html">Contact</a>
+        </div>
+        <div class="footer-col">
+            <h4>Services</h4>
+            <a href="/service-express.html">Express Delivery</a>
+            <a href="/service-air.html">Air Freight</a>
+            <a href="/service-ocean.html">Ocean Freight</a>
+            <a href="/service-trucking.html">Trucking</a>
+            <a href="/services.html">Warehousing</a>
+            <a href="/services.html">3PL Solutions</a>
+        </div>
+        <div class="footer-col">
+            <h4>Contact</h4>
+            <div class="contact-item"><i class="fas fa-envelope"></i><span>nexshipxpress@outlook.com</span></div>
+            <div class="contact-item"><i class="fab fa-whatsapp"></i><a href="https://wa.me/16099749715?text=Hello%20NexShip%20Express%20Support" target="_blank" rel="noopener" class="footer-link">Chat on WhatsApp</a></div>
+            <div class="contact-item"><i class="fas fa-clock"></i><span>Mon – Sun: 9 AM – 9 PM</span></div>
+            <div class="contact-item"><i class="fas fa-map-marker-alt"></i><span>Washington, D.C. USA</span></div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <span>© 2015 NexShip Xpress. All rights reserved.</span>
+        <span>Your Trusted Global Logistics Partner</span>
+    </div>
+</footer>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init({ once: true, duration: 800, easing: 'ease-out-cubic', offset: 60 });
+
+    // Mobile menu toggle
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+    
+    hamburger.addEventListener('click', function() {
+        this.classList.toggle('active');
+        navLinks.classList.toggle('active');
+        document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
+    });
+
+    // Close menu when clicking a link
+    navLinks.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            hamburger.classList.remove('active');
+            navLinks.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!navLinks.contains(e.target) && !hamburger.contains(e.target)) {
+            hamburger.classList.remove('active');
+            navLinks.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    });
+
+    // FAQ accordion
+    document.querySelectorAll('.faq-item').forEach(item => {
+        item.addEventListener('click', function() {
+            // Close other open FAQs
+            document.querySelectorAll('.faq-item.active').forEach(openItem => {
+                if (openItem !== this) {
+                    openItem.classList.remove('active');
+                }
+            });
+            // Toggle current FAQ
+            this.classList.toggle('active');
+        });
+    });
+</script>
+</body>
+</html>
