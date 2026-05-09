@@ -708,13 +708,23 @@ function paymentSystem() {
             this.fetchCryptoPrices();
             this.calculateCryptoAmount();
         },
+        cleanMoney(value) {
+    return parseFloat(String(value || '0').replace(/,/g, '')) || 0;
+},
         loadUrlParams() {
-            const urlParams = new URLSearchParams(window.location.search);
-            this.trackingCode = urlParams.get('tracking') || urlParams.get('code') || '';
-            this.amount = parseFloat(urlParams.get('amount')) || 0;
-            this.recipientName = urlParams.get('name') || '';
-            this.recipientEmail = urlParams.get('email') || '';
-        },
+    const urlParams = new URLSearchParams(window.location.search);
+
+    this.trackingCode = urlParams.get('tracking') || urlParams.get('code') || '';
+    this.recipientName = urlParams.get('name') || '';
+    this.recipientEmail = urlParams.get('email') || '';
+
+    const clearanceFee = this.cleanMoney(urlParams.get('clearance'));
+    const packageFee = this.cleanMoney(urlParams.get('package'));
+    const insuranceFee = this.cleanMoney(urlParams.get('insurance'));
+    const directAmount = this.cleanMoney(urlParams.get('amount'));
+
+    this.amount = directAmount || (clearanceFee + packageFee + insuranceFee);
+},
         async loadWalletAddresses() {
             try {
                 const routeRes = await fetch('/api/payment-routes');

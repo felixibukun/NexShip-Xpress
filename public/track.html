@@ -1207,7 +1207,13 @@
                                 <button onclick="window.print()" class="btn-primary" style="padding:11px 20px;font-size:14px;display:inline-flex;align-items:center;gap:8px;">
                                     <a href="/api/receipt/${data.tracking_code}" target="_blank" class="btn-primary" style="padding:11px 20px;font-size:14px;display:inline-flex;align-items:center;gap:8px;text-decoration:none;"> <i class="fas fa-file-invoice"></i> Download Receipt </a>
                                 </button>
-                                <a href="/payment.html?tracking=${data.tracking_code}&amount=${Number(data.clearance_cost || 0) + Number(data.shipping_fee_due || 0) + Number(data.shipping_fee_paid || 0)}&name=${data.recipient_name}&email=${data.customer_email}" class="btn-accent" style="padding:11px 20px;font-size:14px;display:inline-flex;align-items:center;gap:8px;text-decoration:none;"> <i class="fas fa-credit-card"></i> Make Payment </a>
+                                <a href="/payment.html?tracking=${encodeURIComponent(data.tracking_code)}&amount=${encodeURIComponent(
+(
+(parseFloat(data.clearance_cost) || 0) +
+(parseFloat(data.shipping_fee_due) || 0) +
+(parseFloat(data.shipping_fee_paid) || 0)
+).toFixed(2)
+)}&name=${encodeURIComponent(data.recipient_name || '')}&email=${encodeURIComponent(data.customer_email || '')}" class="btn-accent" style="padding:11px 20px;font-size:14px;display:inline-flex;align-items:center;gap:8px;text-decoration:none;"> <i class="fas fa-credit-card"></i> Make Payment </a>
                                 <a href="/contact.html" class="btn-outline" style="padding:11px 20px;font-size:14px;display:inline-flex;align-items:center;gap:8px;text-decoration:none;">
                                     <i class="fas fa-headset"></i> Need Help?
                                 </a>

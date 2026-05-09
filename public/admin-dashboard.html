@@ -1872,11 +1872,12 @@ async function changePassword() {
   if (np !== cp) { flash.innerHTML = '<div class="alert alert-error"><i class="fas fa-exclamation-circle"></i> Passwords do not match</div>'; return; }
 
   try {
-    const r = await fetch('/admin/change-password', {
+    const r = await fetch('/admin-secure-92x/change-password', {
       method: 'POST',
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify({ currentPassword: cur, newPassword: np })
     });
+    
     const d = await r.json();
     if (d.success) {
       flash.innerHTML = '<div class="alert alert-success"><i class="fas fa-check"></i> Updated! Redirecting…</div>';

@@ -344,7 +344,10 @@ app.use(cookieParser());
 app.use(express.static('public'));
 
 // Database setup
-const db = new sqlite3.Database('shipments.db');
+const DB_PATH = path.join(__dirname, 'shipments.db');
+const db = new sqlite3.Database(DB_PATH);
+
+console.log('📁 SQLite DB:', DB_PATH);
 
 // Create tables
 db.serialize(() => {
@@ -1619,6 +1622,8 @@ app.put('/api/admin/shipments/:id', requireAdmin, (req, res) => {
             carrier = ?,
             estimated_delivery = ?,
             delivery_date = ?,
+            shipping_fee_paid = ?,
+            shipping_fee_due = ?,
             clearance_cost = ?,
             payment_status = ?,
             signature_required = ?,
@@ -1638,6 +1643,8 @@ app.put('/api/admin/shipments/:id', requireAdmin, (req, res) => {
             data.carrier,
             data.estimated_delivery,
             data.delivery_date,
+            data.shipping_fee_paid,
+            data.shipping_fee_due,
             data.clearance_cost,
             data.payment_status,
             data.signature_required,
