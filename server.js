@@ -13,7 +13,7 @@ const app = express();
 // Configure multer
 const upload = multer({
     storage: multer.memoryStorage(),
-    limits: { fileSize: 5 * 1024 * 1024 }
+    limits: { fileSize: 25 * 1024 * 1024 }
 });
 
 // Email configuration
@@ -338,8 +338,8 @@ async function sendPaymentStatusEmail(trackingCode, status, recipientName, custo
 }
 
 // Middleware
-app.use(express.urlencoded({ extended: true, limit: '20mb' }));
-app.use(express.json({ limit: '20mb' }));
+app.use(express.urlencoded({ extended: true, limit: '75mb' }));
+app.use(express.json({ limit: '75mb' }));
 app.use(cookieParser());
 app.use(express.static('public'));
 
@@ -376,9 +376,16 @@ db.serialize(() => {
             clearance_cost TEXT,
             payment_status TEXT,
             notes TEXT,
-            parcel_photo TEXT
+            parcel_photo TEXT,
+            parcel_photos TEXT
         )
     `);
+
+    db.run(`ALTER TABLE shipments ADD COLUMN parcel_photos TEXT`, (err) => {
+        if (err && !err.message.includes('duplicate column name')) {
+            console.log('parcel_photos column error:', err.message);
+        }
+    });
 
     db.run(`
         CREATE TABLE IF NOT EXISTS payments (
@@ -553,12 +560,14 @@ async function processShipmentCreation(body, res) {
         clearance_cost,
         payment_status,
         notes,
-        parcel_photo_data
+        parcel_photo_data,
+        parcel_photos_data
     } = body;
 
     const tracking_code = await getUniqueTrackingCode();
     const finalLastUpdate = last_update || new Date().toLocaleString();
     const parcelPhoto = parcel_photo_data || null;
+    const parcelPhotos = Array.isArray(parcel_photos_data) ? parcel_photos_data : (parcelPhoto ? [parcelPhoto] : []);
 
     db.run(
         `INSERT INTO shipments (
@@ -584,8 +593,9 @@ async function processShipmentCreation(body, res) {
             clearance_cost,
             payment_status,
             notes,
-            parcel_photo
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+            parcel_photo,
+            parcel_photos
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
         [
             tracking_code,
             status,
@@ -609,7 +619,8 @@ async function processShipmentCreation(body, res) {
             clearance_cost,
             payment_status,
             notes,
-            parcelPhoto
+            parcelPhoto,
+            JSON.stringify(parcelPhotos)
         ],
         function (err) {
             if (err) {
@@ -1068,16 +1079,18 @@ app.post(`${ADMIN_PATH}/shipments`, requireAdmin, upload.any(), async (req, res)
         const formData = req.body;
 
         let parcel_photo_data = null;
+        let parcel_photos_data = [];
 
         if (req.files && req.files.length > 0) {
-            const photoFile = req.files.find((f) => f.fieldname === 'parcel_photo');
+            const photoFiles = req.files.filter((f) => ['parcel_photo', 'parcel_photos', 'parcel_media'].includes(f.fieldname));
 
-            if (photoFile) {
-                parcel_photo_data = `data:${photoFile.mimetype};base64,${photoFile.buffer.toString('base64')}`;
+            if (photoFiles.length) {
+                parcel_photos_data = photoFiles.map((photoFile) => `data:${photoFile.mimetype};base64,${photoFile.buffer.toString('base64')}`);
+                parcel_photo_data = parcel_photos_data[0];
             }
         }
 
-        const completeData = { ...formData, parcel_photo_data };
+        const completeData = { ...formData, parcel_photo_data, parcel_photos_data };
         await processShipmentCreation(completeData, res);
     } catch (error) {
         console.error('Upload error:', error);
@@ -1628,7 +1641,9 @@ app.put('/api/admin/shipments/:id', requireAdmin, (req, res) => {
             payment_status = ?,
             signature_required = ?,
             notes = ?,
-            last_update = ?
+            last_update = ?,
+            parcel_photo = ?,
+            parcel_photos = ?
         WHERE id = ?`,
         [
             data.status,
@@ -1650,6 +1665,8 @@ app.put('/api/admin/shipments/:id', requireAdmin, (req, res) => {
             data.signature_required,
             data.notes,
             data.last_update,
+            Array.isArray(data.parcel_photos) ? data.parcel_photos[0] || null : data.parcel_photo || null,
+            Array.isArray(data.parcel_photos) ? JSON.stringify(data.parcel_photos) : data.parcel_photos || null,
             id
         ],
         function (err) {
@@ -1682,7 +1699,7 @@ app.listen(PORT, () => {
     console.log(`🔐 Admin: http://localhost:${PORT}${ADMIN_PATH}`);
     console.log('🔑 Default password: admin123');
     console.log('\n📧 Email: Configured for nexshipxpress@gmail.com');
-    console.log('📸 Photo upload: Enabled (5MB limit)');
+    console.log('📸 Photo/video upload: Enabled (25MB per file)');
     console.log('💰 Payment system: Ready');
     console.log('🖼️ QR upload: Enabled');
     console.log('📬 Contact form: Ready');

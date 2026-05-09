@@ -1018,7 +1018,7 @@ tr:hover td{background:var(--bg3);color:var(--text);}
               <div class="field"><label>Delivery Date</label><input type="text" name="delivery_date" placeholder="e.g. Apr 30, 2026"></div>
               <div class="field"><label>Signature Required</label><select name="signature_required"><option>No</option><option>Yes</option></select></div>
               <div class="field"><label>Payment Status</label><select name="payment_status"><option>Pending</option><option>Paid</option></select></div>
-              <div class="field"><label>Parcel Photo</label><input type="file" name="parcel_photo" accept="image/*"></div>
+              <div class="field"><label>Parcel Photos/Videos</label><input type="file" name="parcel_media" accept="image/*,video/*" multiple></div>
               <div class="field" style="grid-column:1/-1;"><label>Notes</label><textarea name="notes" rows="3"></textarea></div>
             </div>
             <button type="submit" class="btn btn-primary" style="margin-top:1rem;width:auto;"><i class="fas fa-plus"></i> Create Shipment</button>
@@ -1233,6 +1233,11 @@ tr:hover td{background:var(--bg3);color:var(--text);}
             <div class="field"><label>Clearance Fee ($)</label><input type="text" id="editClearanceCost"></div>
             <div class="field"><label>Payment Status</label><select id="editPaymentStatus"><option>Pending</option><option>Processing</option><option>Paid</option></select></div>
             <div class="field"><label>Signature Required</label><select id="editSignatureReq"><option>No</option><option>Yes</option></select></div>
+            <div class="field" style="grid-column:1/-1;">
+              <label>Parcel Photos/Videos</label>
+              <input type="file" id="editParcelMedia" accept="image/*,video/*" multiple>
+              <div id="editParcelMediaPreview" style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.65rem;"></div>
+            </div>
             <div class="field" style="grid-column:1/-1;"><label>Notes</label><textarea id="editNotes" rows="3"></textarea></div>
           </div>
         </div>
@@ -1289,6 +1294,7 @@ let currentPaymentId = null;
 let currentEditShipment = null;
 let shipmentHistory = [];
 let shipmentProgress = {};
+let editParcelMedia = [];
 
 // ═══════════════════════════════════════════════
 // SIDEBAR (MOBILE)
@@ -1931,11 +1937,52 @@ async function editShipment(id) {
   document.getElementById('editPaymentStatus').value = shipment.payment_status || 'Pending';
   document.getElementById('editSignatureReq').value = shipment.signature_required || 'No';
   document.getElementById('editNotes').value = shipment.notes || '';
+  editParcelMedia = parseParcelMedia(shipment);
+  renderEditParcelMediaPreview();
   document.getElementById('editShipmentFlash').innerHTML = '';
 
   switchEditTab('details');
   openModal('editShipmentModal');
 }
+
+function parseParcelMedia(shipment) {
+  try {
+    const media = JSON.parse(shipment.parcel_photos || '[]');
+    if (Array.isArray(media) && media.length) return media.filter(Boolean);
+  } catch(e) {}
+  return shipment.parcel_photo ? [shipment.parcel_photo] : [];
+}
+
+function renderEditParcelMediaPreview() {
+  const preview = document.getElementById('editParcelMediaPreview');
+  if (!preview) return;
+  if (!editParcelMedia.length) {
+    preview.innerHTML = '<span style="color:var(--text3);font-size:0.75rem;">No parcel media added.</span>';
+    return;
+  }
+  preview.innerHTML = editParcelMedia.map((src, i) => `
+    <div style="position:relative;width:76px;height:64px;border-radius:var(--radius-sm);overflow:hidden;border:1px solid var(--border);background:var(--bg3);">
+      ${String(src).startsWith('data:video/') ? `<video src="${src}" muted style="width:100%;height:100%;object-fit:cover;"></video>` : `<img src="${src}" alt="Parcel media ${i + 1}" style="width:100%;height:100%;object-fit:cover;">`}
+      <button type="button" onclick="removeEditParcelMedia(${i})" title="Remove media" style="position:absolute;top:3px;right:3px;width:22px;height:22px;border:none;border-radius:50%;background:rgba(0,0,0,0.72);color:white;cursor:pointer;display:flex;align-items:center;justify-content:center;"><i class="fas fa-times" style="font-size:10px;"></i></button>
+    </div>`).join('');
+}
+
+function removeEditParcelMedia(index) {
+  editParcelMedia.splice(index, 1);
+  renderEditParcelMediaPreview();
+}
+
+document.getElementById('editParcelMedia')?.addEventListener('change', async (event) => {
+  const files = Array.from(event.target.files || []).filter(file => file.type.startsWith('image/') || file.type.startsWith('video/'));
+  const reads = files.map(file => new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.readAsDataURL(file);
+  }));
+  editParcelMedia.push(...await Promise.all(reads));
+  event.target.value = '';
+  renderEditParcelMediaPreview();
+});
 
 async function loadShipmentHistory(shipmentId) {
   try {
@@ -2052,7 +2099,8 @@ async function saveShipmentChanges() {
     payment_status: document.getElementById('editPaymentStatus').value,
     signature_required: document.getElementById('editSignatureReq').value,
     notes: document.getElementById('editNotes').value,
-    last_update: new Date().toLocaleString()
+    last_update: new Date().toLocaleString(),
+    parcel_photos: editParcelMedia
   };
 
   try {

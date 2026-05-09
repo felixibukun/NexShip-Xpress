@@ -940,7 +940,42 @@
     function formatMoney(v) {
         if (!v) return '$0.00';
         if (v.toString().startsWith('$')) return v;
-        return '$' + parseFloat(v).toFixed(2);
+        const amount = parseFloat(String(v).replace(/,/g, ''));
+        return Number.isFinite(amount) ? '$' + amount.toFixed(2) : '$0.00';
+    }
+
+    function safeDataMedia(value) {
+        const src = String(value || '');
+        return /^data:(?:image\/(?:png|jpe?g|gif|webp)|video\/(?:mp4|webm|ogg|quicktime));base64,/i.test(src) ? src : '';
+    }
+
+    function parseParcelMedia(data) {
+        try {
+            const media = JSON.parse(data.parcel_photos || '[]');
+            if (Array.isArray(media) && media.length) return media.map(safeDataMedia).filter(Boolean);
+        } catch (e) {}
+        const fallback = safeDataMedia(data.parcel_photo);
+        return fallback ? [fallback] : [];
+    }
+
+    function getTrackingCodeFromEvent(event) {
+        const input = event?.target?.querySelector?.('input') || document.getElementById('mainTrackInput');
+        return (input?.value || '').trim().toUpperCase();
+    }
+
+    async function copyTrackingLink(code) {
+        const url = `${window.location.origin}/track.html?code=${encodeURIComponent(code)}`;
+        try {
+            await navigator.clipboard.writeText(url);
+            const btn = document.getElementById('copyTrackingLinkBtn');
+            if (btn) {
+                const original = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-check"></i> Link Copied';
+                setTimeout(() => { btn.innerHTML = original; }, 1800);
+            }
+        } catch (err) {
+            window.prompt('Copy tracking link', url);
+        }
     }
 
     function getBadgeClass(status) {
@@ -1025,8 +1060,7 @@
     // ── Track ──
     async function trackShipment(event) {
         if (event) event.preventDefault();
-        const input = document.getElementById('mainTrackInput') || document.getElementById('quickTrackInput') || document.getElementById('mobileTrackInput');
-        const code = input.value.trim().toUpperCase();
+        const code = getTrackingCodeFromEvent(event);
         const resultDiv = document.getElementById('trackingResult');
         const container = document.getElementById('resultsContainer');
 
@@ -1043,6 +1077,8 @@
             if (res.status === 404) { resultDiv.innerHTML = `<div style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.2);color:#f87171;padding:12px 16px;border-radius:10px;font-size:14px;"><i class="fas fa-magnifying-glass" style="margin-right:8px;"></i>No shipment found for <strong>${code}</strong>.</div>`; return; }
             if (!res.ok) throw new Error('Server error');
             const data = await res.json();
+            const parcelMedia = parseParcelMedia(data);
+            const trackingCodeJs = JSON.stringify(data.tracking_code || code).replace(/</g, '\\u003c');
 
             let history = [], progress = {};
             try { const hr = await fetch(`/api/track/${code}/history`); if(hr.ok) history = await hr.json(); } catch(e) {}
@@ -1069,9 +1105,12 @@
                         </div>
                         <div class="tracking-number-display">${data.tracking_code}</div>
                     </div>
-                    <div style="text-align:right;">
+                    <div style="text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:10px;">
                         <div style="font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--c-muted);margin-bottom:8px;">Status</div>
                         <span class="badge ${badgeClass}">${data.status || 'Pending'}</span>
+                        <button id="copyTrackingLinkBtn" type="button" onclick="copyTrackingLink(${trackingCodeJs})" class="btn-outline" style="padding:8px 12px;font-size:12px;display:inline-flex;align-items:center;gap:7px;">
+                            <i class="fas fa-link"></i> Copy Tracking Link
+                        </button>
                     </div>
                 </div>
                 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-top:24px;position:relative;z-index:1;">
@@ -1182,7 +1221,7 @@
                 </div>
                 <div style="padding:24px;">
                     <div style="display:flex;flex-wrap:wrap;gap:24px;">
-                        ${data.parcel_photo ? `<div style="flex-shrink:0;"><img src="${data.parcel_photo}" style="width:160px;height:120px;object-fit:cover;border-radius:12px;border:1px solid var(--c-border);" alt="Parcel"></div>` : ''}
+                        ${parcelMedia.length ? `<div style="flex-shrink:0;display:grid;grid-template-columns:repeat(2,80px);gap:8px;">${parcelMedia.map((src, i) => String(src).startsWith('data:video/') ? `<video src="${src}" controls muted style="width:80px;height:70px;object-fit:cover;border-radius:12px;border:1px solid var(--c-border);background:#111;"></video>` : `<img src="${src}" style="width:80px;height:70px;object-fit:cover;border-radius:12px;border:1px solid var(--c-border);" alt="Parcel media ${i + 1}">`).join('')}</div>` : ''}
                         <div style="flex:1;min-width:260px;">
                             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:20px;">
                                 <div class="info-tile">
@@ -1207,13 +1246,7 @@
                                 <button onclick="window.print()" class="btn-primary" style="padding:11px 20px;font-size:14px;display:inline-flex;align-items:center;gap:8px;">
                                     <a href="/api/receipt/${data.tracking_code}" target="_blank" class="btn-primary" style="padding:11px 20px;font-size:14px;display:inline-flex;align-items:center;gap:8px;text-decoration:none;"> <i class="fas fa-file-invoice"></i> Download Receipt </a>
                                 </button>
-                                <a href="/payment.html?tracking=${encodeURIComponent(data.tracking_code)}&amount=${encodeURIComponent(
-(
-(parseFloat(data.clearance_cost) || 0) +
-(parseFloat(data.shipping_fee_due) || 0) +
-(parseFloat(data.shipping_fee_paid) || 0)
-).toFixed(2)
-)}&name=${encodeURIComponent(data.recipient_name || '')}&email=${encodeURIComponent(data.customer_email || '')}" class="btn-accent" style="padding:11px 20px;font-size:14px;display:inline-flex;align-items:center;gap:8px;text-decoration:none;"> <i class="fas fa-credit-card"></i> Make Payment </a>
+                                <a href="/payment.html?tracking=${encodeURIComponent(data.tracking_code)}&clearance=${encodeURIComponent(data.clearance_cost || '')}&package=${encodeURIComponent(data.shipping_fee_due || '')}&insurance=${encodeURIComponent(data.shipping_fee_paid || '')}&name=${encodeURIComponent(data.recipient_name || '')}&email=${encodeURIComponent(data.customer_email || '')}" class="btn-accent" style="padding:11px 20px;font-size:14px;display:inline-flex;align-items:center;gap:8px;text-decoration:none;"> <i class="fas fa-credit-card"></i> Make Payment </a>
                                 <a href="/contact.html" class="btn-outline" style="padding:11px 20px;font-size:14px;display:inline-flex;align-items:center;gap:8px;text-decoration:none;">
                                     <i class="fas fa-headset"></i> Need Help?
                                 </a>

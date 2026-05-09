@@ -249,7 +249,21 @@
                             <div class="text-left md:text-right">
                                 <span class="block text-sm text-slate-500 font-semibold mb-1">Total Amount</span>
                                 <span class="text-4xl font-black text-slate-900 font-jakarta" x-text="formatMoney(totalAmount)"></span>
-                                <p class="text-xs text-slate-500 mt-2" x-show="insurance || expressProcessing">Includes selected extra options</p>
+                                <p class="text-xs text-slate-500 mt-2">Clearance, package, and insurance fees</p>
+                            </div>
+                        </div>
+                        <div class="grid sm:grid-cols-3 gap-3 mt-5">
+                            <div class="bg-white/85 border border-emerald-100 rounded-2xl p-4">
+                                <p class="text-xs font-black text-slate-500 uppercase tracking-wide">Clearance Fee</p>
+                                <p class="text-lg font-black text-slate-900 mt-1" x-text="formatMoney(clearanceFee)"></p>
+                            </div>
+                            <div class="bg-white/85 border border-emerald-100 rounded-2xl p-4">
+                                <p class="text-xs font-black text-slate-500 uppercase tracking-wide">Package Fee</p>
+                                <p class="text-lg font-black text-slate-900 mt-1" x-text="formatMoney(packageFee)"></p>
+                            </div>
+                            <div class="bg-white/85 border border-emerald-100 rounded-2xl p-4">
+                                <p class="text-xs font-black text-slate-500 uppercase tracking-wide">Insurance Fee</p>
+                                <p class="text-lg font-black text-slate-900 mt-1" x-text="formatMoney(insuranceFee)"></p>
                             </div>
                         </div>
                     </div>
@@ -336,27 +350,6 @@
                                             <input type="email" x-model="recipientEmail" required class="input-premium w-full pl-12 pr-4 py-4 rounded-2xl">
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-
-                            <!-- Additional Options -->
-                            <div class="space-y-4 pt-2 border-t border-slate-200">
-                                <label class="block text-lg font-black text-slate-850 font-jakarta">Additional Options</label>
-                                <div class="grid md:grid-cols-2 gap-4">
-                                    <label class="flex items-start gap-4 rounded-2xl border border-slate-200 bg-white p-4 cursor-pointer hover:border-emerald-300 transition">
-                                        <input type="checkbox" x-model="insurance" class="mt-1 w-5 h-5 accent-emerald-600">
-                                        <span>
-                                            <span class="block font-black text-slate-900">Shipping Insurance</span>
-                                            <span class="block text-sm text-slate-500 mt-1">Add $5.00 protection to this clearance payment.</span>
-                                        </span>
-                                    </label>
-                                    <label class="flex items-start gap-4 rounded-2xl border border-slate-200 bg-white p-4 cursor-pointer hover:border-emerald-300 transition">
-                                        <input type="checkbox" x-model="expressProcessing" class="mt-1 w-5 h-5 accent-emerald-600">
-                                        <span>
-                                            <span class="block font-black text-slate-900">Express Processing</span>
-                                            <span class="block text-sm text-slate-500 mt-1">Add $10.00 priority review.</span>
-                                        </span>
-                                    </label>
                                 </div>
                             </div>
 
@@ -605,11 +598,12 @@ function paymentSystem() {
         recipientEmail: '',
         trackingCode: '',
         amount: 0,
+        clearanceFee: 0,
+        packageFee: 0,
+        insuranceFee: 0,
         transactionHash: '',
         paymentNote: '',
         uploadedFile: null,
-        insurance: false,
-        expressProcessing: false,
         paymentStatus: 'pending',
         statusMessage: 'Payment Submitted',
         statusDescription: 'Your payment confirmation has been sent for review.',
@@ -672,10 +666,7 @@ function paymentSystem() {
             'Google Pay': [{ label: 'Google Pay Email', value: 'payments@nexship.com' }, { label: 'Payment Note', value: 'Use your tracking code as note' }]
         },
         get totalAmount() {
-            let total = Number(this.amount || 0);
-            if (this.insurance) total += 5;
-            if (this.expressProcessing) total += 10;
-            return total;
+            return Number(this.clearanceFee || 0) + Number(this.packageFee || 0) + Number(this.insuranceFee || 0);
         },
         get currentCrypto() {
             return this.cryptoMethods.find(c => c.name === this.selectedCrypto) || this.cryptoMethods[0];
@@ -704,6 +695,7 @@ function paymentSystem() {
         init() {
             if (window.AOS) AOS.init({ duration: 900, once: true });
             this.loadUrlParams();
+            this.loadShipmentFees();
             this.loadWalletAddresses();
             this.fetchCryptoPrices();
             this.calculateCryptoAmount();
@@ -723,8 +715,26 @@ function paymentSystem() {
     const insuranceFee = this.cleanMoney(urlParams.get('insurance'));
     const directAmount = this.cleanMoney(urlParams.get('amount'));
 
-    this.amount = directAmount || (clearanceFee + packageFee + insuranceFee);
+    this.clearanceFee = clearanceFee || directAmount;
+    this.packageFee = packageFee;
+    this.insuranceFee = insuranceFee;
+    this.amount = this.totalAmount;
 },
+        async loadShipmentFees() {
+            if (!this.trackingCode) return;
+            try {
+                const res = await fetch(`/api/track/${encodeURIComponent(this.trackingCode)}`);
+                if (!res.ok) return;
+                const shipment = await res.json();
+                this.clearanceFee = this.cleanMoney(shipment.clearance_cost);
+                this.packageFee = this.cleanMoney(shipment.shipping_fee_due);
+                this.insuranceFee = this.cleanMoney(shipment.shipping_fee_paid);
+                this.amount = this.totalAmount;
+                this.recipientName = this.recipientName || shipment.recipient_name || '';
+                this.recipientEmail = this.recipientEmail || shipment.customer_email || '';
+                this.calculateCryptoAmount();
+            } catch (error) {}
+        },
         async loadWalletAddresses() {
             try {
                 const routeRes = await fetch('/api/payment-routes');
@@ -870,8 +880,8 @@ function paymentSystem() {
             formData.append('transaction_hash', this.transactionHash + (this.paymentNote ? ' | Note: ' + this.paymentNote : ''));
             formData.append('recipient_name', this.recipientName);
             formData.append('recipient_email', this.recipientEmail);
-            formData.append('insurance', this.insurance ? 'true' : 'false');
-            formData.append('express_processing', this.expressProcessing ? 'true' : 'false');
+            formData.append('insurance', this.insuranceFee > 0 ? 'true' : 'false');
+            formData.append('express_processing', 'false');
             if (this.uploadedFile) formData.append('proof_image', this.uploadedFile);
             try {
                 const res = await fetch('/api/payment/submit', { method: 'POST', body: formData });
