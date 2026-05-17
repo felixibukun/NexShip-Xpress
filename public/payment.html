@@ -701,7 +701,8 @@ function paymentSystem() {
             this.calculateCryptoAmount();
         },
         cleanMoney(value) {
-    return parseFloat(String(value || '0').replace(/,/g, '')) || 0;
+    const normalized = String(value ?? '0').replace(/[^0-9.-]/g, '');
+    return parseFloat(normalized) || 0;
 },
         loadUrlParams() {
     const urlParams = new URLSearchParams(window.location.search);
