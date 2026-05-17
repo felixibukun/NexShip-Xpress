@@ -324,7 +324,7 @@
                                                 </div>
                                                 <div class="bg-slate-50 rounded-2xl p-4">
                                                     <p class="text-xs font-bold text-slate-500 mb-1">Estimated Crypto Amount</p>
-                                                    <p class="font-mono text-lg font-black text-slate-900" x-text="cryptoAmount ? cryptoAmount.toFixed(8) + ' ' + currentCrypto.symbol : 'Calculating...'"></p>
+                                                    <p class="font-mono text-lg font-black text-slate-900" x-text="formattedCryptoAmount"></p>
                                                 </div>
                                             </div>
                                         </div>
@@ -359,7 +359,7 @@
                                 <span class="text-sm text-slate-600 leading-relaxed">I agree to the <a href="/terms.html" class="text-emerald-700 font-bold hover:underline">Terms of Service</a> and <a href="/privacy.html" class="text-emerald-700 font-bold hover:underline">Privacy Policy</a>.</span>
                             </label>
 
-                            <button type="submit" :disabled="!termsAccepted || !recipientName || !recipientEmail || !trackingCode || !totalAmount" class="w-full btn-premium py-4 px-6 rounded-2xl font-black text-lg flex items-center justify-center gap-3">
+                            <button type="submit" :disabled="!canProceedToPayment" class="w-full btn-premium py-4 px-6 rounded-2xl font-black text-lg flex items-center justify-center gap-3">
                                 <span x-show="!loading"><i class="fas fa-lock mr-2"></i>Proceed to Payment Instructions</span>
                                 <span x-show="loading" class="loader-premium"></span>
                             </button>
@@ -668,6 +668,16 @@ function paymentSystem() {
         get totalAmount() {
             return Number(this.clearanceFee || 0) + Number(this.packageFee || 0) + Number(this.insuranceFee || 0);
         },
+        get hasPayableAmount() {
+            return this.totalAmount > 0;
+        },
+        get canProceedToPayment() {
+            return this.termsAccepted &&
+                String(this.recipientName || '').trim() &&
+                String(this.recipientEmail || '').trim() &&
+                String(this.trackingCode || '').trim() &&
+                this.hasPayableAmount;
+        },
         get currentCrypto() {
             return this.cryptoMethods.find(c => c.name === this.selectedCrypto) || this.cryptoMethods[0];
         },
@@ -691,6 +701,11 @@ function paymentSystem() {
             const rate = this.getCurrentRate();
             if (!rate) return 'Loading...';
             return this.formatMoney(rate);
+        },
+        get formattedCryptoAmount() {
+            const rate = this.getCurrentRate();
+            if (!this.hasPayableAmount || !rate) return 'Enter amount';
+            return `${(this.totalAmount / rate).toFixed(8)} ${this.currentCrypto.symbol}`;
         },
         init() {
             if (window.AOS) AOS.init({ duration: 900, once: true });
@@ -716,7 +731,9 @@ function paymentSystem() {
     const insuranceFee = this.cleanMoney(urlParams.get('insurance'));
     const directAmount = this.cleanMoney(urlParams.get('amount'));
 
-    this.clearanceFee = clearanceFee || directAmount;
+    const hasFeeBreakdown = urlParams.has('clearance') || urlParams.has('package') || urlParams.has('insurance');
+
+    this.clearanceFee = hasFeeBreakdown ? clearanceFee : directAmount;
     this.packageFee = packageFee;
     this.insuranceFee = insuranceFee;
     this.amount = this.totalAmount;
@@ -828,6 +845,7 @@ function paymentSystem() {
             this.cryptoAmount = rate ? this.totalAmount / rate : 0;
         },
         proceedToPayment() {
+            if (!this.canProceedToPayment) return;
             this.loading = true;
             this.calculateCryptoAmount();
             setTimeout(() => {
